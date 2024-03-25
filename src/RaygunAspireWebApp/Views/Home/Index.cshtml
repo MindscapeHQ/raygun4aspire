@@ -4,20 +4,23 @@
 
 @model List<ErrorInstanceRow>
 
-<table>
-  <thead>
-    <tr>
-      <th>File Name</th>
-      <th>Last Modified</th>
-    </tr>
-  </thead>
-  <tbody>
-    @foreach (var file in Model)
-    {
-      <tr>
-        <td><a href="/errorinstance/details/@file.Id">@file.Name</a></td>
-        <td>@file.Timestamp</td>
+<div class="background--color-bg-surface-01 box-shadow--light-elevation-02 border-color--color-border-elevation">
+  <table class="width--full">
+    <thead>
+      <tr class="border-bottom-width--1 border-color--color-border-elevation height--40">
+        <th class="padding-horizontal--12">Message</th>
+        <th class="padding-horizontal--12 width--160 max-width--160">Seen</th>
       </tr>
-    }
-  </tbody>
-</table>
+    </thead>
+    <tbody>
+      @foreach (var file in Model)
+      {
+        <tr class="border-bottom-width--1 border-color--color-border-elevation height--40">
+          <td class="padding-horizontal--12"><a href="/errorinstance/details/@file.Id">@file.Name</a></td>
+          <td class="padding-horizontal--12">@file.Timestamp</td>
+        </tr>
+      }
+    </tbody>
+  </table>
+  <div class="padding--24"></div>
+</div>
