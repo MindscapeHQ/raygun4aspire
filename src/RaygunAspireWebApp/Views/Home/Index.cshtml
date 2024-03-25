@@ -1,0 +1,23 @@
+﻿@{
+    ViewData["Title"] = "Error list";
+}
+
+@model List<ErrorInstanceRow>
+
+<table>
+  <thead>
+    <tr>
+      <th>File Name</th>
+      <th>Last Modified</th>
+    </tr>
+  </thead>
+  <tbody>
+    @foreach (var file in Model)
+    {
+      <tr>
+        <td><a href="/errorinstance/details/@file.Id">@file.Name</a></td>
+        <td>@file.Timestamp</td>
+      </tr>
+    }
+  </tbody>
+</table>

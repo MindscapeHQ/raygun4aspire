@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Title>Raygun local development portal for Aspire</Title>
+    <Company>Raygun</Company>
+    <Authors>Raygun</Authors>
+    <Description>Raygun local development portal for Aspire</Description>
+    <PackageId>Raygun4Aspire</PackageId>
+    <IsPackable>true</IsPackable>
+    <Version>0.0.13</Version>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Aspire.Hosting" Version="8.0.0-preview.4.24156.9" />
+  </ItemGroup>
+
+</Project>
