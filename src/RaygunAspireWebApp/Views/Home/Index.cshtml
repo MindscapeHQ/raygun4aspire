@@ -5,7 +5,7 @@
 @model List<ErrorInstanceRow>
 
 <div class="background--color-bg-surface-01 box-shadow--light-elevation-02 border-color--color-border-elevation">
-  <table class="width--full">
+  <table id="errorTable" class="width--full">
     <thead>
       <tr class="border-bottom-width--1 border-color--color-border-elevation height--40">
         <th class="padding-horizontal--12">Message</th>
@@ -17,10 +17,24 @@
       {
         <tr class="border-bottom-width--1 border-color--color-border-elevation height--40">
           <td class="padding-horizontal--12"><a href="/errorinstance/details/@file.Id">@file.Name</a></td>
-          <td class="padding-horizontal--12">@file.Timestamp</td>
+          <td class="js-timestamp-cell padding-horizontal--12">@file.Timestamp</td>
         </tr>
       }
     </tbody>
   </table>
   <div class="padding--24"></div>
 </div>
+
+<script src="~/js/moment.min.js"></script>
+<script>
+  function formatDates() {
+    var dateCells = document.querySelectorAll('#errorTable .js-timestamp-cell');
+    dateCells.forEach(function (cell) {
+      var rawDate = cell.textContent;
+      var formattedDate = moment(rawDate).format('MMMM Do YYYY');
+      cell.textContent = formattedDate;
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', formatDates);
+</script>
