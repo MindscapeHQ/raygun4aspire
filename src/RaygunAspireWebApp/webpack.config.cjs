@@ -11,6 +11,7 @@ module.exports = {
     new CopyPlugin({
       patterns: [
         { from: 'node_modules/moment/min/moment.min.js', to: 'moment.min.js' },
+        { from: 'node_modules/htmx.org/dist/htmx.min.js', to: 'htmx.min.js' },
       ],
     }),
   ],

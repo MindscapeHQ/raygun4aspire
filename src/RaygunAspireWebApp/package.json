@@ -5,6 +5,7 @@
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
+    "htmx.org": "^1.9.11",
     "moment": "^2.30.1"
   },
   "devDependencies": {
