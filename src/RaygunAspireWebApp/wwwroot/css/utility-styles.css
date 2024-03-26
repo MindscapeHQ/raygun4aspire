@@ -257,6 +257,14 @@
   line-height: 24px;
 }
 
+.font-opensans--14--24--500 {
+  font-family: Open-Sans, Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 24px;
+}
+
 .font-opensans--14--24--600 {
   font-family: Open-Sans, Arial, Helvetica, sans-serif;
   font-size: 14px;
@@ -289,6 +297,10 @@
   line-height: 24px;
 }
 
+/* text decorations */
+.no-underline {
+  text-decoration: none;
+}
 
 /* Padding */
 .padding--0 {
@@ -334,12 +346,16 @@
   padding-top: 8px;
 }
 
-.padding-top--32 {
-  padding-top: 32px;
-}
-
 .padding-top--16 {
   padding-top: 16px;
+}
+
+.padding-top--24 {
+  padding-top: 24px;
+}
+
+.padding-top--32 {
+  padding-top: 32px;
 }
 
 .padding-top--56 {
@@ -411,6 +427,10 @@
 
 .margin-top--12 {
   margin-top: 12px;
+}
+
+.margin--24 {
+  margin: 24px;
 }
 
 /* Radius */
