@@ -31,7 +31,7 @@
     var dateCells = document.querySelectorAll('#errorTable .js-timestamp-cell');
     dateCells.forEach(function (cell) {
       var rawDate = cell.textContent;
-      var formattedDate = moment(rawDate).format('MMMM Do YYYY');
+      var formattedDate = moment.utc(rawDate).fromNow();
       cell.textContent = formattedDate;
     });
   }
