@@ -5,11 +5,13 @@
   /* Brand color styles */
   --color-bg-brand-default: var(--dark-blue-001642);
   /* Surface color styles */
+  --color-main-background: var(--gray-100);
   --color-bg-surface-01: var(--white);
   --color-bg-surface-02: var(--blue-gray-15);
   --color-bg-surface-highcontrast: var(--gray-900);
   --color-bg-surface-overlay: var(--rg-blue-1800-BF);
   --color-bg-surface-header-strip: var(--rg-blue-1000);
+  --color-bg-surface-footer: var(--gray-300);
   /* Text color styles */
   --color-text-default: var(--gray-800);
   --color-text-low_emphasis: var(--gray-600);

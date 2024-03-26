@@ -8,6 +8,14 @@
   background: transparent;
 }
 
+.background--color-main-background {
+  background: var(--color-main-background);
+}
+
+.background--color-bg-surface-footer {
+  background: var(--color-bg-surface-footer);
+}
+
 .background--color-bg-surface-01 {
   background: var(--color-bg-surface-01);
 }
