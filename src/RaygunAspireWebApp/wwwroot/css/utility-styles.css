@@ -158,8 +158,8 @@
   color: var(--color-text-default);
 }
 
-.color--color-text-low_emphasis {
-  color: var(--color-text-low_emphasis);
+.color--color-text-low-emphasis {
+  color: var(--color-text-low-emphasis);
 }
 
 .color--color-text-button-inverted {
@@ -594,8 +594,16 @@
   margin-left: 4px;
 }
 
+.margin-top--10 {
+  margin-top: 10px;
+}
+
 .margin-top--16 {
   margin-top: 16px;
+}
+
+.margin-top--24 {
+  margin-top: 24px;
 }
 
 /* z-index */
@@ -614,6 +622,10 @@
 /* Others */
 .text-align--center {
   text-align: center;
+}
+
+.text-align--right {
+  text-align: right;
 }
 
 .display--inline-flex {
@@ -732,6 +744,11 @@
 
 .align-items--flex-start {
   align-items: flex-start;
+}
+
+.raygun-logo {
+  width: 153px;
+  height: 28px;
 }
 
 /* Positioning */
@@ -1156,4 +1173,33 @@ pre {
   .x3\:width--32-pc {
     width: 32%;
   }
+}
+
+/* emblem */
+.raygun-emblem {
+  cursor: pointer;
+  position: relative;
+  margin: 12px auto;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+}
+
+.raygun-emblem__ring {
+  border-radius: 50%;
+  border: 2px solid white;
+  background-size: 24px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 24px;
+  height: 24px;
+}
+
+.raygun-emblem__bolt {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 24px;
+  height: 24px;
 }

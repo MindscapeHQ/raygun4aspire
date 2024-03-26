@@ -14,7 +14,7 @@
   --color-bg-surface-footer: var(--gray-300);
   /* Text color styles */
   --color-text-default: var(--gray-800);
-  --color-text-low_emphasis: var(--gray-600);
+  --color-text-low-emphasis: var(--gray-600);
   --color-text-inverted: var(--white);
   --color-text-error: var(--red-700);
   --color-text-disabled: var(--gray-400);

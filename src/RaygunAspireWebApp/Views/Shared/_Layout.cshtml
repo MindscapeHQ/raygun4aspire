@@ -13,18 +13,14 @@
 <body class="background--color-main-background">
   <header>
     <nav class="background--color-bg-surface-header-strip display--flex flex-direction--row gap--8 height--48">
-              <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">RaygunAspireWebApp</a>
-              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                      aria-expanded="false" aria-label="Toggle navigation">
-                  <span class="navbar-toggler-icon"></span>
-              </button>
-                      <div>
-                          <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                      </div>
-                      <div>
-                          <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                      </div>
-      </nav>
+      <a href="https://raygun.com" target="_blank">
+        <img class="raygun-logo align-items--center display--flex margin-left--16 margin-top--10" src="~/images/raygun-with-coloured-gun-small.svg" alt="Raygun logo" />
+      </a>
+      <div class="raygun-emblem">
+        <div class="raygun-emblem__ring "></div>
+        <img class="raygun-emblem__bolt" src="~/images/raygun-bolt.png" />
+      </div>
+    </nav>
   </header>
   <div class="container">
     <main role="main" class="pb-3">
@@ -34,7 +30,9 @@
 
   <footer class="background--color-bg-surface-footer height--48 position--absolute bottom--0 align-items--center display--flex width--full text-muted">
     <div class="container">
-      &copy; 2024 - Raygun
+      <div class="text-align--right margin-right--24">
+        &copy; 2024 - Raygun
+      </div>
     </div>
   </footer>
   <script src="~/lib/jquery/dist/jquery.min.js"></script>
