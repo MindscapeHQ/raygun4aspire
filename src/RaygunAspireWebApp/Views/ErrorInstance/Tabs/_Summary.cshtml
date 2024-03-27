@@ -1,3 +1,19 @@
 ﻿@model ErrorInstanceViewModel
 
-<div>Textz</div>
+<section class="padding--24">
+  <header class="margin-bottom--12 border-width--0 border-bottom-width--1 border-style--solid border-color--color-border-elevation">
+    <h4 class="font-opensans--14--32--600 color--color-text-low-emphasis">Error instance data</h4>
+  </header>
+  <div class="ei-table">
+    <div class="ei-label">Occurred on</div>
+    <div id="occurredOnCell" class="ei-result">@Model.RaygunMessage.OccurredOn</div>
+  </div>
+</section>
+
+<script>
+  var occurredOnCell = document.getElementById('occurredOnCell');
+  var rawDate = occurredOnCell.textContent;
+  var momentDate = moment.utc(rawDate);
+  var formattedDate = momentDate.format("MMMM Do YYYY, HH:mm:ss") + " - " + momentDate.fromNow();
+  occurredOnCell.textContent = formattedDate;
+</script>

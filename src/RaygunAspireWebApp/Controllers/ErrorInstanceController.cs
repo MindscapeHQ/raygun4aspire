@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Mindscape.Raygun4Net;
 using RaygunAspireWebApp.Models;
+using System.Reflection;
 using System.Text.Json;
 
 namespace RaygunAspireWebApp.Controllers
@@ -15,7 +17,10 @@ namespace RaygunAspireWebApp.Controllers
       if (filePaths.Count == 1)
       {
         var fileContents = System.IO.File.ReadAllText(filePaths[0]);
-        return View(new ErrorInstanceViewModel { RawPayload = fileContents });
+
+        var raygunMessage = JsonSerializer.Deserialize<RaygunMessage>(fileContents);
+
+        return View(new ErrorInstanceViewModel { RawPayload = fileContents, RaygunMessage = raygunMessage });
       }
 
       return View(new ErrorInstanceViewModel { RawPayload = "Could not find error report" });
