@@ -14,7 +14,6 @@ module.exports = {
         { from: 'node_modules/htmx.org/dist/htmx.min.js', to: 'htmx.min.js' },
         { from: 'node_modules/prismjs/prism.js', to: 'prism.js' },
         { from: 'node_modules/prismjs/components/prism-json.min.js', to: 'prism-json.min.js' },
-        { from: 'node_modules/prismjs/themes/prism.css', to: 'prism.css' },
       ],
     }),
   ],
