@@ -18,7 +18,7 @@ namespace RaygunAspireWebApp.Controllers
       {
         var fileContents = System.IO.File.ReadAllText(filePaths[0]);
 
-        var raygunMessage = JsonSerializer.Deserialize<RaygunMessage>(fileContents);
+        var raygunMessage = JsonSerializer.Deserialize<RaygunMessage>(fileContents, new JsonSerializerOptions { PropertyNameCaseInsensitive = true, Converters = { new RaygunIdentifierMessageConverter() } });
 
         return View(new ErrorInstanceViewModel { RawPayload = fileContents, RaygunMessage = raygunMessage });
       }
@@ -28,7 +28,7 @@ namespace RaygunAspireWebApp.Controllers
 
     public IActionResult TabContent(string tab, string model)
     {
-      var tabModel = JsonSerializer.Deserialize<ErrorInstanceViewModel>(model, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+      var tabModel = JsonSerializer.Deserialize<ErrorInstanceViewModel>(model, new JsonSerializerOptions { PropertyNameCaseInsensitive = true, Converters = { new RaygunIdentifierMessageConverter() } });
 
       switch (tab)
       {

@@ -1250,3 +1250,15 @@ pre {
   display: table-cell;
   vertical-align: top;
 }
+
+.ei-tag {
+  background: var(--color-bg-surface-header-strip);
+  color: var(--color-text-inverted);
+  padding: 2px 4px;
+  display: block;
+  float: left;
+  margin: 2px;
+  border-radius: 3px;
+  font-size: 13px;
+  font-family: Open-Sans, Arial, Helvetica, sans-serif;
+}

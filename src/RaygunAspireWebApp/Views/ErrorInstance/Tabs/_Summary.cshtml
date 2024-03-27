@@ -4,10 +4,42 @@
   <header class="margin-bottom--12 border-width--0 border-bottom-width--1 border-style--solid border-color--color-border-elevation">
     <h4 class="font-opensans--14--32--600 color--color-text-low-emphasis">Error instance data</h4>
   </header>
+
   <div class="ei-table">
     <div class="ei-label">Occurred on</div>
     <div id="occurredOnCell" class="ei-result">@Model.RaygunMessage.OccurredOn</div>
   </div>
+
+  <div class="ei-table">
+    <div class="ei-label">Class name</div>
+    <div class="ei-result">@Model.RaygunMessage.Details.Error.ClassName</div>
+  </div>
+
+  <div class="ei-table">
+    <div class="ei-label">Message</div>
+    <div class="ei-result">@Model.RaygunMessage.Details.Error.Message</div>
+  </div>
+
+  <div class="ei-table">
+    <div class="ei-label">Data</div>
+    <div class="ei-result">@Model.RaygunMessage.Details.Error.Data</div>
+  </div>
+
+  <div class="ei-table">
+    <div class="ei-label">Version</div>
+    <div class="ei-result">@Model.RaygunMessage.Details.Version</div>
+  </div>
+
+  <div class="ei-table">
+    <div class="ei-label">Tags</div>
+    <div class="ei-result">
+      @foreach (var tag in Model.RaygunMessage.Details.Tags)
+      {
+        <div class="ei-tag">@tag</div>
+      }
+    </div>
+  </div>
+
 </section>
 
 <script>
