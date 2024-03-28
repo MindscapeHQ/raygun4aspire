@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Mindscape.Raygun4Net;
 using RaygunAspireWebApp.Models;
-using System.Reflection;
 using System.Text.Json;
 
 namespace RaygunAspireWebApp.Controllers
@@ -20,25 +19,41 @@ namespace RaygunAspireWebApp.Controllers
 
         var raygunMessage = JsonSerializer.Deserialize<RaygunMessage>(fileContents, new JsonSerializerOptions { PropertyNameCaseInsensitive = true, Converters = { new RaygunIdentifierMessageConverter() } });
 
-        return View(new ErrorInstanceViewModel { RawPayload = fileContents, RaygunMessage = raygunMessage });
+        var model = new ErrorInstanceViewModel { RawPayload = fileContents, RaygunMessage = raygunMessage };
+
+        TempData["Model"] = JsonSerializer.Serialize(model);
+
+        return View(model);
       }
 
       return View(new ErrorInstanceViewModel { RawPayload = "Could not find error report" });
     }
 
-    public IActionResult TabContent(string tab, string model)
+    public IActionResult TabContent(string tab)
     {
-      var tabModel = JsonSerializer.Deserialize<ErrorInstanceViewModel>(model, new JsonSerializerOptions { PropertyNameCaseInsensitive = true, Converters = { new RaygunIdentifierMessageConverter() } });
-
-      switch (tab)
+      try
       {
-        case "summary":
-          return PartialView("Tabs/_Summary", tabModel);
-        case "rawdata":
-          return PartialView("Tabs/_RawData", tabModel);
-        default:
-          return PartialView("Tabs/_Summary", tabModel);
+        var modelString = TempData["Model"] as string;
+        var model = JsonSerializer.Deserialize<ErrorInstanceViewModel>(modelString, new JsonSerializerOptions { PropertyNameCaseInsensitive = true, Converters = { new RaygunIdentifierMessageConverter() } });
+
+        Console.WriteLine($"Model: {model}");
+
+        switch (tab)
+        {
+          case "summary":
+            return PartialView("Tabs/_Summary", model);
+          case "rawdata":
+            return PartialView("Tabs/_RawData", model);
+          default:
+            return PartialView("Tabs/_Summary", model);
+        }
       }
+      catch(Exception e)
+      {
+        Console.WriteLine(e.ToString());
+      }
+
+      return null;
     }
   }
 }

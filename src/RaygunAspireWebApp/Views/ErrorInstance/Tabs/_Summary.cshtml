@@ -42,6 +42,31 @@
 
 </section>
 
+<section class="padding--24">
+  <header class="margin-bottom--12 border-width--0 border-bottom-width--1 border-style--solid border-color--color-border-elevation">
+    <h4 class="font-opensans--14--32--600 color--color-text-low-emphasis">Stacktrace</h4>
+  </header>
+  
+  <header class="margin-bottom--12 border-width--0 border-bottom-width--1 border-style--solid border-color--color-border-elevation">
+    <div class="font-opensans--14--32--400 color--color-text-default">Message: @Model.RaygunMessage.Details.Error.Message</div>
+  </header>
+
+  <div class="margin-left--24 font-opensans--14--32--400 color--color-text-default">
+    @foreach (var frame in Model.RaygunMessage.Details.Error.StackTrace)
+    {
+      if (!string.IsNullOrWhiteSpace(@frame.ClassName))
+      {
+        <div>@frame.ClassName</div>
+        if (!string.IsNullOrWhiteSpace(@frame.MethodName))
+        {
+          <div>.</div>
+        }
+      }
+    }
+  </div>
+
+</section>
+
 <script>
   var occurredOnCell = document.getElementById('occurredOnCell');
   var rawDate = occurredOnCell.textContent;

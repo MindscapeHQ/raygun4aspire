@@ -5,8 +5,8 @@
 
 <div>
   <ul>
-    <li hx-get="/ErrorInstance/TabContent" hx-target="#tab-content" hx-trigger="click" hx-vals='{"tab": "summary", "model": @Html.Raw(Json.Serialize(Model))}'>Summary</li>
-    <li hx-get="/ErrorInstance/TabContent" hx-target="#tab-content" hx-trigger="click" hx-vals='{"tab": "rawdata", "model": @Html.Raw(Json.Serialize(Model))}'>Raw data</li>
+    <li hx-get="/ErrorInstance/TabContent" hx-target="#tab-content" hx-trigger="click" hx-vals='{"tab": "summary"}'>Summary</li>
+    <li hx-get="/ErrorInstance/TabContent" hx-target="#tab-content" hx-trigger="click" hx-vals='{"tab": "rawdata"}'>Raw data</li>
   </ul>
 </div>
 <div id="tab-content" class="background--color-bg-surface-01 box-shadow--light-elevation-02 border-color--color-border-elevation border-width--1 border-style--solid margin--24">
