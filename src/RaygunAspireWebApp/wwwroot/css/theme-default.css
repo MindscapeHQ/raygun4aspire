@@ -109,6 +109,11 @@
   --color-chart-sequential-07: var(--cyan-300);
   --color-chart-sequential-08: var(--cyan-200);
   --color-bg-brand-default: var(--dark-blue-001642);
+  /* Stacktrace highlighting */
+  --color-code-object: var(--code-object);
+  --color-code-function: var(--code-function);
+  --color-code-filename: var(--code-filename);
+  --color-code-number: var(--code-number);
   /* To be named */
   --color-bg-drawer-header-ai-01: var(--rg-blue-1055);
   --color-bg-drawer-header-ai-02: var(--deep-purple-a400);

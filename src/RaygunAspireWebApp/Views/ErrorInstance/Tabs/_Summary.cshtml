@@ -51,38 +51,42 @@
     <div class="font-opensans--14--32--400 color--color-text-default">Message: @Model.RaygunMessage.Details.Error.Message</div>
   </header>
 
-  <div class="margin-left--24 font-opensans--14--32--400 color--color-text-default">
+  <div class="margin-left--24 font-size--0 color--color-text-default">
     @foreach (var frame in Model.RaygunMessage.Details.Error.StackTrace)
     {
-      if (!string.IsNullOrWhiteSpace(@frame.ClassName))
-      {
-        <div>@frame.ClassName</div>
-        if (!string.IsNullOrWhiteSpace(@frame.MethodName))
+      <div>
+        @if (!string.IsNullOrWhiteSpace(@frame.ClassName))
         {
-          <div>.</div>
+          <div class="display--inline-block font-opensans--14--32--400 color--color-code-object">@frame.ClassName</div>
+          if (!string.IsNullOrWhiteSpace(@frame.MethodName))
+          {
+            <div class="display--inline-block font-opensans--14--32--400">.</div>
+          }
         }
 
-        if (@frame.MethodName != null)
+        @if (@frame.MethodName != null)
         {
-          <div>@frame.MethodName</div>
+          <div class="display--inline-block font-opensans--14--32--400 color--color-code-function">@frame.MethodName</div>
         }
 
-        if (@frame.FileName != null || @frame.ClassName != null)
+        @if (@frame.FileName != null)
         {
-          <div> in </div>
+          if (@frame.MethodName != null || @frame.ClassName != null)
+          {
+            <div class="display--inline-block font-opensans--14--32--400">&nbsp;in&nbsp;</div>
+          }
+          <div class="display--inline-block font-opensans--14--32--400 color--color-code-filename">@frame.FileName</div>
         }
 
-        if (@frame.FileName != null)
+        @if (@frame.LineNumber != 0)
         {
-          <div>@frame.FileName</div>
+          if (@frame.FileName != null || @frame.ClassName != null || @frame.FileName != null)
+          {
+            <div class="display--inline-block font-opensans--14--32--400">:</div>
+            <div class="display--inline-block font-opensans--14--32--400 color--color-code-number">@frame.LineNumber</div>
+          }
         }
-
-        if (@frame.FileName != null || @frame.ClassName != null || @frame.FileName != null)
-        {
-          <div>:</div>
-          <div>@frame.LineNumber</div>
-        }
-      }
+      </div>
     }
   </div>
 

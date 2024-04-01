@@ -132,4 +132,9 @@
   --yellow-300: #FFF176;
   --yellow-700: #FBC02D;
   --white: #FFFFFF;
+  /* Stacktrace highlighting */
+  --code-object: #0256AD;
+  --code-function: #7D36A7;
+  --code-filename: #1499a6;
+  --code-number: #fa610b;
 }

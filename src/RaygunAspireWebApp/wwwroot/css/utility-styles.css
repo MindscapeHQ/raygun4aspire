@@ -194,6 +194,23 @@
   color: var(--color-text-disabled);
 }
 
+/* Stacktrac highlighting */
+.color--color-code-object {
+  color: var(--color-code-object);
+}
+
+.color--color-code-function {
+  color: var(--color-code-function);
+}
+
+.color--color-code-filename {
+  color: var(--color-code-filename);
+}
+
+.color--color-code-number {
+  color: var(--color-code-number);
+}
+
 /* Icon colors */
 .fill--color-icon-inverted,
 .fill--color-icon-inverted svg {
@@ -305,12 +322,24 @@
   line-height: 24px;
 }
 
+.font-opensans--14--32--400 {
+  font-family: Open-Sans, Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 32px;
+}
+
 .font-opensans--14--32--600 {
   font-family: Open-Sans, Arial, Helvetica, sans-serif;
   font-size: 14px;
   font-style: normal;
   font-weight: 600;
   line-height: 32px;
+}
+
+.font-size--0 {
+  font-size: 0px;
 }
 
 /* text decorations */
@@ -455,6 +484,10 @@
 
 .margin--24 {
   margin: 24px;
+}
+
+.margin--0 {
+  margin: 0px;
 }
 
 /* Radius */
@@ -646,6 +679,10 @@
 
 .display--inline-flex {
   display: inline-flex;
+}
+
+.display--inline-block {
+  display: inline-block;
 }
 
 .align-items--center {
