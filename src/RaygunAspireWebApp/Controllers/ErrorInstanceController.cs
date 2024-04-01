@@ -21,7 +21,7 @@ namespace RaygunAspireWebApp.Controllers
 
         var model = new ErrorInstanceViewModel { RawPayload = fileContents, RaygunMessage = raygunMessage };
 
-        TempData["Model"] = JsonSerializer.Serialize(model);
+        HttpContext.Session.SetString("Model", JsonSerializer.Serialize(model));
 
         return View(model);
       }
@@ -33,7 +33,7 @@ namespace RaygunAspireWebApp.Controllers
     {
       try
       {
-        var modelString = TempData["Model"] as string;
+        var modelString = HttpContext.Session.GetString("Model") as string;
         var model = JsonSerializer.Deserialize<ErrorInstanceViewModel>(modelString, new JsonSerializerOptions { PropertyNameCaseInsensitive = true, Converters = { new RaygunIdentifierMessageConverter() } });
 
         Console.WriteLine($"Model: {model}");
