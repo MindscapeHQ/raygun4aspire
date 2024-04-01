@@ -61,6 +61,27 @@
         {
           <div>.</div>
         }
+
+        if (@frame.MethodName != null)
+        {
+          <div>@frame.MethodName</div>
+        }
+
+        if (@frame.FileName != null || @frame.ClassName != null)
+        {
+          <div> in </div>
+        }
+
+        if (@frame.FileName != null)
+        {
+          <div>@frame.FileName</div>
+        }
+
+        if (@frame.FileName != null || @frame.ClassName != null || @frame.FileName != null)
+        {
+          <div>:</div>
+          <div>@frame.LineNumber</div>
+        }
       }
     }
   </div>
