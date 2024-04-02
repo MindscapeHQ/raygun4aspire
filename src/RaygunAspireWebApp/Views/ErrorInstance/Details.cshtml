@@ -3,12 +3,29 @@
 <script src="~/js/htmx.min.js"></script>
 <script src="~/js/moment.min.js"></script>
 
-<div>
-  <ul>
-    <li hx-get="/ErrorInstance/TabContent" hx-target="#tab-content" hx-trigger="click" hx-vals='{"tab": "summary"}'>Summary</li>
-    <li hx-get="/ErrorInstance/TabContent" hx-target="#tab-content" hx-trigger="click" hx-vals='{"tab": "rawdata"}'>Raw data</li>
+<div class="margin--24">
+  <ul class="tab-group clearfix font-opensans--14--32--600 color--color-text-low-emphasis">
+    <li class="js-tab-item tab-group--item tab-group--item--active" hx-get="/ErrorInstance/TabContent" hx-target="#tab-content" hx-trigger="click" hx-vals='{"tab": "summary"}'>Summary</li>
+    <li class="js-tab-item tab-group--item tab-group--item-last" hx-get="/ErrorInstance/TabContent" hx-target="#tab-content" hx-trigger="click" hx-vals='{"tab": "rawdata"}'>Raw data</li>
   </ul>
+  <div id="tab-content" class="background--color-bg-surface-01 box-shadow--tabs border-color--color-border-elevation border-width--1 border-style--solid">
+    <partial name="Tabs/_summary" model="@Model" />
+  </div>
 </div>
-<div id="tab-content" class="background--color-bg-surface-01 box-shadow--light-elevation-02 border-color--color-border-elevation border-width--1 border-style--solid margin--24">
-  <partial name="Tabs/_summary" model="@Model" />
-</div>
+
+<script>
+  var elements = document.querySelectorAll('.js-tab-item');
+
+  // Add a click event listener to each element
+  elements.forEach(function (element) {
+    element.addEventListener('click', function () {
+      // Remove the 'active' class from all elements
+      elements.forEach(function (el) {
+        el.classList.remove('tab-group--item--active');
+      });
+
+      // Add the 'active' class to the clicked element
+      element.classList.add('tab-group--item--active');
+    });
+  });
+</script>
