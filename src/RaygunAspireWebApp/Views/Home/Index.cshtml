@@ -40,8 +40,12 @@
     var dateCells = document.querySelectorAll('#errorTable .js-timestamp-cell');
     dateCells.forEach(function (cell) {
       var rawDate = cell.textContent;
-      var formattedDate = moment.utc(rawDate).fromNow();
-      cell.textContent = formattedDate;
+      var momentDateUtc = moment.utc(rawDate)
+      cell.textContent = momentDateUtc.fromNow();
+
+      var momentDateLocal = momentDateUtc.local();
+      var formattedDate = momentDateLocal.format("MMMM Do YYYY, HH:mm:ss");
+      cell.title = formattedDate;
     });
   }
 
