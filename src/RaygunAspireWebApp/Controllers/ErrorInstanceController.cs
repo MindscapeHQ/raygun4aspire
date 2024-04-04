@@ -19,14 +19,14 @@ namespace RaygunAspireWebApp.Controllers
 
         var raygunMessage = JsonSerializer.Deserialize<RaygunMessage>(fileContents, new JsonSerializerOptions { PropertyNameCaseInsensitive = true, Converters = { new RaygunIdentifierMessageConverter() } });
 
-        var model = new ErrorInstanceViewModel { RawPayload = fileContents, RaygunMessage = raygunMessage };
+        var model = new ErrorInstanceViewModel { RaygunMessage = raygunMessage };
 
         HttpContext.Session.SetString("Model", JsonSerializer.Serialize(model));
 
         return View(model);
       }
 
-      return View(new ErrorInstanceViewModel { RawPayload = "Could not find error report" });
+      return View(new ErrorInstanceViewModel());
     }
 
     public IActionResult TabContent(string tab)
