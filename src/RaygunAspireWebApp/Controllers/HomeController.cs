@@ -27,7 +27,7 @@ namespace RaygunAspireWebApp.Controllers
         return View(files);
       }
 
-      return View(new List<ErrorInstanceRow> { new ErrorInstanceRow { Name = "No errors" } });
+      return View(new List<ErrorInstanceRow>());
     }
 
     private ErrorInstanceRow ConvertFileInfoToErrorInstance(FileInfo fileInfo)

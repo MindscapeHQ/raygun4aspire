@@ -9,19 +9,28 @@
     <thead>
       <tr class="border-bottom-width--1 border-color--color-border-elevation height--40">
         <th class="padding-horizontal--12 color--color-text-low-emphasis font-opensans--14--24--600">Message</th>
-        <th class="padding-horizontal--12 color--color-text-low-emphasis font-opensans--14--24--600 width--160 max-width--160">Seen</th>
+        <th class="padding-horizontal--12 color--color-text-low-emphasis font-opensans--14--24--600 width--160 max-width--160">Last seen</th>
       </tr>
     </thead>
     <tbody>
-      @foreach (var file in Model)
+      @if (Model.Count > 0)
       {
-        <tr class="border-bottom-width--1 border-color--color-border-elevation height--40">
-          <td class="padding-horizontal--12 color--color-text-link-active color--color-text-link-hover:hover font-opensans--14--24--400"><a class="no-underline" href="/errorinstance/details/@file.Id">@file.Name</a></td>
-          <td class="js-timestamp-cell padding-horizontal--12 font-opensans--14--24--400">@file.Timestamp</td>
-        </tr>
+        foreach (var file in Model)
+        {
+          <tr class="border-bottom-width--1 border-color--color-border-elevation height--40">
+            <td class="padding-horizontal--12 color--color-text-link-active color--color-text-link-hover:hover font-opensans--14--24--400"><a class="no-underline" href="/errorinstance/details/@file.Id">@file.Name</a></td>
+            <td class="js-timestamp-cell padding-horizontal--12 font-opensans--14--24--400">@file.Timestamp</td>
+          </tr>
+        }
       }
     </tbody>
   </table>
+  @if (Model.Count == 0)
+  {
+    <div class="border-bottom-width--1 border-color--color-border-elevation border-bottom-style--solid padding--24">
+      <p class="font-opensans--14--24--600 color--color-text-link-default text-align--center margin--0">No errors, congratulations!</p>
+    </div>
+  }
   <div class="padding--24"></div>
 </div>
 
