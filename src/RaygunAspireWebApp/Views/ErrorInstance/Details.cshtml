@@ -19,11 +19,16 @@
 
 <script>
   // Format the occurred on date in the header
-  var occurredOnCell = document.getElementById('occurredOnHeading');
-  var rawDate = occurredOnCell.textContent;
-  var momentDate = moment.utc(rawDate);
-  var formattedDate = momentDate.format("MMMM Do YYYY, HH:mm:ss");
-  occurredOnCell.textContent = formattedDate;
+  var occurredOnHeading = document.getElementById('occurredOnHeading');
+  var rawDate = occurredOnHeading.textContent;
+  var momentDateUtc = moment.utc(rawDate);
+
+  var formattedDateUtc = momentDateUtc.format("MMMM Do YYYY, HH:mm:ss") + " UTC";
+  occurredOnHeading.title = formattedDateUtc
+
+  var momentDateLocal = momentDateUtc.local();
+  var formattedDate = momentDateLocal.format("MMMM Do YYYY, HH:mm:ss") + " - " + momentDateLocal.fromNow();
+  occurredOnHeading.textContent = formattedDate;
 
   // Add a click event listener to each tab item
   var elements = document.querySelectorAll('.js-tab-item');

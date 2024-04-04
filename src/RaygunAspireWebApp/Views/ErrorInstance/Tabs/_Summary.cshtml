@@ -106,8 +106,13 @@
 <script>
   var occurredOnCell = document.getElementById('occurredOnCell');
   var rawDate = occurredOnCell.textContent;
-  var momentDate = moment.utc(rawDate);
-  var formattedDate = momentDate.format("MMMM Do YYYY, HH:mm:ss") + " - " + momentDate.fromNow();
+  var momentDateUtc = moment.utc(rawDate);
+
+  var formattedDateUtc = momentDateUtc.format("MMMM Do YYYY, HH:mm:ss") + " UTC";
+  occurredOnCell.title = formattedDateUtc
+
+  var momentDateLocal = momentDateUtc.local();
+  var formattedDate = momentDateLocal.format("MMMM Do YYYY, HH:mm:ss") + " - " + momentDateLocal.fromNow();
   occurredOnCell.textContent = formattedDate;
 </script>
 
