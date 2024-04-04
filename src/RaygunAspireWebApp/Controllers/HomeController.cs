@@ -20,6 +20,7 @@ namespace RaygunAspireWebApp.Controllers
       {
         var files = Directory.GetFiles(folderPath)
             .Select(filePath => new FileInfo(filePath))
+            .OrderByDescending(filePath => filePath.CreationTime)
             .Select(ConvertFileInfoToErrorInstance)
             .ToList();
 
