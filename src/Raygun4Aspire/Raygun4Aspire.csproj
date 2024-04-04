@@ -11,11 +11,12 @@
     <Description>Raygun local development portal for Aspire</Description>
     <PackageId>Raygun4Aspire</PackageId>
     <IsPackable>true</IsPackable>
-    <Version>0.0.13</Version>
+    <Version>0.0.18</Version>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Aspire.Hosting" Version="8.0.0-preview.4.24156.9" />
+    <PackageReference Include="Mindscape.Raygun4Net.NetCore.Common" Version="10.1.1" />
   </ItemGroup>
 
 </Project>
