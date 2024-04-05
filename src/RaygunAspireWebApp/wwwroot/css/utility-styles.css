@@ -1268,6 +1268,12 @@ pre {
   height: 24px;
 }
 
+/* Error table styles */
+
+.error-table-row:hover {
+  background: var(--blue-gray-5);
+}
+
 /* error instance styles */
 
 .ei-table {
