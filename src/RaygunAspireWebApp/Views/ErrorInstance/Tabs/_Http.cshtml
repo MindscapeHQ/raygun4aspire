@@ -37,6 +37,13 @@
   </div>
 
   <div class="ei-table">
+    <div class="ei-label">Query string</div>
+    <div class="ei-result">
+      <pre><code class="language-json">@JsonSerializer.Serialize(Model.RaygunMessage.Details.Request.QueryString, new JsonSerializerOptions { WriteIndented = true })</code></pre>
+    </div>
+  </div>
+
+  <div class="ei-table">
     <div class="ei-label">Cookie values</div>
     <div class="ei-result">
       @Model.RaygunMessage.Details.Request.Cookies.Count cookies
@@ -49,6 +56,11 @@
     <div class="ei-result">
       <pre><code class="language-json">@JsonSerializer.Serialize(Model.RaygunMessage.Details.Request.Headers, new JsonSerializerOptions { WriteIndented = true })</code></pre>
     </div>
+  </div>
+
+  <div class="ei-table">
+    <div class="ei-label">Raw request data</div>
+    <div class="ei-result">@Model.RaygunMessage.Details.Request.RawData</div>
   </div>
 
 </section>
