@@ -18,7 +18,7 @@
         foreach (var file in Model)
         {
           <tr class="border-bottom-width--1 border-color--color-border-elevation height--40 error-table-row">
-            <td class="padding-horizontal--12 color--color-text-link-active color--color-text-link-hover:hover font-opensans--14--24--400"><a class="no-underline width--full display--block" href="/errorinstance/details/@file.Id">@file.Name</a></td>
+            <td class="padding-horizontal--12 font-opensans--14--24--400"><a class="no-underline color--color-text-link width--full display--block" href="/errorinstance/details/@file.Id">@file.Name</a></td>
             <td class="js-timestamp-cell padding-horizontal--12 font-opensans--14--24--400">@file.Timestamp</td>
           </tr>
         }

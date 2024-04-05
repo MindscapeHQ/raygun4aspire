@@ -182,15 +182,15 @@
   color: var(--color-text-link-highhcontrast-active);
 }
 
-.color--color-text-link-active {
+.color--color-text-link {
   color: var(--color-text-link-active);
 }
 
-.color--color-text-link-hover:hover {
+.color--color-text-link:hover {
   color: var(--color-text-link-hover);
 }
 
-.color--color-text-disabled:disabled {
+.color--color-text-link:disabled {
   color: var(--color-text-disabled);
 }
 

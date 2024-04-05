@@ -8,9 +8,48 @@
 
   <div class="ei-table">
     <div class="ei-label">HTTP method</div>
-    <div id="occurredOnCell" class="ei-result">@Model.RaygunMessage.Details.Request.HttpMethod</div>
+    <div class="ei-result">@Model.RaygunMessage.Details.Request.HttpMethod</div>
   </div>
 
+  <div class="ei-table">
+    <div class="ei-label">Host name</div>
+    <div class="ei-result">@Model.RaygunMessage.Details.Request.HostName</div>
+  </div>
+
+  <div class="ei-table">
+    <div class="ei-label">IP address</div>
+    <div class="ei-result">@Model.RaygunMessage.Details.Request.IPAddress</div>
+  </div>
+
+  <div class="ei-table">
+    <div class="ei-label">URL</div>
+    <div class="ei-result"><a class="no-underline color--color-text-link" href="@Model.RaygunMessage.Details.Request.Url" target="_blank">@Model.RaygunMessage.Details.Request.Url</a></div>
+  </div>
+
+  <div class="ei-table">
+    <div class="ei-label">User-agent</div>
+    <div class="ei-result">@Model.RaygunMessage.Details.Request.Headers["User-Agent"]</div>
+  </div>
+
+  <div class="ei-table">
+    <div class="ei-label">Referer</div>
+    <div class="ei-result">@Model.RaygunMessage.Details.Request.Headers["Referer"]</div>
+  </div>
+
+  <div class="ei-table">
+    <div class="ei-label">Cookie values</div>
+    <div class="ei-result">
+      @Model.RaygunMessage.Details.Request.Cookies.Count cookies
+      <pre><code class="language-json">@JsonSerializer.Serialize(Model.RaygunMessage.Details.Request.Cookies, new JsonSerializerOptions { WriteIndented = true })</code></pre>
+    </div>
+  </div>
+
+  <div class="ei-table">
+    <div class="ei-label">Header values</div>
+    <div class="ei-result">
+      <pre><code class="language-json">@JsonSerializer.Serialize(Model.RaygunMessage.Details.Request.Headers, new JsonSerializerOptions { WriteIndented = true })</code></pre>
+    </div>
+  </div>
 
 </section>
 
@@ -21,12 +60,12 @@
   
   <div class="ei-table">
     <div class="ei-label">Status code</div>
-    <div id="occurredOnCell" class="ei-result">@Model.RaygunMessage.Details.Response.StatusCode</div>
+    <div class="ei-result">@Model.RaygunMessage.Details.Response.StatusCode</div>
   </div>
 
   <div class="ei-table">
     <div class="ei-label">Status description</div>
-    <div id="occurredOnCell" class="ei-result">@Model.RaygunMessage.Details.Response.StatusDescription</div>
+    <div class="ei-result">@Model.RaygunMessage.Details.Response.StatusDescription</div>
   </div>
 
 </section>
