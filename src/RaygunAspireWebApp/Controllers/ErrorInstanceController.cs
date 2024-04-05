@@ -42,6 +42,8 @@ namespace RaygunAspireWebApp.Controllers
         {
           case "summary":
             return PartialView("Tabs/_Summary", model);
+          case "http":
+            return PartialView("Tabs/_Http", model);
           case "rawdata":
             return PartialView("Tabs/_RawData", model);
           default:

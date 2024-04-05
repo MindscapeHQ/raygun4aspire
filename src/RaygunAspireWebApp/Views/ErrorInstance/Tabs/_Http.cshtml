@@ -1,0 +1,35 @@
+﻿@using System.Text.Json
+@model ErrorInstanceViewModel
+
+<section class="padding--24">
+  <header class="margin-bottom--12 border-width--0 border-bottom-width--1 border-style--solid border-color--color-border-elevation">
+    <h4 class="font-opensans--14--32--600 color--color-text-low-emphasis">Request</h4>
+  </header>
+
+  <div class="ei-table">
+    <div class="ei-label">HTTP method</div>
+    <div id="occurredOnCell" class="ei-result">@Model.RaygunMessage.Details.Request.HttpMethod</div>
+  </div>
+
+
+</section>
+
+<section class="padding--24">
+  <header class="margin-bottom--12 border-width--0 border-bottom-width--1 border-style--solid border-color--color-border-elevation">
+    <h4 class="font-opensans--14--32--600 color--color-text-low-emphasis">Response</h4>
+  </header>
+  
+  <div class="ei-table">
+    <div class="ei-label">Status code</div>
+    <div id="occurredOnCell" class="ei-result">@Model.RaygunMessage.Details.Response.StatusCode</div>
+  </div>
+
+  <div class="ei-table">
+    <div class="ei-label">Status description</div>
+    <div id="occurredOnCell" class="ei-result">@Model.RaygunMessage.Details.Response.StatusDescription</div>
+  </div>
+
+</section>
+
+<script src="~/js/prism.js"></script>
+<script src="~/js/prism-json.min.js"></script>
