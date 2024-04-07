@@ -76,8 +76,22 @@
   <div class="ei-table">
     <div class="ei-label">Cookie values</div>
     <div class="ei-result">
-      @Model.RaygunMessage.Details.Request.Cookies.Count cookies
-      <pre><code class="language-json">@SimplifyJson(@JsonSerializer.Serialize(Model.RaygunMessage.Details.Request.Cookies, new JsonSerializerOptions { WriteIndented = true }))</code></pre>
+      @if (Model?.RaygunMessage?.Details?.Request?.Cookies != null && Model.RaygunMessage.Details.Request.Cookies.Count > 0)
+      {
+        if (Model.RaygunMessage.Details.Request.Cookies.Count == 1)
+        {
+          <div>1 cookie</div>
+        }
+        else
+        {
+          <div>@Model.RaygunMessage.Details.Request.Cookies.Count cookies</div>
+        }
+        <pre><code class="language-json">@SimplifyJson(@JsonSerializer.Serialize(Model.RaygunMessage.Details.Request.Cookies, new JsonSerializerOptions { WriteIndented = true }))</code></pre>
+      }
+      else
+      {
+        <div>Not provided</div>
+      }
     </div>
   </div>
 
