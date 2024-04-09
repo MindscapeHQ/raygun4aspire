@@ -37,7 +37,7 @@ namespace Raygun4Aspire
       catch (Exception e)
       {
         // Capture the exception and send it to Raygun
-        await _client.SendInBackground(e, new List<string> { UnhandledExceptionTag }, _httpContextAccessor.HttpContext);
+        await _client.SendInBackground(e, tags: new List<string> { UnhandledExceptionTag }, context: _httpContextAccessor.HttpContext);
         throw;
       }
     }
