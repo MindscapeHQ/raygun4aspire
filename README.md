@@ -298,17 +298,36 @@ var raygunClient = app.Services.GetService<RaygunClient>();
 // Use the raygunClient to set any features here
 ```
 
-## Modify or cancel message
+## Modify Raygun crash reports
 
-On the RaygunClient singleton, attach an event handler to the SendingMessage event. This event handler will be called just before the RaygunClient sends an exception - either automatically or manually. The event arguments provide the RaygunMessage object that is about to be sent. One use for this event handler is to add or modify any information on the RaygunMessage. Another use for this method is to identify exceptions that you never want to send to raygun, and if so, set e.Cancel = true to cancel the send.
+On the RaygunClient singleton, attach an event handler to the SendingMessage event. This event handler will be called just before the RaygunClient sends any crash report to Raygun. The event arguments provide the RaygunMessage object that is about to be sent. One use for this event handler is to add or modify any information on the RaygunMessage.
 
-The following example uses the SendingMessage event to set a tag that will be included on all crash reports.
+The following example uses the SendingMessage event to set a global tag that will be included on all crash reports.
+
 ```
 var raygunClient = app.Services.GetService<RaygunClient>();
 
 raygunClient.SendingMessage += (sender, eventArgs) =>
 {
   eventArgs.Message.Details.Tags.Add("Web API");
+};
+```
+
+## Cancel sending certain crash reports to Raygun
+
+On the RaygunClient singleton, attach an event handler to the SendingMessage event. This event handler will be called just before the RaygunClient sends any crash report to Raygun. Here you can analyze the crash report that's about to be sent to Raygun and use conditional logic to decide if that crash report is something you know that you don't need logged, so cancel the delivery. Set `eventArgs.Cancel` to true to avoid sending that crash report to Raygun.
+
+Below is a simple example to cancel sending specific exceptions. Be sure to add null checks for properties and bounds checks when looking into arrays.
+
+```
+var raygunClient = app.Services.GetService<RaygunClient>();
+
+raygunClient.SendingMessage += (sender, eventArgs) =>
+{
+  if (eventArgs.Message.Details.Error.Message.Contains("Test exception"))
+  {
+    eventArgs.Cancel = true;
+  }
 };
 ```
 
