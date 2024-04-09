@@ -84,6 +84,13 @@ Below is an example of doing this in a razor page:
 }
 ```
 
+The SendInBackground method also contains optional parameters to send tags, custom data, user details and the HttpContext.
+
+**Tags** is a list of strings that could be used to categorize crash reports.
+**Custom data** is a dictionary of key value pairs for logging richer contextual information that can help further understand the cause of an exception specific to your code.
+**User details** is a RaygunIdentifierMessage object that can be used to capture details about a user impacted by the crash report. Make sure to abide by any privacy policies that your company follows when logging such information. The identifier you set here could instead be an internal database Id, or even just a unique guid to at least gauge how many users are impacted by an exception.
+**HttpContext** will cause request and response information to be included in the crash report where applicable.
+
 # Port
 
 When running in the local development environment, crash reports are sent to the locally running Raygun portal via port `24605`.
