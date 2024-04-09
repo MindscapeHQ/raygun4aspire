@@ -14,6 +14,7 @@ namespace Raygun4Aspire
 
     /// <summary>
     /// Checks to see if you have an API Key and registers the Raygun Middleware. If no API Key is found, a warning will be logged.
+    /// If you're running your Aspire project locally without a Raygun API Key, then a placeholder API Key is automatically provided for you.
     /// </summary>
     public static IApplicationBuilder UseRaygun(this IApplicationBuilder app)
     {
@@ -36,6 +37,12 @@ namespace Raygun4Aspire
       return app.UseMiddleware<RaygunMiddleware>();
     }
 
+    /// <summary>
+    /// Registers a RaygunClient singleton into the services collection.
+    /// </summary>
+    /// <param name="builder">Your WebApplicationBuilder.</param>
+    /// <param name="options">An optional lambda that allows you to modify the RaygunSettings.</param>
+    /// <returns>The WebApplicationBuilder to allow chaining further methods.</returns>
     public static WebApplicationBuilder AddRaygun(this WebApplicationBuilder builder, Action<RaygunSettings>? options = null)
     {
       // Fetch settings from configuration or use default settings
@@ -58,54 +65,17 @@ namespace Raygun4Aspire
     }
 
     /// <summary>
-    /// Registers the Raygun Client and Raygun Settings with the DI container. Settings will be fetched from the appsettings.json file,
-    /// and can be overridden by providing a custom configuration delegate.
-    /// </summary>
-    public static IServiceCollection AddRaygun(this IServiceCollection services, IConfiguration configuration, Action<RaygunSettings>? options = null)
-    {
-      // Fetch settings from configuration or use default settings
-      var settings = configuration.GetSection("RaygunSettings").Get<RaygunSettings>() ?? new RaygunSettings();
-      
-      // Override settings with user-provided settings
-      options?.Invoke(settings);
-
-      services.TryAddSingleton(settings);
-      services.TryAddSingleton(s => new RaygunClient(s.GetService<RaygunSettings>()!, s.GetService<IRaygunUserProvider>()!));
-      services.AddHttpContextAccessor();
-
-      return services;
-    }
-
-    /// <summary>
-    /// Registers the Raygun Client and Raygun Settings with the DI container. Settings will be defaulted and overridden by providing a custom configuration delegate.
-    /// </summary>
-    public static IServiceCollection AddRaygun(this IServiceCollection services, Action<RaygunSettings>? options)
-    {
-      // Since we are not using IConfiguration, we need to create a new instance of RaygunSettings
-      var settings = new RaygunSettings();
-
-      // Override settings with user-provided settings
-      options?.Invoke(settings);
-
-      services.TryAddSingleton(settings);
-      services.TryAddSingleton(s => new RaygunClient(s.GetService<RaygunSettings>()!, s.GetService<IRaygunUserProvider>()!));
-      services.AddHttpContextAccessor();
-
-      return services;
-    }
-
-    /// <summary>
     /// Registers the default User Provider with the DI container. This will use the IHttpContextAccessor to fetch the current user.
     /// </summary>
     /// <remarks>
     /// This will attempt to check if a user is Authenticated and use the Name/Email from the claims to create a RaygunIdentifierMessage.
     /// If you wish to provide your own implementation of IRaygunUserProvider, you can use the <see cref="AddRaygunUserProvider&lt;T&gt;" /> method.
     /// </remarks>
-    public static IServiceCollection AddRaygunUserProvider(this IServiceCollection services)
+    public static WebApplicationBuilder AddRaygunUserProvider(this WebApplicationBuilder builder)
     {
-      services.TryAddSingleton<IRaygunUserProvider, DefaultRaygunUserProvider>();
+      builder.Services.TryAddSingleton<IRaygunUserProvider, DefaultRaygunUserProvider>();
 
-      return services;
+      return builder;
     }
 
     /// <summary>
@@ -114,20 +84,20 @@ namespace Raygun4Aspire
     /// <remarks>
     /// Refer to the <see cref="DefaultRaygunUserProvider" /> for an example of how to implement IRaygunUserProvider.
     /// </remarks>
-    public static IServiceCollection AddRaygunUserProvider<T>(this IServiceCollection services) where T : class, IRaygunUserProvider
+    public static WebApplicationBuilder AddRaygunUserProvider<T>(this WebApplicationBuilder builder) where T : class, IRaygunUserProvider
     {
       // In case the default or any other user provider is already registered, remove it first
-      var existing = services.FirstOrDefault(x => x.ServiceType == typeof(IRaygunUserProvider));
+      var existing = builder.Services.FirstOrDefault(x => x.ServiceType == typeof(IRaygunUserProvider));
 
       if (existing != null)
       {
-        services.Remove(existing);
+        builder.Services.Remove(existing);
       }
 
       // Add the new user provider
-      services.TryAddSingleton<IRaygunUserProvider, T>();
+      builder.Services.TryAddSingleton<IRaygunUserProvider, T>();
 
-      return services;
+      return builder;
     }
   }
 }
