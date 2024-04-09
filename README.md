@@ -91,6 +91,63 @@ The SendInBackground method also contains optional parameters to send tags, cust
 **User details** is a RaygunIdentifierMessage object that can be used to capture details about a user impacted by the crash report. Make sure to abide by any privacy policies that your company follows when logging such information. The identifier you set here could instead be an internal database Id, or even just a unique guid to at least gauge how many users are impacted by an exception.
 **HttpContext** will cause request and response information to be included in the crash report where applicable.
 
+# Custom user provider
+
+By default Raygun4Aspire ships with a `DefaultRaygunUserProvider` which will attempt to get the user information from the HttpContext.User object. This is Opt-In which can be added as follows:
+
+```
+// The WebApplicationBuilder is created somewhere here
+
+// AddRaygun is called here
+
+builder.AddRaygunUserProvider()
+```
+
+Alternatively, if you want to provide your own implementation of the `IRaygunUserProvider`, you can do so by creating a class that implements that interface and then registering it via `builder.AddRaygunUserProvider<MyCustomUserProvider>();`.
+
+```
+public class ExampleUserProvider : IRaygunUserProvider
+{
+  private readonly IHttpContextAccessor _contextAccessor;
+  
+  public ExampleUserProvider(IHttpContextAccessor httpContextAccessor)
+  {
+    _contextAccessor = contextAccessor;
+  }
+  
+  public RaygunIdentifierMessage? GetUser()
+  {
+    var ctx = _contextAccessor.HttpContext;
+    
+    if (ctx == null)
+    {
+      return null;
+    }
+
+    var identity = ctx.User.Identity as ClaimsIdentity;
+    
+    if (identity?.IsAuthenticated == true)
+    {
+      return new RaygunIdentifierMessage(identity.Name)
+      {
+        IsAnonymous = false
+      };
+    
+    return null;
+  }
+}
+```
+
+This can be registered in the services during configuration like so:
+
+```
+// The WebApplicationBuilder is created somewhere here
+
+// AddRaygun is called here
+
+builder.AddRaygunUserProvider<ExampleUserProvider>();
+```
+
 # Port
 
 When running in the local development environment, crash reports are sent to the locally running Raygun portal via port `24605`.
