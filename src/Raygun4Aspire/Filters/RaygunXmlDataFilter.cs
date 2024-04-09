@@ -25,7 +25,7 @@ namespace Raygun4Aspire.Filters
       return false;
     }
 
-    public string Filter(string data, IList<string> ignoredKeys)
+    public string? Filter(string data, IList<string> ignoredKeys)
     {
       try
       {
@@ -42,9 +42,9 @@ namespace Raygun4Aspire.Filters
       }
     }
 
-    private static void FilterElementsRecursive(IEnumerable<XElement> decendants, IList<string> ignoredKeys)
+    private static void FilterElementsRecursive(IEnumerable<XElement> descendants, IList<string> ignoredKeys)
     {
-      foreach (XElement element in decendants)
+      foreach (XElement element in descendants)
       {
         if (element.HasElements)
         {

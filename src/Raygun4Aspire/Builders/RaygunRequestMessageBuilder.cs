@@ -149,7 +149,7 @@ namespace Raygun4Aspire.Builders
         // Filter out sensitive values.
         rawData = StripSensitiveValues(rawData, options);
 
-        // Early escape if theres no data.
+        // Early escape if there's no data.
         if (string.IsNullOrEmpty(rawData))
         {
           return null;

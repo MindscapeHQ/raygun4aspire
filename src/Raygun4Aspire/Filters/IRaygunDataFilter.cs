@@ -13,9 +13,9 @@
     /// <summary>
     /// Filter the specified data by checking for the given keys whose values will be removed.
     /// </summary>
-    /// <returns>The filtered raw request data payload.</returns>
+    /// <returns>The filtered raw request data payload. Or null if the data could not be filtered.</returns>
     /// <param name="data">The raw request data payload.</param>
     /// <param name="ignoredKeys">Keys whose values should be removed.</param>
-    string Filter(string data, IList<string> ignoredKeys);
+    string? Filter(string data, IList<string> ignoredKeys);
   }
 }

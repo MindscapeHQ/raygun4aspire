@@ -236,7 +236,7 @@ Similarly, if you have any request payloads formatted as XML, then you can set `
 }
 ```
 
-You can also implement your own `IRaygunDataFilter` to suit your own situations and then register one or more of these custom filters on the RaygunSettings object (a code example for this can be seen after the below RaygunJsonDataFilter implementation example).
+You can also implement your own `IRaygunDataFilter` to suit your own situations and then register one or more of these custom filters on the RaygunSettings object (a code example for this can be seen after the below RaygunJsonDataFilter implementation example). If the filtering fails, e.g. due to an exception, then null should be returned to indicate this.
 
 Here's an example of a custom raw request data filter for the JSON data structure:
 
@@ -322,6 +322,15 @@ To get the RaygunClient to use a custom raw data filter, Change the AddRaygun st
 
 ```
 builder.AddRaygun((settings) => settings.RawDataFilters.Add(new RaygunJsonDataFilter()));
+```
+
+In the case that the filter operation failed (i.e. the filter returned null), then the original raw request data will be included in the Raygun crash report by default. If you instead want a filter failure to cause the entire raw request payload to be excluded from the Raygun crash report, then you can set the `IsRawDataIgnoredWhenFilteringFailed` option to true.
+
+```
+"RaygunSettings": {
+  "ApiKey": "YOUR_APP_API_KEY",
+  "IsRawDataIgnoredWhenFilteringFailed": true
+}
 ```
 
 ## Application version

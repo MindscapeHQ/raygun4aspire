@@ -11,7 +11,7 @@ namespace Raygun4Aspire.Filters
       return !string.IsNullOrEmpty(data) && data.Contains("=");
     }
 
-    public string Filter(string data, IList<string> ignoredKeys)
+    public string? Filter(string data, IList<string> ignoredKeys)
     {
       try
       {

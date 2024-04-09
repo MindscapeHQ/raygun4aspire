@@ -5,7 +5,7 @@ namespace Raygun4Aspire
 {
   public class RaygunSettings : RaygunSettingsBase, IRaygunHttpSettings
   {
-    public int[] ExcludedStatusCodes { get; set; }
+    public int[]? ExcludedStatusCodes { get; set; }
 
     public List<string> IgnoreSensitiveFieldNames { get; set; } = new();
 
