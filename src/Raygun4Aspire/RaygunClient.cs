@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Mindscape.Raygun4Net;
 using Raygun4Aspire.Builders;
+using System.Collections;
 using System.Diagnostics;
 
 namespace Raygun4Aspire
@@ -50,9 +51,11 @@ namespace Raygun4Aspire
     /// Asynchronously transmits an exception to Raygun with optional Http Request data.
     /// </summary>
     /// <param name="exception">The exception to deliver.</param>
-    /// <param name="tags">A List&lt;string&gt; of tags to associate to the exception.</param>
-    /// <param name="context">(Optional) The current HttpContext of the request.</param>
-    public async Task SendInBackground(Exception exception, IList<string> tags, HttpContext? context = null)
+    /// <param name="tags">(Optional) A List&lt;string&gt; of tags to associate with the exception.</param>
+    /// <param name="userCustomData">(Optional) A dictionary of any additional contextual data that could help you understand an exception occurrence.</param>
+    /// <param name="userInfo">(Optional) A <see cref="RaygunIdentifierMessage" /> of optional user information.</param>
+    /// <param name="context">(Optional) The current HttpContext of a request if applicable.</param>
+    public async Task SendInBackground(Exception exception, IList<string>? tags = null, IDictionary? userCustomData = null, RaygunIdentifierMessage? userInfo = null, HttpContext? context = null)
     {
       if (CanSend(exception))
       {
@@ -66,7 +69,7 @@ namespace Raygun4Aspire
 
         foreach (var ex in exceptions)
         {
-          var msg = await BuildMessage(ex, tags, customiseMessage: msg =>
+          var msg = await BuildMessage(ex, tags, userCustomData, userInfo, customiseMessage: msg =>
           {
             msg.Details.Request = currentRequestMessage;
             msg.Details.Response = currentResponseMessage;
