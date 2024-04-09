@@ -174,73 +174,7 @@ Similarly, if you have any request payloads formatted as XML, then you can set `
 }
 ```
 
-
-
-## Application version
-
-Raygun4Aspire will attempt to get the version of your application from the running assembly, and include that version number in each crash report. If this is not the version number you would like, you can overwrite it via the ApplicationVersion option:
-
-```
-"RaygunSettings": {
-  "ApiKey": "YOUR_APP_API_KEY",
-  "ApplicationVersion": "Avacado"
-}
-```
-
-## Throw exceptions that occur within Raygun4Aspire
-
-This option can help debug issues within Raygun4Aspire itself. Do not set this option in your production environment. Byt default, the Raygun4Aspire client will swallow any exceptions that it encounters. Setting ThrowOnError to true will cause said errors to be rethrown instead, which can be useful for troubleshooting.
-
-```
-"RaygunSettings": {
-  "ApiKey": "YOUR_APP_API_KEY",
-  "ThrowOnError": true
-}
-```
-
-# Additional features
-
-The following features are applied to the registered RaygunClient singleton. To do this, fetch the RaygunClient singleton from the Services list some time after the builder has been used to build the app.
-
-For example, in `Program.cs` of a .NET app where crash reports will be sent from:
-
-```
-// The WebApplicationBuilder is used to build the app somewhere up here
-
-var raygunClient = app.Services.GetService<RaygunClient>();
-
-// Use the raygunClient to set any features here
-```
-
-## Modify or cancel message
-
-On the RaygunClient singleton, attach an event handler to the SendingMessage event. This event handler will be called just before the RaygunClient sends an exception - either automatically or manually. The event arguments provide the RaygunMessage object that is about to be sent. One use for this event handler is to add or modify any information on the RaygunMessage. Another use for this method is to identify exceptions that you never want to send to raygun, and if so, set e.Cancel = true to cancel the send.
-
-The following example uses the SendingMessage event to set a tag that will be included on all crash reports.
-```
-var raygunClient = app.Services.GetService<RaygunClient>();
-
-raygunClient.SendingMessage += (sender, eventArgs) =>
-{
-  eventArgs.Message.Details.Tags.Add("Web API");
-};
-```
-
-## Strip wrapper exceptions
-
-If you have common outer exceptions that wrap a valuable inner exception, you can specify these by using the multi-parameter method:
-
-```
-var raygunClient = app.Services.GetService<RaygunClient>();
-
-raygunClient.AddWrapperExceptions(typeof(CustomWrapperException));
-```
-
-In this case, if a CustomWrapperException occurs, it will be removed and replaced with the actual InnerException that was the cause. Note that `TargetInvocationException` is already added to the wrapper exception list. This method is useful if you have your own custom wrapper exceptions, or a framework is throwing exceptions using its own wrapper.
-
-## Custom raw data filter
-
-As mentioned further above, there are a couple of built in ways to filter out potentially sensitive information from raw request payloads. You can also implement your own `IRaygunDataFilter` to suit your own situations and then register one or more of these custom filters on the RaygunClient singleton.
+You can also implement your own `IRaygunDataFilter` to suit your own situations and then register one or more of these custom filters on the RaygunSettings object (a code example for this can be seen after the below RaygunJsonDataFilter implementation example).
 
 Here's an example of a custom raw request data filter for the JSON data structure:
 
@@ -322,10 +256,71 @@ public class RaygunJsonDataFilter : IRaygunDataFilter
 }
 ```
 
-And here's how to register it with the RaygunClient singleton:
+To get the RaygunClient to use a custom raw data filter, Change the AddRaygun statement to use the overload that takes a lambda where you can modify the RaygunSettings object:
+
+```
+builder.AddRaygun((settings) => settings.RawDataFilters.Add(new RaygunJsonDataFilter()));
+```
+
+## Application version
+
+Raygun4Aspire will attempt to get the version of your application from the running assembly, and include that version number in each crash report. If this is not the version number you would like, you can overwrite it via the ApplicationVersion option:
+
+```
+"RaygunSettings": {
+  "ApiKey": "YOUR_APP_API_KEY",
+  "ApplicationVersion": "Avacado"
+}
+```
+
+## Throw exceptions that occur within Raygun4Aspire
+
+This option can help debug issues within Raygun4Aspire itself. Do not set this option in your production environment. Byt default, the Raygun4Aspire client will swallow any exceptions that it encounters. Setting ThrowOnError to true will cause said errors to be rethrown instead, which can be useful for troubleshooting.
+
+```
+"RaygunSettings": {
+  "ApiKey": "YOUR_APP_API_KEY",
+  "ThrowOnError": true
+}
+```
+
+# Additional features
+
+The following features are set by using the registered RaygunClient singleton. To do this, fetch the RaygunClient singleton from the Services list some time after the builder has been used to build the app.
+
+For example, in `Program.cs` of a .NET app where crash reports will be sent from:
+
+```
+// The WebApplicationBuilder is used to build the app somewhere up here
+
+var raygunClient = app.Services.GetService<RaygunClient>();
+
+// Use the raygunClient to set any features here
+```
+
+## Modify or cancel message
+
+On the RaygunClient singleton, attach an event handler to the SendingMessage event. This event handler will be called just before the RaygunClient sends an exception - either automatically or manually. The event arguments provide the RaygunMessage object that is about to be sent. One use for this event handler is to add or modify any information on the RaygunMessage. Another use for this method is to identify exceptions that you never want to send to raygun, and if so, set e.Cancel = true to cancel the send.
+
+The following example uses the SendingMessage event to set a tag that will be included on all crash reports.
+```
+var raygunClient = app.Services.GetService<RaygunClient>();
+
+raygunClient.SendingMessage += (sender, eventArgs) =>
+{
+  eventArgs.Message.Details.Tags.Add("Web API");
+};
+```
+
+## Strip wrapper exceptions
+
+If you have common outer exceptions that wrap a valuable inner exception, you can specify these by using the multi-parameter method:
 
 ```
 var raygunClient = app.Services.GetService<RaygunClient>();
 
-
+raygunClient.AddWrapperExceptions(typeof(CustomWrapperException));
 ```
+
+In this case, if a CustomWrapperException occurs, it will be removed and replaced with the actual InnerException that was the cause. Note that `TargetInvocationException` is already added to the wrapper exception list. This method is useful if you have your own custom wrapper exceptions, or a framework is throwing exceptions using its own wrapper.
+
