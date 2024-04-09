@@ -196,16 +196,14 @@ You can exclude errors by their HTTP status code by providing an array of status
 
 If you have sensitive data in an HTTP request that you wish to prevent being transmitted to Raygun, you can provide lists of possible keys (names) to remove. The available options are:
 
-* IgnoreSensitiveFieldNames
 * IgnoreQueryParameterNames
 * IgnoreFormFieldNames
 * IgnoreHeaderNames
 * IgnoreCookieNames
-* IgnoreServerVariableNames
 
 These can each be set to an array of keys to ignore. Setting an option as `*` will indicate that all the keys will not be sent to Raygun. Placing `*` before, after or at both ends of a key will perform an ends-with, starts-with or contains operation respectively. For example, `IgnoreFormFieldNames: ["*password*"]` will cause Raygun to ignore all form fields that contain "password" anywhere in the name. These options are not case sensitive.
 
-Note: The `IgnoreSensitiveFieldNames` is a catch all option that will be applied to ALL fields in the `RaygunRequestMessage`.
+Note: There is also a special `IgnoreSensitiveFieldNames` property which is a catch all option that will be applied to ALL fields in the `RaygunRequestMessage`.
 
 ## Remove sensitive data logged from the raw request payload
 

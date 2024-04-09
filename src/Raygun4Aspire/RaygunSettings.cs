@@ -17,8 +17,6 @@ namespace Raygun4Aspire
 
     public List<string> IgnoreCookieNames { get; set; } = new();
 
-    public List<string> IgnoreServerVariableNames { get; set; } = new();
-
     public List<IRaygunDataFilter> RawDataFilters { get; } = new();
 
     public bool IsRawDataIgnored { get; set; }
@@ -28,7 +26,5 @@ namespace Raygun4Aspire
     public bool UseXmlRawDataFilter { get; set; }
 
     public bool UseKeyValuePairRawDataFilter { get; set; }
-
-    public string ApplicationIdentifier { get; set; }
   }
 }

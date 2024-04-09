@@ -9,7 +9,6 @@ namespace Raygun4Aspire
     List<string> IgnoreFormFieldNames { get; }
     List<string> IgnoreHeaderNames { get; }
     List<string> IgnoreCookieNames { get; }
-    List<string> IgnoreServerVariableNames { get; }
     List<IRaygunDataFilter> RawDataFilters { get; }
 
     bool IsRawDataIgnored { get; }

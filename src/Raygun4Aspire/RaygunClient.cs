@@ -12,9 +12,6 @@ namespace Raygun4Aspire
     {
     }
 
-    // ReSharper disable MemberCanBeProtected.Global
-    // ReSharper disable SuggestBaseTypeForParameterInConstructor
-    // ReSharper disable UnusedMember.Global
     public RaygunClient(RaygunSettings settings) : base(settings)
     {
     }
@@ -30,11 +27,7 @@ namespace Raygun4Aspire
     public RaygunClient(RaygunSettings settings, HttpClient httpClient, IRaygunUserProvider userProvider) : base(settings, httpClient, userProvider)
     {
     }
-    // ReSharper restore MemberCanBeProtected.Global
-    // ReSharper restore SuggestBaseTypeForParameterInConstructor
-    // ReSharper restore UnusedMember.Global
 
-    // ReSharper disable once MemberCanBePrivate.Global
     protected Lazy<RaygunSettings> Settings => new(() => (RaygunSettings)_settings);
 
     protected override bool CanSend(RaygunMessage? message)

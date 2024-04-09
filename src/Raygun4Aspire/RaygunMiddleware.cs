@@ -6,19 +6,16 @@ namespace Raygun4Aspire
   public class RaygunMiddleware
   {
     private readonly RequestDelegate _next;
-    private readonly RaygunSettings _settings;
     private readonly RaygunClient _client;
     private readonly IHttpContextAccessor _httpContextAccessor;
 
     private const string UnhandledExceptionTag = "UnhandledException";
 
     public RaygunMiddleware(RequestDelegate next,
-                            RaygunSettings settings,
                             RaygunClient raygunClient,
                             IHttpContextAccessor httpContextAccessor)
     {
       _next = next;
-      _settings = settings;
       _client = raygunClient;
       _httpContextAccessor = httpContextAccessor;
     }
