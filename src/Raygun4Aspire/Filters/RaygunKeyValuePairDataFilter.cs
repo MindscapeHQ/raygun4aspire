@@ -51,7 +51,7 @@ namespace Raygun4Aspire.Filters
       }
     }
 
-    private bool ShouldIgnore(string[] kvp, IList<string> ignoredKeys)
+    private static bool ShouldIgnore(string[] kvp, IList<string> ignoredKeys)
     {
       bool hasKey = !string.IsNullOrEmpty(kvp[0]);
       bool hasValue = !string.IsNullOrEmpty(kvp[1]);
@@ -59,7 +59,7 @@ namespace Raygun4Aspire.Filters
       return hasKey && hasValue && Contains(ignoredKeys, kvp[0]);
     }
 
-    private bool Contains(IList<string> ignoredKeys, string key)
+    private static bool Contains(IList<string> ignoredKeys, string key)
     {
       foreach (var ignoredKey in ignoredKeys)
       {

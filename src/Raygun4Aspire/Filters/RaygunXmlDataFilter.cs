@@ -42,7 +42,7 @@ namespace Raygun4Aspire.Filters
       }
     }
 
-    private void FilterElementsRecursive(IEnumerable<XElement> decendants, IList<string> ignoredKeys)
+    private static void FilterElementsRecursive(IEnumerable<XElement> decendants, IList<string> ignoredKeys)
     {
       foreach (XElement element in decendants)
       {
@@ -57,7 +57,7 @@ namespace Raygun4Aspire.Filters
       }
     }
 
-    private void FilterElement(XElement element, IList<string> ignoredKeys)
+    private static void FilterElement(XElement element, IList<string> ignoredKeys)
     {
       // Check if a value is set first and then if this element should be filtered.
       if (!string.IsNullOrEmpty(element.Value) && ignoredKeys.Any(f => f.Equals(element.Name.LocalName, StringComparison.OrdinalIgnoreCase)))
