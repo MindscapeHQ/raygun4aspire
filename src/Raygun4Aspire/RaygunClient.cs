@@ -59,8 +59,8 @@ namespace Raygun4Aspire
         // We need to process the Request on the current thread,
         // otherwise it will be disposed while we are using it on the other thread.
         // BuildRequestMessage relies on ReadFormAsync, so we need to await it to ensure it's processed before continuing.
-        var currentRequestMessage = await RaygunAspNetCoreRequestMessageBuilder.Build(context, Settings.Value);
-        var currentResponseMessage = RaygunAspNetCoreResponseMessageBuilder.Build(context);
+        var currentRequestMessage = await RaygunRequestMessageBuilder.Build(context, Settings.Value);
+        var currentResponseMessage = RaygunResponseMessageBuilder.Build(context);
 
         var exceptions = StripWrapperExceptions(exception);
 

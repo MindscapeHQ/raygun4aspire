@@ -8,7 +8,7 @@ using System.Text;
 
 namespace Raygun4Aspire.Builders
 {
-  public class RaygunAspNetCoreRequestMessageBuilder
+  public class RaygunRequestMessageBuilder
   {
     private const int MAX_RAW_DATA_LENGTH = 4096; // bytes
 

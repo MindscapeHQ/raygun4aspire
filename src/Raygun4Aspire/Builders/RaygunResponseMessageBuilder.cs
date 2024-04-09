@@ -4,7 +4,7 @@ using Mindscape.Raygun4Net;
 
 namespace Raygun4Aspire.Builders
 {
-  public class RaygunAspNetCoreResponseMessageBuilder
+  public class RaygunResponseMessageBuilder
   {
     public static RaygunResponseMessage Build(HttpContext? context)
     {
