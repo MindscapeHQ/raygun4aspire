@@ -8,24 +8,8 @@ namespace Raygun4Aspire
 {
   public class RaygunClient : RaygunClientBase
   {
-    [Obsolete("Please use the RaygunClient(RaygunSettings settings) constructor instead.")]
-    public RaygunClient(string apiKey) : base(new RaygunSettings { ApiKey = apiKey })
-    {
-    }
-
-    public RaygunClient(RaygunSettings settings) : base(settings)
-    {
-    }
-
-    public RaygunClient(RaygunSettings settings, HttpClient httpClient) : base(settings, httpClient)
-    {
-    }
-
-    public RaygunClient(RaygunSettings settings, IRaygunUserProvider userProvider) : base(settings, userProvider)
-    {
-    }
-
-    public RaygunClient(RaygunSettings settings, HttpClient httpClient, IRaygunUserProvider userProvider) : base(settings, httpClient, userProvider)
+    public RaygunClient(RaygunSettings settings, IRaygunUserProvider userProvider)
+      : base(settings, userProvider)
     {
     }
 
