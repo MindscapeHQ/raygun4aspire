@@ -11,9 +11,17 @@
     <Description>Raygun local development portal for Aspire</Description>
     <PackageId>Raygun4Aspire</PackageId>
     <IsPackable>true</IsPackable>
-    <Version>0.0.21</Version>
+    <PackageIconUrl>https://app.raygun.com/Content/Images/nuget-icon.png</PackageIconUrl>
+    <PackageIcon>128x128-transparent.png</PackageIcon>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <Version>0.0.22</Version>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Include="..\..\README.md" Pack="true" PackagePath="\" />
+    <None Include="128x128-transparent.png" Pack="true" PackagePath="\" />
+  </ItemGroup>
+  
   <ItemGroup>
     <PackageReference Include="Aspire.Hosting" Version="8.0.0-preview.4.24156.9" />
     <PackageReference Include="Mindscape.Raygun4Net.NetCore.Common" Version="10.1.1" />
