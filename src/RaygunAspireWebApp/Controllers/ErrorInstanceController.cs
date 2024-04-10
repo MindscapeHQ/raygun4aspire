@@ -9,9 +9,7 @@ namespace RaygunAspireWebApp.Controllers
   {
     public IActionResult Details(string id)
     {
-      var folderPath = "/app/raygun/errors";
-      // TODO: do an exact match where we expect the id to be in the file name (in case an error message happens to contain the id of a different error)
-      var filePaths = Directory.GetFiles(folderPath).Where(n => n.Contains(id)).ToList();
+      var filePaths = Directory.GetFiles(IngestionController.ErrorsFolderPath).Where(n => Path.GetFileName(n).StartsWith(id)).ToList();
 
       if (filePaths.Count == 1)
       {

@@ -6,6 +6,8 @@ namespace RaygunAspireWebApp.Controllers
 {
   public class IngestionController : Controller
   {
+    public const string ErrorsFolderPath = "/app/raygun/errors";
+
     public async Task<IActionResult> Entries()
     {
       try
@@ -17,12 +19,12 @@ namespace RaygunAspireWebApp.Controllers
 
         if (raygunMessage != null)
         {
-          var info = Directory.CreateDirectory("/app/raygun/errors");
+          var info = Directory.CreateDirectory(ErrorsFolderPath);
 
           var message = raygunMessage.Details.Error.Message;
           var uniqueSlug = DateTime.UtcNow.Ticks;
 
-          System.IO.File.WriteAllText($"/app/raygun/errors/{uniqueSlug}|{message}.json", requestBody);
+          System.IO.File.WriteAllText($"{ErrorsFolderPath}/{uniqueSlug}|{message}.json", requestBody);
         }
       }
       catch (Exception ex)

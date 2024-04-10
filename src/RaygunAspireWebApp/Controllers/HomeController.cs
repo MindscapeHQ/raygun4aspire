@@ -15,10 +15,9 @@ namespace RaygunAspireWebApp.Controllers
 
     public IActionResult Index()
     {
-      var folderPath = "/app/raygun/errors";
-      if (Directory.Exists(folderPath))
+      if (Directory.Exists(IngestionController.ErrorsFolderPath))
       {
-        var files = Directory.GetFiles(folderPath)
+        var files = Directory.GetFiles(IngestionController.ErrorsFolderPath)
             .Select(filePath => new FileInfo(filePath))
             .OrderByDescending(filePath => filePath.CreationTime)
             .Select(ConvertFileInfoToErrorInstance)
