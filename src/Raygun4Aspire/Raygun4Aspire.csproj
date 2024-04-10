@@ -5,21 +5,23 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <Title>Raygun local development portal for Aspire</Title>
+    <Title>Raygun4Aspire</Title>
     <Company>Raygun</Company>
     <Authors>Raygun</Authors>
-    <Description>Raygun local development portal for Aspire</Description>
+    <Description>Raygun client for sending .NET Aspire crash reports to either a locally running Raygun portal or the Raygun cloud service.</Description>
     <PackageId>Raygun4Aspire</PackageId>
     <IsPackable>true</IsPackable>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageIconUrl>https://app.raygun.com/Content/Images/nuget-icon.png</PackageIconUrl>
     <PackageIcon>128x128-transparent.png</PackageIcon>
     <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageReleaseNotes>https://github.com/MindscapeHQ/raygun4aspire/blob/master/CHANGE-LOG.md</PackageReleaseNotes>
+    <PackageTags>crash;exception-handling;exception-reporting;exception-handler;unhandled-exceptions;debugging;debug;bug;bugs;exceptions;error;errors;crash-reporting;aspnet-core;raygun;aspire</PackageTags>
     <Version>0.0.22</Version>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="LICENSE" Pack="true" PackagePath="\" />
+    <None Include="..\..\LICENSE" Pack="true" PackagePath="\" />
     <None Include="..\..\README.md" Pack="true" PackagePath="\" />
     <None Include="128x128-transparent.png" Pack="true" PackagePath="\" />
   </ItemGroup>
