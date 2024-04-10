@@ -11,7 +11,7 @@
     <Description>Raygun local development portal for Aspire</Description>
     <PackageId>Raygun4Aspire</PackageId>
     <IsPackable>true</IsPackable>
-    <Version>0.0.18</Version>
+    <Version>0.0.21</Version>
   </PropertyGroup>
 
   <ItemGroup>

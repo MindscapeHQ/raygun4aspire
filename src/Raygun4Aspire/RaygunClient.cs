@@ -3,11 +3,15 @@ using Mindscape.Raygun4Net;
 using Raygun4Aspire.Builders;
 using System.Collections;
 using System.Diagnostics;
+using System.Reflection;
 
 namespace Raygun4Aspire
 {
   public class RaygunClient : RaygunClientBase
   {
+    private const string ClientName = "Raygun4Aspire";
+    private const string ClientUrl = "https://github.com/MindscapeHQ/raygun4aspire";
+
     public RaygunClient(RaygunSettings settings, IRaygunUserProvider userProvider)
       : base(settings, userProvider)
     {
@@ -17,6 +21,25 @@ namespace Raygun4Aspire
 
     protected override bool CanSend(RaygunMessage? message)
     {
+      if (message?.Details?.Client != null)
+      {
+        try
+        {
+          message.Details.Client.Name = ClientName;
+          message.Details.Client.ClientUrl = ClientUrl;
+          message.Details.Client.Version = Assembly.GetExecutingAssembly().GetName().Version?.ToString();
+        }
+        catch
+        {
+          message.Details.Client.Version = null;
+
+          if (Settings.Value.ThrowOnError)
+          {
+            throw;
+          }
+        }
+      }
+
       if (message?.Details?.Response == null)
       {
         return true;
