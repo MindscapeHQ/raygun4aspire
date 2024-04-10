@@ -11,6 +11,7 @@
     <Description>Raygun local development portal for Aspire</Description>
     <PackageId>Raygun4Aspire</PackageId>
     <IsPackable>true</IsPackable>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageIconUrl>https://app.raygun.com/Content/Images/nuget-icon.png</PackageIconUrl>
     <PackageIcon>128x128-transparent.png</PackageIcon>
     <PackageReadmeFile>README.md</PackageReadmeFile>
@@ -18,6 +19,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="LICENSE" Pack="true" PackagePath="\" />
     <None Include="..\..\README.md" Pack="true" PackagePath="\" />
     <None Include="128x128-transparent.png" Pack="true" PackagePath="\" />
   </ItemGroup>
