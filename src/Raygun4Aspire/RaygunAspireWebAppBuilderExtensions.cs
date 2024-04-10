@@ -11,7 +11,7 @@ namespace Raygun4Aspire
       var raygun = new RaygunAspireWebAppResource(name);
       return builder.AddResource(raygun)
                     .WithAnnotation(new EndpointAnnotation(ProtocolType.Tcp, uriScheme: "http", port: port ?? DefaultHostPort, containerPort: 8080))
-                    .WithAnnotation(new ContainerImageAnnotation { Image = "raygunaspirewebapp", Tag = "latest" })
+                    .WithAnnotation(new ContainerImageAnnotation { Image = "raygunowner/raygun-aspire-portal", Tag = "1.0.0-preview.1.0.0" })
                     .WithVolumeMount("raygun-data", "/app/raygun")
                     .PublishAsContainer();
     }

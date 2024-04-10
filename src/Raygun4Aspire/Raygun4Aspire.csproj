@@ -17,7 +17,7 @@
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageReleaseNotes>https://github.com/MindscapeHQ/raygun4aspire/blob/master/CHANGE-LOG.md</PackageReleaseNotes>
     <PackageTags>crash;exception-handling;exception-reporting;exception-handler;unhandled-exceptions;debugging;debug;bug;bugs;exceptions;error;errors;crash-reporting;aspnet-core;raygun;aspire</PackageTags>
-    <Version>0.0.22</Version>
+    <Version>1.0.0-preview.1.0.0</Version>
   </PropertyGroup>
 
   <ItemGroup>
