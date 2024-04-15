@@ -103,7 +103,7 @@ By default Raygun4Aspire ships with a `DefaultRaygunUserProvider` which will att
 
 // AddRaygun is called here
 
-builder.AddRaygunUserProvider()
+builder.AddRaygunUserProvider();
 ```
 
 Alternatively, if you want to provide your own implementation of the `IRaygunUserProvider`, you can do so by creating a class that implements that interface and then registering it via the generic `AddRaygunUserProvider` overload as seen in the example below.
@@ -115,7 +115,7 @@ public class ExampleUserProvider : IRaygunUserProvider
   
   public ExampleUserProvider(IHttpContextAccessor httpContextAccessor)
   {
-    _contextAccessor = contextAccessor;
+    _contextAccessor = httpContextAccessor;
   }
   
   public RaygunIdentifierMessage? GetUser()
@@ -135,6 +135,7 @@ public class ExampleUserProvider : IRaygunUserProvider
       {
         IsAnonymous = false
       };
+    }
     
     return null;
   }
@@ -171,7 +172,7 @@ For example, in the `appsettings.json` file:
 }
 ```
 
-The equivalent to doing this in C# is done in the `Program.cs` file of an application where you are logging exceptions from. Ammend the line where you `AddRaygun` to the WebApplicationBuilder:
+The equivalent to doing this in C# is done in the `Program.cs` file of an application where you are logging exceptions from. Amend the line where you `AddRaygun` to the WebApplicationBuilder:
 
 ```csharp
 builder.AddRaygun(settings =>
@@ -206,7 +207,7 @@ If you have sensitive data in an HTTP request that you wish to prevent being tra
 
 These can each be set to an array of keys to ignore. Setting an option as `*` will indicate that all the keys will not be sent to Raygun. Placing `*` before, after or at both ends of a key will perform an ends-with, starts-with or contains operation respectively. For example, `IgnoreFormFieldNames: ["*password*"]` will cause Raygun to ignore all form fields that contain "password" anywhere in the name. These options are not case sensitive.
 
-Note: There is also a special `IgnoreSensitiveFieldNames` property which is a catch all option that will be applied to ALL fields in the `RaygunRequestMessage`.
+Note: There is also a special `IgnoreSensitiveFieldNames` property which allows you to set common filter lists that apply to all query-parameters, form-fields, headers and cookies. (This setting is also used for filtering the raw request payload as explained further below).
 
 ## Remove sensitive data logged from the raw request payload
 
@@ -349,7 +350,7 @@ Raygun4Aspire will attempt to get the version of your application from the runni
 
 ## Throw exceptions that occur within Raygun4Aspire
 
-This option can help debug issues within Raygun4Aspire itself. Do not set this option in your production environment. Byt default, the Raygun4Aspire client will swallow any exceptions that it encounters. Setting ThrowOnError to true will cause said errors to be rethrown instead, which can be useful for troubleshooting.
+This option can help debug issues within Raygun4Aspire itself. It's highly recommended to **not set** this option in your production environment. By default, the Raygun4Aspire client will swallow any exceptions that it encounters. Setting `ThrowOnError` to true will cause said errors to be rethrown instead, which can be useful for troubleshooting Raygun4Aspire.
 
 ```json
 "RaygunSettings": {
@@ -374,7 +375,7 @@ var raygunClient = app.Services.GetService<RaygunClient>();
 
 ## Modify Raygun crash reports
 
-On the RaygunClient singleton, attach an event handler to the SendingMessage event. This event handler will be called just before the RaygunClient sends any crash report to Raygun. The event arguments provide the RaygunMessage object that is about to be sent. One use for this event handler is to add or modify any information on the RaygunMessage.
+On the RaygunClient singleton, attach an event handler to the `SendingMessage` event. This event handler will be called just before the RaygunClient sends any crash report to Raygun. The event arguments provide the `RaygunMessage` object that is about to be sent. One use for this event handler is to add or modify any information on the RaygunMessage.
 
 The following example uses the SendingMessage event to set a global tag that will be included on all crash reports.
 
@@ -389,7 +390,7 @@ raygunClient.SendingMessage += (sender, eventArgs) =>
 
 ## Cancel sending certain crash reports to Raygun
 
-On the RaygunClient singleton, attach an event handler to the SendingMessage event. This event handler will be called just before the RaygunClient sends any crash report to Raygun. Here you can analyze the crash report that's about to be sent to Raygun and use conditional logic to decide if that crash report is something you know that you don't need logged, so cancel the delivery. Set `eventArgs.Cancel` to true to avoid sending that crash report to Raygun.
+On the RaygunClient singleton, attach an event handler to the `SendingMessage` event. This event handler will be called just before the RaygunClient sends any crash report to Raygun. Here you can analyze the crash report that's about to be sent to Raygun and use conditional logic to decide if that crash report is something you know that you don't need logged, so cancel the delivery. Set `eventArgs.Cancel` to true to avoid sending that crash report to Raygun.
 
 Below is a simple example to cancel sending specific exceptions. Be sure to add null checks for properties and bounds checks when looking into arrays.
 
