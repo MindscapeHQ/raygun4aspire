@@ -15,7 +15,7 @@ namespace RaygunAspireWebApp.Controllers
         using var reader = new StreamReader(Request.Body, Encoding.UTF8);
         string requestBody = await reader.ReadToEndAsync();
 
-        var raygunMessage = JsonSerializer.Deserialize<Mindscape.Raygun4Net.RaygunMessage>(requestBody);
+        var raygunMessage = JsonSerializer.Deserialize<Mindscape.Raygun4Net.RaygunMessage>(requestBody, new JsonSerializerOptions { PropertyNameCaseInsensitive = true, Converters = { new RaygunIdentifierMessageConverter() } });
 
         if (raygunMessage != null)
         {
