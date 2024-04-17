@@ -1,3 +1,5 @@
+using Mindscape.Raygun4Net.AspNetCore;
+
 namespace RaygunAspireWebApp
 {
   public class Program
@@ -10,7 +12,15 @@ namespace RaygunAspireWebApp
       builder.Services.AddSession();
       builder.Services.AddControllersWithViews();
 
+      builder.Services.AddRaygun((settings) =>
+      {
+        settings.ApiKey = "";
+        settings.IsRawDataIgnored = true;
+      });
+
       var app = builder.Build();
+
+      app.UseRaygun();
 
       // Configure the HTTP request pipeline.
       if (!app.Environment.IsDevelopment())

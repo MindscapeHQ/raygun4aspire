@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Mindscape.Raygun4Net.AspNetCore;
 using System.Text;
 using System.Text.Json;
 
@@ -7,6 +8,13 @@ namespace RaygunAspireWebApp.Controllers
   public class IngestionController : Controller
   {
     public const string ErrorsFolderPath = "/app/raygun/errors";
+
+    private RaygunClient _raygunClient;
+
+    public IngestionController(RaygunClient raygunClient)
+    {
+      _raygunClient = raygunClient;
+    }
 
     public async Task<IActionResult> Entries()
     {
@@ -30,6 +38,7 @@ namespace RaygunAspireWebApp.Controllers
       catch (Exception ex)
       {
         Console.WriteLine(ex.ToString());
+        await _raygunClient.SendInBackground(ex);
       }
 
       return Accepted();

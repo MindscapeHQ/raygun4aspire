@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Mindscape.Raygun4Net;
+using Mindscape.Raygun4Net.AspNetCore;
 using RaygunAspireWebApp.Models;
 using System.Text.Json;
 
@@ -7,6 +8,13 @@ namespace RaygunAspireWebApp.Controllers
 {
   public class ErrorInstanceController : Controller
   {
+    private RaygunClient _raygunClient;
+
+    public ErrorInstanceController(RaygunClient raygunClient)
+    {
+      _raygunClient = raygunClient;
+    }
+
     public IActionResult Details(string id)
     {
       var filePaths = Directory.GetFiles(IngestionController.ErrorsFolderPath).Where(n => Path.GetFileName(n).StartsWith(id)).ToList();
@@ -31,7 +39,7 @@ namespace RaygunAspireWebApp.Controllers
     {
       try
       {
-        var modelString = HttpContext.Session.GetString("Model") as string;
+        var modelString = HttpContext.Session.GetString("Model");
         var model = JsonSerializer.Deserialize<ErrorInstanceViewModel>(modelString, new JsonSerializerOptions { PropertyNameCaseInsensitive = true, Converters = { new RaygunIdentifierMessageConverter() } });
 
         Console.WriteLine($"Model: {model}");
@@ -48,9 +56,10 @@ namespace RaygunAspireWebApp.Controllers
             return PartialView("Tabs/_Summary", model);
         }
       }
-      catch(Exception e)
+      catch (Exception ex)
       {
-        Console.WriteLine(e.ToString());
+        Console.WriteLine(ex.ToString());
+        _raygunClient.SendInBackground(ex);
       }
 
       return null;
