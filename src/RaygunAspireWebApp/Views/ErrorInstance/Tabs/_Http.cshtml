@@ -60,12 +60,30 @@
 
     <div class="ei-table">
       <div class="ei-label">User-agent</div>
-      <div class="ei-result">@Model.RaygunMessage.Details.Request.Headers["User-Agent"]</div>
+      <div class="ei-result">
+        @if (Model?.RaygunMessage?.Details?.Request?.Headers != null && Model.RaygunMessage.Details.Request.Headers.Contains("User-Agent") && !string.IsNullOrWhiteSpace(Model.RaygunMessage.Details.Request.Headers["User-Agent"] as string))
+        {
+          <div>@Model.RaygunMessage.Details.Request.Headers["User-Agent"]</div>
+        }
+        else
+        {
+          <div>Not provided</div>
+        }
+      </div>
     </div>
 
     <div class="ei-table">
       <div class="ei-label">Referer</div>
-      <div class="ei-result">@Model.RaygunMessage.Details.Request.Headers["Referer"]</div>
+      <div class="ei-result">
+        @if (Model?.RaygunMessage?.Details?.Request?.Headers != null && Model.RaygunMessage.Details.Request.Headers.Contains("Referer") && !string.IsNullOrWhiteSpace(Model.RaygunMessage.Details.Request.Headers["Referer"] as string))
+        {
+          <div>@Model.RaygunMessage.Details.Request.Headers["Referer"]</div>
+        }
+        else
+        {
+          <div>Not provided</div>
+        }
+      </div>
     </div>
 
     <div class="ei-table">
