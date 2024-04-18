@@ -194,7 +194,7 @@
   color: var(--color-text-disabled);
 }
 
-/* Stacktrac highlighting */
+/* Stacktrace highlighting */
 .color--color-code-object {
   color: var(--color-code-object);
 }
@@ -464,6 +464,10 @@
 
 .margin-left--24 {
   margin-left: 24px;
+}
+
+.margin-left--auto {
+  margin-left: auto;
 }
 
 .margin-right--16 {
@@ -1354,4 +1358,15 @@ pre {
   border-bottom: none;
   padding-top: 6px;
   border-top: 2px solid var(--color-bg-surface-header-strip);
+}
+
+/* Text */
+
+.footer--text {
+  color: var(--color-text-low-emphasis);
+  text-decoration: none;
+}
+
+.footer--text:hover {
+  color: var(--color-text-link-hover);
 }
