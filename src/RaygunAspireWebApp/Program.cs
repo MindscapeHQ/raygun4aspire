@@ -20,6 +20,24 @@ namespace RaygunAspireWebApp
 
       var app = builder.Build();
 
+      var raygunClient = app.Services.GetService<RaygunClient>();
+
+      if (raygunClient != null)
+      {
+        raygunClient.SendingMessage += (sender, eventArgs) =>
+        {
+          if (eventArgs?.Message?.Details != null)
+          {
+            eventArgs.Message.Details.MachineName = null;
+          }
+
+          if (eventArgs?.Message?.Details?.Request != null)
+          {
+            eventArgs.Message.Details.Request.IPAddress = null;
+          }
+        };
+      }
+
       app.UseRaygun();
 
       // Configure the HTTP request pipeline.
