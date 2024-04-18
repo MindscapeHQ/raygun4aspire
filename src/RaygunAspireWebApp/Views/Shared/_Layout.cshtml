@@ -20,6 +20,28 @@
       <div class="raygun-emblem">
         <div class="raygun-emblem__ring "></div>
         <img class="raygun-emblem__bolt" src="~/images/raygun-bolt.png" />
+        <script>
+          var emblem = document.querySelector('.raygun-emblem');
+          var bolt = document.querySelector('.raygun-emblem__bolt');
+          var ring = document.querySelector('.raygun-emblem__ring');
+          emblem.addEventListener('click', function () {
+            var shockwave = document.createElement('div');
+            shockwave.className = 'raygun-emblem__shockwave raygun-emblem__shockwave--animate';
+            shockwave.addEventListener('animationend', function () {
+              emblem.removeChild(shockwave);
+            });
+            emblem.appendChild(shockwave);
+
+            bolt.className = "raygun-emblem__bolt raygun-emblem__bolt--animate";
+            ring.className = "raygun-emblem__ring raygun-emblem__ring--animate";
+          });
+          bolt.addEventListener('animationend', function () {
+            bolt.className = "raygun-emblem__bolt";
+          });
+          ring.addEventListener('animationend', function () {
+            ring.className = "raygun-emblem__ring";
+          });
+        </script>
       </div>
     </nav>
   </header>

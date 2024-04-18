@@ -1285,6 +1285,10 @@ pre {
   border-radius: 50%;
 }
 
+.raygun-emblem:active {
+  background-color: rgba(0,0,0,0.2);
+}
+
 .raygun-emblem__ring {
   border-radius: 50%;
   border: 2px solid white;
@@ -1296,12 +1300,99 @@ pre {
   height: 24px;
 }
 
+.raygun-emblem__ring--animate {
+  animation: raygun-ring 1s forwards ease-out;
+  -webkit-animation: raygun-ring 1s forwards ease-out;
+}
+
+@keyframes raygun-ring {
+  000% {
+    border-color: rgba(255,255,255,1);
+  }
+
+  050% {
+    border-color: rgba(255,255,255,0.6);
+  }
+
+  100% {
+    border-color: rgba(255,255,255,1);
+  }
+}
+
+@-webkit-keyframes raygun-ring {
+  000% {
+    border-color: rgba(255,255,255,1);
+  }
+
+  050% {
+    border-color: rgba(255,255,255,0.6);
+  }
+
+  100% {
+    border-color: rgba(255,255,255,1);
+  }
+}
+
 .raygun-emblem__bolt {
   position: absolute;
   top: 0;
   left: 0;
   width: 24px;
   height: 24px;
+}
+
+.raygun-emblem__bolt--animate {
+  animation: raygun-bolt 1s forwards ease-out;
+  -webkit-animation: raygun-bolt 1s forwards ease-out;
+}
+
+@keyframes raygun-bolt {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.raygun-emblem__shockwave {
+  border-radius: 50%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 24px;
+  height: 24px;
+}
+
+.raygun-emblem__shockwave--animate {
+  will-change: box-shadow;
+  animation: raygun-shockwave 1s forwards ease-out;
+  -webkit-animation: raygun-shockwave 1s forwards ease-out;
+}
+
+@keyframes raygun-shockwave {
+  000% {
+    box-shadow: 0 0 0 0 rgba(255,255,255,0.4);
+    background-color: rgba(255,255,255,0.4);
+  }
+
+  100% {
+    box-shadow: 0 0 0 280px rgba(255,255,255,0);
+    background-color: rgba(255,255,255,0);
+  }
+}
+
+@-webkit-keyframes raygun-shockwave {
+  000% {
+    box-shadow: 0 0 0 0 rgba(255,255,255,0.4);
+    background-color: rgba(255,255,255,0.4);
+  }
+
+  100% {
+    box-shadow: 0 0 0 280px rgba(255,255,255,0);
+    background-color: rgba(255,255,255,0);
+  }
 }
 
 /* Error table styles */
