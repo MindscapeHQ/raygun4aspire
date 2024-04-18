@@ -1,0 +1,47 @@
+﻿@model ErrorInstanceViewModel
+
+<script src="~/js/htmx.min.js"></script>
+<script src="~/js/moment.min.js"></script>
+
+<div class="margin--24">
+  <h2 class="font-opensans--18--28--600 color--color-text-default">@Model.RaygunMessage.Details.Error.ClassName: @Model.RaygunMessage.Details.Error.Message</h2>
+
+  <p id="occurredOnHeading" class="font-opensans--14--32--600 color--color-text-low-emphasis">@Model.RaygunMessage.OccurredOn</p>
+
+  <ul class="tab-group clearfix font-opensans--14--32--600 color--color-text-default margin-top--24">
+    <li class="js-tab-item tab-group--item tab-group--item--active" hx-get="/ErrorInstance/TabContent" hx-target="#tab-content" hx-trigger="click" hx-vals='{"tab": "summary"}'>Summary</li>
+    <li class="js-tab-item tab-group--item" hx-get="/ErrorInstance/TabContent" hx-target="#tab-content" hx-trigger="click" hx-vals='{"tab": "http"}'>Http</li>
+    <li class="js-tab-item tab-group--item tab-group--item-last" hx-get="/ErrorInstance/TabContent" hx-target="#tab-content" hx-trigger="click" hx-vals='{"tab": "rawdata"}'>Raw data</li>
+  </ul>
+  <div id="tab-content" class="background--color-bg-surface-01 box-shadow--tabs border-color--color-border-elevation border-width--1 border-style--solid">
+    <partial name="Tabs/_summary" model="@Model" />
+  </div>
+</div>
+
+<script>
+  // Format the occurred on date in the header
+  var occurredOnHeading = document.getElementById('occurredOnHeading');
+  var rawDate = occurredOnHeading.textContent;
+  var momentDateUtc = moment.utc(rawDate);
+
+  var formattedDateUtc = momentDateUtc.format("MMMM Do YYYY, HH:mm:ss") + " UTC";
+  occurredOnHeading.title = formattedDateUtc
+
+  var momentDateLocal = momentDateUtc.local();
+  var formattedDate = momentDateLocal.format("MMMM Do YYYY, HH:mm:ss") + " - " + momentDateLocal.fromNow();
+  occurredOnHeading.textContent = formattedDate;
+
+  // Add a click event listener to each tab item
+  var elements = document.querySelectorAll('.js-tab-item');
+  elements.forEach(function (element) {
+    element.addEventListener('click', function () {
+      // Remove the 'active' class from all elements
+      elements.forEach(function (el) {
+        el.classList.remove('tab-group--item--active');
+      });
+
+      // Add the 'active' class to the clicked element
+      element.classList.add('tab-group--item--active');
+    });
+  });
+</script>

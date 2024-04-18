@@ -1,0 +1,39 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Title>Raygun4Aspire</Title>
+    <Company>Raygun</Company>
+    <Authors>Raygun</Authors>
+    <Description>Raygun client for sending .NET Aspire crash reports to either a locally running Raygun portal or the Raygun cloud service.</Description>
+    <PackageId>Raygun4Aspire</PackageId>
+    <IsPackable>true</IsPackable>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageIconUrl>https://app.raygun.com/Content/Images/nuget-icon.png</PackageIconUrl>
+    <PackageIcon>128x128-transparent.png</PackageIcon>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageReleaseNotes>https://github.com/MindscapeHQ/raygun4aspire/blob/master/CHANGE-LOG.md</PackageReleaseNotes>
+    <PackageTags>crash;exception-handling;exception-reporting;exception-handler;unhandled-exceptions;debugging;debug;bug;bugs;exceptions;error;errors;crash-reporting;aspnet-core;raygun;aspire</PackageTags>
+    <Copyright>Copyright © Raygun 2024</Copyright>
+    <RepositoryUrl>https://github.com/MindscapeHQ/raygun4aspire</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageProjectUrl>https://raygun.com/platform/crash-reporting</PackageProjectUrl>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <Version>1.0.0-preview.1.0.0</Version>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\LICENSE" Pack="true" PackagePath="\" />
+    <None Include="..\..\README.md" Pack="true" PackagePath="\" />
+    <None Include="128x128-transparent.png" Pack="true" PackagePath="\" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <PackageReference Include="Aspire.Hosting" Version="8.0.0-preview.4.24156.9" />
+    <PackageReference Include="Mindscape.Raygun4Net.NetCore.Common" Version="10.1.1" />
+  </ItemGroup>
+
+</Project>

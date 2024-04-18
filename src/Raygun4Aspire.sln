@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.10.34707.107
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Raygun4Aspire", "Raygun4Aspire\Raygun4Aspire.csproj", "{3CD98AC6-F4CD-4EA7-871B-154C2AFBEB86}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RaygunAspireWebApp", "RaygunAspireWebApp\RaygunAspireWebApp.csproj", "{7382213A-15D4-473E-99C4-6F00683A0DCB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3CD98AC6-F4CD-4EA7-871B-154C2AFBEB86}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3CD98AC6-F4CD-4EA7-871B-154C2AFBEB86}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3CD98AC6-F4CD-4EA7-871B-154C2AFBEB86}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3CD98AC6-F4CD-4EA7-871B-154C2AFBEB86}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7382213A-15D4-473E-99C4-6F00683A0DCB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7382213A-15D4-473E-99C4-6F00683A0DCB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7382213A-15D4-473E-99C4-6F00683A0DCB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7382213A-15D4-473E-99C4-6F00683A0DCB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F98F5800-9E7C-4550-9F6C-F6287E815E02}
+	EndGlobalSection
+EndGlobal

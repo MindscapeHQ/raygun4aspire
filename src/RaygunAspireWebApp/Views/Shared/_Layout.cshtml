@@ -1,0 +1,44 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>@ViewData["Title"] - RaygunAspireWebApp</title>
+  <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+  <link rel="stylesheet" href="~/css/theme-default.css" asp-append-version="true" />
+  <link rel="stylesheet" href="~/css/utility-styles.css" asp-append-version="true" />
+  <link rel="stylesheet" href="~/RaygunAspireWebApp.styles.css" asp-append-version="true" />
+  <link rel="stylesheet" href="~/css/prism.css" asp-append-version="true" />
+</head>
+<body class="background--color-main-background">
+  <header class="position--fixed top--0 left--0 width--full z-index--max">
+    <nav class="background--color-bg-surface-header-strip display--flex flex-direction--row gap--8 height--48">
+      <a href="/">
+        <img class="raygun-logo align-items--center display--flex margin-left--16 margin-top--12" src="~/images/6344bbf42c1388e74c4a5c87_web-colour-landscape-white-text.svg" alt="Raygun logo" />
+      </a>
+      <div class="raygun-emblem">
+        <div class="raygun-emblem__ring "></div>
+        <img class="raygun-emblem__bolt" src="~/images/raygun-bolt.png" />
+      </div>
+    </nav>
+  </header>
+  <div class="container padding-top--48">
+    <main role="main" class="pb-3">
+      @RenderBody()
+    </main>
+  </div>
+
+  <footer class="background--color-bg-surface-footer height--48 position--absolute bottom--0 align-items--center display--flex width--full text-muted">
+    <div class="container">
+      <div class="text-align--right margin-right--24">
+        &copy; 2024 - Raygun
+      </div>
+    </div>
+  </footer>
+  <script src="~/lib/jquery/dist/jquery.min.js"></script>
+  <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="~/js/site.js" asp-append-version="true"></script>
+  @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
