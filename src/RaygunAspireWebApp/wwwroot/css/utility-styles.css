@@ -194,6 +194,14 @@
   color: var(--color-text-disabled);
 }
 
+.color--color-text-brand-default {
+  color: var(--color-bg-brand-default);
+}
+
+.color--color-text-gray-600 {
+  color: var(--blue-gray-600);
+}
+
 /* Stacktrace highlighting */
 .color--color-code-object {
   color: var(--color-code-object);
@@ -336,6 +344,30 @@
   font-style: normal;
   font-weight: 600;
   line-height: 32px;
+}
+
+.font-opensans--18--32--400 {
+  font-family: Open-Sans, Arial, Helvetica, sans-serif;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 32px;
+}
+
+.font-opensans--24--30--700 {
+  font-family: Open-Sans, Arial, Helvetica, sans-serif;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 30px;
+}
+
+.font-opensans--48--35--700 {
+  font-family: Open-Sans, Arial, Helvetica, sans-serif;
+  font-size: 48px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 35px;
 }
 
 .font-size--0 {

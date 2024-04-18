@@ -1,20 +1,20 @@
 ﻿@{
     ViewData["Title"] = "Privacy Policy";
 }
-<h1>@ViewData["Title"]</h1>
+<h1 class="font-opensans--48--35--700 color--color-text-brand-default margin-top--48 margin-bottom--24">@ViewData["Title"]</h1>
 
-<p>This page details the way data is treated within this locally running Raygun Aspire application, not the Raygun cloud service. When dealing with data that is sent to the Raygun cloud service, you can read its respective <a href="https://raygun.com/privacy" target="_blank">Privacy Policy here</a>.</p>
+<p class="font-opensans--18--32--400 color--color-text-gray-600">This page details the way data is treated within this locally running Raygun Aspire application, not the Raygun cloud service. When dealing with data that is sent to the Raygun cloud service, you can read its respective <a class="color--color-text-link no-underline" href="https://raygun.com/privacy" target="_blank">Privacy Policy here</a>.</p>
 
-<h2>Local data is kept local</h2>
+<h2 class="font-opensans--24--30--700 color--color-text-brand-default margin-top--48 margin-bottom--24">Local data is kept local</h2>
 
-<p>By integrating Raygun4Aspire into your Aspire projects and <b>running them locally</b>, exception data will be transmitted to this locally running Raygun portal that you are currently looking at. All this data is kept within your local development environment and will never be sent to the Raygun cloud service.</p>
+<p class="font-opensans--18--32--400 color--color-text-gray-600">By integrating Raygun4Aspire into your Aspire projects and <b>running them locally</b>, exception data will be transmitted to this locally running Raygun portal that you are currently looking at. All this data is kept within your local development environment and will never be sent to the Raygun cloud service.</p>
 
-<p>Your local Raygun exception data is persisted in a Docker Volume labelled "raygun-data". As this is on your local development machine, you are free to do with it what you will, including deleting it all.</p>
+<p class="font-opensans--18--32--400 color--color-text-gray-600">Your local Raygun exception data is persisted in a Docker Volume labelled "raygun-data". As this is on your local development machine, you are free to do with it what you will, including deleting it all.</p>
 
-<h2>Optionally sending your exception data to the Raygun cloud service</h2>
+<h2 class="font-opensans--24--30--700 color--color-text-brand-default margin-top--48 margin-bottom--24">Optionally sending your exception data to the Raygun cloud service</h2>
 
-<p>As outlined in the <a href="https://github.com/MindscapeHQ/raygun4aspire?tab=readme-ov-file#4-optionally-send-crash-reports-in-production-to-the-raygun-cloud-service" target="_blank">Raygun4Aspire setup instructions</a>, if you provide a Raygun application API key, then exceptions that are captured in a non-development environment will be sent to your Raygun cloud service account. <a href="https://raygun.com/privacy" target="_blank">View the Raygun cloud service Privacy Policy here</a>.</p>
+<p class="font-opensans--18--32--400 color--color-text-gray-600">As outlined in the <a class="color--color-text-link no-underline" href="https://github.com/MindscapeHQ/raygun4aspire?tab=readme-ov-file#4-optionally-send-crash-reports-in-production-to-the-raygun-cloud-service" target="_blank">Raygun4Aspire setup instructions</a>, if you provide a Raygun application API key, then exceptions that are captured in a non-development environment will be sent to <b>your</b> Raygun cloud service account. <a class="color--color-text-link no-underline" href="https://raygun.com/privacy" target="_blank">View the Raygun cloud service Privacy Policy here</a>.</p>
 
-<h2>Raygun uses Raygun</h2>
+<h2 class="font-opensans--24--30--700 color--color-text-brand-default margin-top--48 margin-bottom--24">Raygun uses Raygun</h2>
 
-<p>This locally running Raygun portal that you are currently viewing also has a Raygun client integrated into it. This means that any exceptions that this app encounters will be sent to the Raygun cloud service where Raygun engineers can view them. This allows us to fix problems with this app to provide you with a better experience - much like what you would use Raygun for in production. Said exception data that is sent to Raygun will not include any PII or any of the data that is being transmitted from your local Aspire projects to this locally running Raygun portal.</p>
+<p class="font-opensans--18--32--400 color--color-text-gray-600">This locally running Raygun portal that you are currently viewing also has a Raygun client integrated into it. This means that any exceptions that this app encounters will be sent to the Raygun cloud service where Raygun engineers can view them. This allows us to fix problems with this app to provide you with a better experience - much like what you would use Raygun for in production. Said exception data that is sent to Raygun will not include any personally identifiable information or any of the data that is being transmitted from your local Aspire projects to this locally running Raygun portal.</p>
