@@ -31,116 +31,122 @@
   }
 }
 
-<section class="padding--24">
-  <header class="margin-bottom--12 border-width--0 border-bottom-width--1 border-style--solid border-color--color-border-elevation">
-    <h4 class="font-opensans--14--32--600 color--color-text-low-emphasis">Request</h4>
-  </header>
+@if (Model?.RaygunMessage?.Details?.Request != null)
+{
+  <section class="padding--24">
+    <header class="margin-bottom--12 border-width--0 border-bottom-width--1 border-style--solid border-color--color-border-elevation">
+      <h4 class="font-opensans--14--32--600 color--color-text-low-emphasis">Request</h4>
+    </header>
 
-  <div class="ei-table">
-    <div class="ei-label">HTTP method</div>
-    <div class="ei-result">@Model.RaygunMessage.Details.Request.HttpMethod</div>
-  </div>
-
-  <div class="ei-table">
-    <div class="ei-label">Host name</div>
-    <div class="ei-result">@Model.RaygunMessage.Details.Request.HostName</div>
-  </div>
-
-  <div class="ei-table">
-    <div class="ei-label">IP address</div>
-    <div class="ei-result">@Model.RaygunMessage.Details.Request.IPAddress</div>
-  </div>
-
-  <div class="ei-table">
-    <div class="ei-label">URL</div>
-    <div class="ei-result"><a class="no-underline color--color-text-link" href="@Model.RaygunMessage.Details.Request.Url" target="_blank">@Model.RaygunMessage.Details.Request.Url</a></div>
-  </div>
-
-  <div class="ei-table">
-    <div class="ei-label">User-agent</div>
-    <div class="ei-result">@Model.RaygunMessage.Details.Request.Headers["User-Agent"]</div>
-  </div>
-
-  <div class="ei-table">
-    <div class="ei-label">Referer</div>
-    <div class="ei-result">@Model.RaygunMessage.Details.Request.Headers["Referer"]</div>
-  </div>
-
-  <div class="ei-table">
-    <div class="ei-label">Query string</div>
-    <div class="ei-result">
-      <pre><code class="language-json">@SimplifyJson(JsonSerializer.Serialize(Model.RaygunMessage.Details.Request.QueryString, new JsonSerializerOptions { WriteIndented = true, }))</code></pre>
+    <div class="ei-table">
+      <div class="ei-label">HTTP method</div>
+      <div class="ei-result">@Model.RaygunMessage.Details.Request.HttpMethod</div>
     </div>
-  </div>
 
-  <div class="ei-table">
-    <div class="ei-label">Cookie values</div>
-    <div class="ei-result">
-      @if (Model?.RaygunMessage?.Details?.Request?.Cookies != null && Model.RaygunMessage.Details.Request.Cookies.Count > 0)
-      {
-        if (Model.RaygunMessage.Details.Request.Cookies.Count == 1)
+    <div class="ei-table">
+      <div class="ei-label">Host name</div>
+      <div class="ei-result">@Model.RaygunMessage.Details.Request.HostName</div>
+    </div>
+
+    <div class="ei-table">
+      <div class="ei-label">IP address</div>
+      <div class="ei-result">@Model.RaygunMessage.Details.Request.IPAddress</div>
+    </div>
+
+    <div class="ei-table">
+      <div class="ei-label">URL</div>
+      <div class="ei-result"><a class="no-underline color--color-text-link" href="@Model.RaygunMessage.Details.Request.Url" target="_blank">@Model.RaygunMessage.Details.Request.Url</a></div>
+    </div>
+
+    <div class="ei-table">
+      <div class="ei-label">User-agent</div>
+      <div class="ei-result">@Model.RaygunMessage.Details.Request.Headers["User-Agent"]</div>
+    </div>
+
+    <div class="ei-table">
+      <div class="ei-label">Referer</div>
+      <div class="ei-result">@Model.RaygunMessage.Details.Request.Headers["Referer"]</div>
+    </div>
+
+    <div class="ei-table">
+      <div class="ei-label">Query string</div>
+      <div class="ei-result">
+        <pre><code class="language-json">@SimplifyJson(JsonSerializer.Serialize(Model.RaygunMessage.Details.Request.QueryString, new JsonSerializerOptions { WriteIndented = true, }))</code></pre>
+      </div>
+    </div>
+
+    <div class="ei-table">
+      <div class="ei-label">Cookie values</div>
+      <div class="ei-result">
+        @if (Model?.RaygunMessage?.Details?.Request?.Cookies != null && Model.RaygunMessage.Details.Request.Cookies.Count > 0)
         {
-          <div>1 cookie</div>
+          if (Model.RaygunMessage.Details.Request.Cookies.Count == 1)
+          {
+            <div>1 cookie</div>
+          }
+          else
+          {
+            <div>@Model.RaygunMessage.Details.Request.Cookies.Count cookies</div>
+          }
+          <pre><code class="language-json">@SimplifyJson(@JsonSerializer.Serialize(Model.RaygunMessage.Details.Request.Cookies, new JsonSerializerOptions { WriteIndented = true }))</code></pre>
         }
         else
         {
-          <div>@Model.RaygunMessage.Details.Request.Cookies.Count cookies</div>
+          <div>Not provided</div>
         }
-        <pre><code class="language-json">@SimplifyJson(@JsonSerializer.Serialize(Model.RaygunMessage.Details.Request.Cookies, new JsonSerializerOptions { WriteIndented = true }))</code></pre>
-      }
-      else
-      {
-        <div>Not provided</div>
-      }
+      </div>
     </div>
-  </div>
 
-  <div class="ei-table">
-    <div class="ei-label">Header values</div>
-    <div class="ei-result">
-      <pre><code class="language-json">@SimplifyJson(@JsonSerializer.Serialize(Model.RaygunMessage.Details.Request.Headers, new JsonSerializerOptions { WriteIndented = true }))</code></pre>
+    <div class="ei-table">
+      <div class="ei-label">Header values</div>
+      <div class="ei-result">
+        <pre><code class="language-json">@SimplifyJson(@JsonSerializer.Serialize(Model.RaygunMessage.Details.Request.Headers, new JsonSerializerOptions { WriteIndented = true }))</code></pre>
+      </div>
     </div>
-  </div>
 
-  <div class="ei-table">
-    <div class="ei-label">Form values</div>
-    <div class="ei-result">
-      @if (Model?.RaygunMessage?.Details?.Request?.Form != null)
-      {
-        <pre><code class="language-json">@SimplifyJson(JsonSerializer.Serialize(Model.RaygunMessage.Details.Request.Form, new JsonSerializerOptions { WriteIndented = true, }))</code></pre>
-      }
-      else
-      {
-        <div>Not provided</div>
-      }
+    <div class="ei-table">
+      <div class="ei-label">Form values</div>
+      <div class="ei-result">
+        @if (Model?.RaygunMessage?.Details?.Request?.Form != null)
+        {
+          <pre><code class="language-json">@SimplifyJson(JsonSerializer.Serialize(Model.RaygunMessage.Details.Request.Form, new JsonSerializerOptions { WriteIndented = true, }))</code></pre>
+        }
+        else
+        {
+          <div>Not provided</div>
+        }
+      </div>
     </div>
-  </div>
 
-  <div class="ei-table">
-    <div class="ei-label">Raw request data</div>
-    <div class="ei-result">
-      <pre><code>@Model.RaygunMessage.Details.Request.RawData</code></pre>
+    <div class="ei-table">
+      <div class="ei-label">Raw request data</div>
+      <div class="ei-result">
+        <pre><code>@Model.RaygunMessage.Details.Request.RawData</code></pre>
+      </div>
     </div>
-  </div>
 
-</section>
+  </section>
+}
 
-<section class="padding--24">
-  <header class="margin-bottom--12 border-width--0 border-bottom-width--1 border-style--solid border-color--color-border-elevation">
-    <h4 class="font-opensans--14--32--600 color--color-text-low-emphasis">Response</h4>
-  </header>
+@if (Model?.RaygunMessage?.Details?.Response != null)
+{
+  <section class="padding--24">
+    <header class="margin-bottom--12 border-width--0 border-bottom-width--1 border-style--solid border-color--color-border-elevation">
+      <h4 class="font-opensans--14--32--600 color--color-text-low-emphasis">Response</h4>
+    </header>
   
-  <div class="ei-table">
-    <div class="ei-label">Status code</div>
-    <div class="ei-result">@Model.RaygunMessage.Details.Response.StatusCode</div>
-  </div>
+    <div class="ei-table">
+      <div class="ei-label">Status code</div>
+      <div class="ei-result">@Model.RaygunMessage.Details.Response.StatusCode</div>
+    </div>
 
-  <div class="ei-table">
-    <div class="ei-label">Status description</div>
-    <div class="ei-result">@Model.RaygunMessage.Details.Response.StatusDescription</div>
-  </div>
+    <div class="ei-table">
+      <div class="ei-label">Status description</div>
+      <div class="ei-result">@Model.RaygunMessage.Details.Response.StatusDescription</div>
+    </div>
 
-</section>
+  </section>
+}
 
 <script src="~/js/prism.js"></script>
 <script src="~/js/prism-json.min.js"></script>
