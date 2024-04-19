@@ -40,28 +40,64 @@
 
     <div class="ei-table">
       <div class="ei-label">HTTP method</div>
-      <div class="ei-result">@Model.RaygunMessage.Details.Request.HttpMethod</div>
+      <div class="ei-result">
+        @if (!string.IsNullOrWhiteSpace(Model.RaygunMessage.Details.Request.HttpMethod))
+        {
+          <div>@Model.RaygunMessage.Details.Request.HttpMethod</div>
+        }
+        else
+        {
+          <div>Not provided</div>
+        }
+      </div>
     </div>
 
     <div class="ei-table">
       <div class="ei-label">Host name</div>
-      <div class="ei-result">@Model.RaygunMessage.Details.Request.HostName</div>
+      <div class="ei-result">
+        @if (!string.IsNullOrWhiteSpace(Model.RaygunMessage.Details.Request.HostName))
+        {
+          <div>@Model.RaygunMessage.Details.Request.HostName</div>
+        }
+        else
+        {
+          <div>Not provided</div>
+        }
+      </div>
     </div>
 
     <div class="ei-table">
       <div class="ei-label">IP address</div>
-      <div class="ei-result">@Model.RaygunMessage.Details.Request.IPAddress</div>
+      <div class="ei-result">
+        @if (!string.IsNullOrWhiteSpace(Model.RaygunMessage.Details.Request.IPAddress))
+        {
+          <div>@Model.RaygunMessage.Details.Request.IPAddress</div>
+        }
+        else
+        {
+          <div>Not provided</div>
+        }
+      </div>
     </div>
 
     <div class="ei-table">
       <div class="ei-label">URL</div>
-      <div class="ei-result"><a class="no-underline color--color-text-link" href="@Model.RaygunMessage.Details.Request.Url" target="_blank">@Model.RaygunMessage.Details.Request.Url</a></div>
+      <div class="ei-result">
+        @if (!string.IsNullOrWhiteSpace(Model.RaygunMessage.Details.Request.Url))
+        {
+          <a class="no-underline color--color-text-link" href="@Model.RaygunMessage.Details.Request.Url" target="_blank">@Model.RaygunMessage.Details.Request.Url</a>
+        }
+        else
+        {
+          <div>Not provided</div>
+        }
+      </div>
     </div>
 
     <div class="ei-table">
       <div class="ei-label">User-agent</div>
       <div class="ei-result">
-        @if (Model?.RaygunMessage?.Details?.Request?.Headers != null && Model.RaygunMessage.Details.Request.Headers.Contains("User-Agent") && !string.IsNullOrWhiteSpace(Model.RaygunMessage.Details.Request.Headers["User-Agent"] as string))
+        @if (Model.RaygunMessage.Details.Request.Headers != null && Model.RaygunMessage.Details.Request.Headers.Contains("User-Agent") && Model.RaygunMessage.Details.Request.Headers["User-Agent"] != null && !string.IsNullOrWhiteSpace(Model.RaygunMessage.Details.Request.Headers["User-Agent"].ToString()))
         {
           <div>@Model.RaygunMessage.Details.Request.Headers["User-Agent"]</div>
         }
@@ -75,7 +111,7 @@
     <div class="ei-table">
       <div class="ei-label">Referer</div>
       <div class="ei-result">
-        @if (Model?.RaygunMessage?.Details?.Request?.Headers != null && Model.RaygunMessage.Details.Request.Headers.Contains("Referer") && !string.IsNullOrWhiteSpace(Model.RaygunMessage.Details.Request.Headers["Referer"] as string))
+        @if (Model.RaygunMessage.Details.Request.Headers != null && Model.RaygunMessage.Details.Request.Headers.Contains("Referer") && Model.RaygunMessage.Details.Request.Headers["Referer"] != null && !string.IsNullOrWhiteSpace(Model.RaygunMessage.Details.Request.Headers["Referer"].ToString()))
         {
           <div>@Model.RaygunMessage.Details.Request.Headers["Referer"]</div>
         }
@@ -89,14 +125,21 @@
     <div class="ei-table">
       <div class="ei-label">Query string</div>
       <div class="ei-result">
-        <pre><code class="language-json">@SimplifyJson(JsonSerializer.Serialize(Model.RaygunMessage.Details.Request.QueryString, new JsonSerializerOptions { WriteIndented = true, }))</code></pre>
+        @if (Model.RaygunMessage.Details.Request.QueryString != null && Model.RaygunMessage.Details.Request.QueryString.Count > 0)
+        {
+          <pre><code class="language-json">@SimplifyJson(JsonSerializer.Serialize(Model.RaygunMessage.Details.Request.QueryString, new JsonSerializerOptions { WriteIndented = true, }))</code></pre>
+        }
+        else
+        {
+          <div>Not provided</div>
+        }
       </div>
     </div>
 
     <div class="ei-table">
       <div class="ei-label">Cookie values</div>
       <div class="ei-result">
-        @if (Model?.RaygunMessage?.Details?.Request?.Cookies != null && Model.RaygunMessage.Details.Request.Cookies.Count > 0)
+        @if (Model.RaygunMessage.Details.Request.Cookies != null && Model.RaygunMessage.Details.Request.Cookies.Count > 0)
         {
           if (Model.RaygunMessage.Details.Request.Cookies.Count == 1)
           {
@@ -118,14 +161,21 @@
     <div class="ei-table">
       <div class="ei-label">Header values</div>
       <div class="ei-result">
-        <pre><code class="language-json">@SimplifyJson(@JsonSerializer.Serialize(Model.RaygunMessage.Details.Request.Headers, new JsonSerializerOptions { WriteIndented = true }))</code></pre>
+        @if (Model.RaygunMessage.Details.Request.Headers != null && Model.RaygunMessage.Details.Request.Headers.Count > 0)
+        {
+          <pre><code class="language-json">@SimplifyJson(@JsonSerializer.Serialize(Model.RaygunMessage.Details.Request.Headers, new JsonSerializerOptions { WriteIndented = true }))</code></pre>
+        }
+        else
+        {
+          <div>Not provided</div>
+        }
       </div>
     </div>
 
     <div class="ei-table">
       <div class="ei-label">Form values</div>
       <div class="ei-result">
-        @if (Model?.RaygunMessage?.Details?.Request?.Form != null)
+        @if (Model.RaygunMessage.Details.Request.Form != null && Model.RaygunMessage.Details.Request.Form.Count > 0)
         {
           <pre><code class="language-json">@SimplifyJson(JsonSerializer.Serialize(Model.RaygunMessage.Details.Request.Form, new JsonSerializerOptions { WriteIndented = true, }))</code></pre>
         }
@@ -139,7 +189,14 @@
     <div class="ei-table">
       <div class="ei-label">Raw request data</div>
       <div class="ei-result">
-        <pre><code>@Model.RaygunMessage.Details.Request.RawData</code></pre>
+        @if (!string.IsNullOrWhiteSpace(Model.RaygunMessage.Details.Request.RawData))
+        {
+          <pre><code>@Model.RaygunMessage.Details.Request.RawData</code></pre>
+        }
+        else
+        {
+          <div>Not provided</div>
+        }
       </div>
     </div>
 
@@ -160,7 +217,17 @@
 
     <div class="ei-table">
       <div class="ei-label">Status description</div>
-      <div class="ei-result">@Model.RaygunMessage.Details.Response.StatusDescription</div>
+      <div class="ei-result">
+        @if (!string.IsNullOrWhiteSpace(Model.RaygunMessage.Details.Response.StatusDescription))
+        {
+          <div>@Model.RaygunMessage.Details.Response.StatusDescription</div>
+        }
+        else
+        {
+          <div>Not provided</div>
+        }
+      </div>
+
     </div>
 
   </section>
