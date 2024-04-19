@@ -6,6 +6,8 @@ namespace RaygunAspireWebApp.Controllers
 {
   public class HomeController : Controller
   {
+    private const int PageSize = 1;
+
     private readonly ILogger<HomeController> _logger;
 
     public HomeController(ILogger<HomeController> logger)
@@ -15,18 +17,32 @@ namespace RaygunAspireWebApp.Controllers
 
     public IActionResult Index()
     {
+      var model = CreateErrorListViewModel();
+
+      return View(model);
+    }
+
+    public IActionResult ErrorList()
+    {
+      var model = CreateErrorListViewModel();
+
+      return PartialView("_ErrorList", model);
+    }
+
+    private ErrorListViewModel CreateErrorListViewModel()
+    {
       if (Directory.Exists(IngestionController.ErrorsFolderPath))
       {
-        var files = Directory.GetFiles(IngestionController.ErrorsFolderPath)
+        var errors = Directory.GetFiles(IngestionController.ErrorsFolderPath)
             .Select(filePath => new FileInfo(filePath))
             .OrderByDescending(filePath => filePath.CreationTime)
             .Select(ConvertFileInfoToErrorInstance)
-            .ToList();
+        .ToList();
 
-        return View(files);
+        return new ErrorListViewModel() { Errors = errors };
       }
 
-      return View(new List<ErrorInstanceRow>());
+      return new ErrorListViewModel() { Errors = new List<ErrorInstanceRow>() };
     }
 
     private ErrorInstanceRow ConvertFileInfoToErrorInstance(FileInfo fileInfo)
