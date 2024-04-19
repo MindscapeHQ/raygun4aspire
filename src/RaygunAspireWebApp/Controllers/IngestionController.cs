@@ -29,8 +29,13 @@ namespace RaygunAspireWebApp.Controllers
         {
           var info = Directory.CreateDirectory(ErrorsFolderPath);
 
-          var message = raygunMessage.Details.Error.Message;
+          var message = raygunMessage.Details?.Error?.Message;
           var uniqueSlug = DateTime.UtcNow.Ticks;
+
+          if (string.IsNullOrWhiteSpace(message))
+          {
+            message = "Unknown error";
+          }
 
           System.IO.File.WriteAllText($"{ErrorsFolderPath}/{uniqueSlug}|{message}.json", requestBody);
         }
