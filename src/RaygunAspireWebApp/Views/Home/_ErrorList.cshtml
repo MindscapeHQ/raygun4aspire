@@ -22,16 +22,20 @@
     }
   </tbody>
 </table>
-<a class="load-more-button" hx-get="/Home/ErrorList" hx-target="#error-list-container" hx-trigger="click">
-  <strong>Load more (50/62)</strong>
-</a>
 @if (Model.Errors.Count == 0)
 {
   <div class="border-bottom-width--1 border-color--color-border-elevation border-bottom-style--solid padding--24">
     <p class="font-opensans--14--24--600 color--color-text-link-default text-align--center margin--0">No errors, congratulations!</p>
   </div>
 }
-<div class="padding--24"></div>
+<div class="padding--24">
+  @if(Model.Loaded != Model.Total)
+  {
+    <a class="load-more-button" hx-get="/Home/ErrorList" hx-target="#error-list-container" hx-trigger="click" hx-vals='{"loaded": @Model.Loaded}'>
+      <strong>Load more (@Model.Loaded/@Model.Total)</strong>
+    </a>
+  }
+</div>
 
 <script src="~/js/moment.min.js"></script>
 <script>
