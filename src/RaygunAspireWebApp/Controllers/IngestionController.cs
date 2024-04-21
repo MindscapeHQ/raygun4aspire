@@ -9,6 +9,8 @@ namespace RaygunAspireWebApp.Controllers
   {
     public const string ErrorsFolderPath = "/app/raygun/errors";
 
+    private const int RetentionCount = 1000;
+
     private RaygunClient _raygunClient;
 
     public IngestionController(RaygunClient raygunClient)
@@ -38,6 +40,8 @@ namespace RaygunAspireWebApp.Controllers
           }
 
           System.IO.File.WriteAllText($"{ErrorsFolderPath}/{uniqueSlug}|{message}.json", requestBody);
+
+          EnforceRetentionAsync();
         }
       }
       catch (Exception ex)
@@ -47,6 +51,23 @@ namespace RaygunAspireWebApp.Controllers
       }
 
       return Accepted();
+    }
+
+    private void EnforceRetentionAsync()
+    {
+      var files = Directory.GetFiles(ErrorsFolderPath)
+            .Select(filePath => new FileInfo(filePath))
+            .OrderBy(filePath => filePath.CreationTime).ToList();
+
+      if (files.Count > RetentionCount)
+      {
+        var countToDelete = files.Count - RetentionCount;
+        for (var i = 0; i < countToDelete; i++)
+        {
+          var file = files[i];
+          System.IO.File.Delete(file.FullName);
+        }
+      }
     }
   }
 }
