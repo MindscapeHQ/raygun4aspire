@@ -26,7 +26,7 @@ builder.AddRaygun();
 // The builder is used to build and run the app somewhere down here
 ```
 
-The steps so far will cause a Raygun resource to be listed in the orchestration app. Clicking on the URL of that resource will open a local Raygun portal in a new tab where you'll later be able to view crash reports captured in your local development environment.
+The steps so far will cause a Raygun resource to be listed in the orchestration app. Clicking on the URL of that resource will open a local Raygun portal in a new tab where you'll later be able to view up to 1,000 crash reports captured in your local development environment.
 
 ## 3. Instrument your .NET projects
 
