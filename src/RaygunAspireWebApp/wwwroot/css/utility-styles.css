@@ -1518,3 +1518,14 @@ pre {
   max-width: 100%;
   text-decoration: none !important;
 }
+
+.load-more-button:hover {
+  background-color: #fcfcfc;
+  background-image: linear-gradient(to bottom, #fcfcfc 0%, #f4f6fa 100%);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+}
+
+.load-more-button:active {
+  background: #e1e1e1;
+  box-shadow: none;
+}
