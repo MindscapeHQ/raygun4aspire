@@ -6,7 +6,7 @@ namespace RaygunAspireWebApp.Controllers
 {
   public class HomeController : Controller
   {
-    private const int PageSize = 1;
+    private const int PageSize = 50;
 
     private readonly ILogger<HomeController> _logger;
 
