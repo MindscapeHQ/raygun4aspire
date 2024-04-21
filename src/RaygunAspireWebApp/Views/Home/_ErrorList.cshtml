@@ -32,7 +32,7 @@
   @if(Model.Loaded != Model.Total)
   {
     <a class="load-more-button" hx-get="/Home/ErrorList" hx-target="#error-list-container" hx-trigger="click" hx-vals='{"loaded": @Model.Loaded}'>
-      <strong>Load more (@Model.Loaded/@Model.Total)</strong>
+      Load more (@Model.Loaded/@Model.Total)
     </a>
   }
 </div>

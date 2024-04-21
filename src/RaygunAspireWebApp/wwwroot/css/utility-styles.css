@@ -1506,9 +1506,9 @@ pre {
   height: 40px;
   padding: 11px;
   font-size: 14px;
+  font-weight:bold;
   user-select: none;
-  font-weight: bold;
-  font-family: "Open-Sans", Arial, Helvetica, sans-serif;
+  font-family: Open-Sans, Arial, Helvetica, sans-serif;
   cursor: pointer;
   text-align: center;
   max-width: 100%;
