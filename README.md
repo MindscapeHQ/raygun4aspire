@@ -1,6 +1,6 @@
 # Raygun4Aspire
 
-[Raygun](http://raygun.com) provider for .NET Aspire projects. Collects crash reports from .NET code and displays them in a locally running Raygun portal. Optionally can be configured to send crash reports to the [Raygun](http://raygun.com) cloud service from your production environment.
+[Raygun](http://raygun.com) provider for .NET Aspire projects. Collects crash reports from .NET code and displays them in a locally running Raygun portal. Optionally can be configured to send crash reports to the [Raygun](http://raygun.com) cloud service from your production environment. Tested to work with .NET 8.0 Aspire Preview 5.
 
 # Installation
 
