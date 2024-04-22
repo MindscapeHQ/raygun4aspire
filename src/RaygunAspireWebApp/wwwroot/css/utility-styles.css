@@ -370,6 +370,14 @@
   line-height: 35px;
 }
 
+.font-sourcecode--14--32--400 {
+  font-family: "Source Code Pro", Consolas, Courier, Monaco, "Courier New", monospace;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 32px;
+}
+
 .font-size--0 {
   font-size: 0px;
 }
@@ -1430,7 +1438,7 @@ pre {
   overflow-x: auto;
   font-size: 13px;
   word-break: break-word;
-  font-family: Open-Sans, Arial, Helvetica, sans-serif;
+  font-family: "Source Code Pro", Consolas, Courier, Monaco, "Courier New", monospace;
   color: var(--color-text-default);
   display: table-cell;
   vertical-align: top;

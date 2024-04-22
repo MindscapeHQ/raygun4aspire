@@ -136,11 +136,11 @@
     <header class="margin-bottom--12 border-width--0 border-bottom-width--1 border-style--solid border-color--color-border-elevation">
       @if (!string.IsNullOrWhiteSpace(error.Message))
       {
-        <div class="font-opensans--14--32--400 color--color-text-default">Message: @error.Message</div>
+        <div class="font-sourcecode--14--32--400 color--color-text-default">Message: @error.Message</div>
       }
       else
       {
-        <div class="font-opensans--14--32--400 color--color-text-default">Message: Unknown error</div>
+        <div class="font-sourcecode--14--32--400 color--color-text-default">Message: Unknown error</div>
       }
     </header>
 
@@ -152,33 +152,33 @@
           <div>
             @if (!string.IsNullOrWhiteSpace(@frame.ClassName))
             {
-              <div class="display--inline-block font-opensans--14--32--400 color--color-code-object">@frame.ClassName</div>
+              <div class="display--inline-block font-sourcecode--14--32--400 color--color-code-object">@frame.ClassName</div>
               if (!string.IsNullOrWhiteSpace(@frame.MethodName))
               {
-                <div class="display--inline-block font-opensans--14--32--400">.</div>
+                <div class="display--inline-block font-sourcecode--14--32--400">.</div>
               }
             }
 
             @if (@frame.MethodName != null)
             {
-              <div class="display--inline-block font-opensans--14--32--400 color--color-code-function">@frame.MethodName</div>
+              <div class="display--inline-block font-sourcecode--14--32--400 color--color-code-function">@frame.MethodName</div>
             }
 
             @if (@frame.FileName != null)
             {
               if (@frame.MethodName != null || @frame.ClassName != null)
               {
-                <div class="display--inline-block font-opensans--14--32--400">&nbsp;in&nbsp;</div>
+                <div class="display--inline-block font-sourcecode--14--32--400">&nbsp;in&nbsp;</div>
               }
-              <div class="display--inline-block font-opensans--14--32--400 color--color-code-filename">@frame.FileName</div>
+              <div class="display--inline-block font-sourcecode--14--32--400 color--color-code-filename">@frame.FileName</div>
             }
 
             @if (@frame.LineNumber != 0)
             {
               if (@frame.FileName != null || @frame.ClassName != null || @frame.FileName != null)
               {
-                <div class="display--inline-block font-opensans--14--32--400">:</div>
-                <div class="display--inline-block font-opensans--14--32--400 color--color-code-number">@frame.LineNumber</div>
+                <div class="display--inline-block font-sourcecode--14--32--400">:</div>
+                <div class="display--inline-block font-sourcecode--14--32--400 color--color-code-number">@frame.LineNumber</div>
               }
             }
           </div>
