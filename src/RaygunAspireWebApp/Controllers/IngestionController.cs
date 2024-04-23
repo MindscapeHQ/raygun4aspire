@@ -58,16 +58,11 @@ namespace RaygunAspireWebApp.Controllers
     {
       var files = Directory.GetFiles(ErrorsFolderPath)
             .Select(filePath => new FileInfo(filePath))
-            .OrderBy(filePath => filePath.CreationTime).ToList();
+            .OrderByDescending(filePath => filePath.CreationTime).Skip(RetentionCount).ToList();
 
-      if (files.Count > RetentionCount)
+      foreach (var file in files)
       {
-        var countToDelete = files.Count - RetentionCount;
-        for (var i = 0; i < countToDelete; i++)
-        {
-          var file = files[i];
-          System.IO.File.Delete(file.FullName);
-        }
+        System.IO.File.Delete(file.FullName);
       }
     }
   }
