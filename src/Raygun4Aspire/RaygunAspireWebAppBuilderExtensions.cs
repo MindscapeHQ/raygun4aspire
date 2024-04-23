@@ -1,4 +1,6 @@
-﻿using System.Net.Sockets;
+﻿using Aspire.Hosting;
+using Aspire.Hosting.ApplicationModel;
+using System.Net.Sockets;
 
 namespace Raygun4Aspire
 {
@@ -10,9 +12,9 @@ namespace Raygun4Aspire
     {
       var raygun = new RaygunAspireWebAppResource(name);
       return builder.AddResource(raygun)
-                    .WithAnnotation(new EndpointAnnotation(ProtocolType.Tcp, uriScheme: "http", port: port ?? DefaultHostPort, containerPort: 8080))
-                    .WithAnnotation(new ContainerImageAnnotation { Image = "raygunowner/raygun-aspire-portal", Tag = "1.0.0-preview.1.0.0" })
-                    .WithVolumeMount("raygun-data", "/app/raygun")
+                    .WithAnnotation(new ContainerImageAnnotation { Image = "raygunowner/raygun-aspire-portal", Tag = "1.0.0" })
+                    .WithAnnotation(new EndpointAnnotation(ProtocolType.Tcp, uriScheme: "http", port: port ?? DefaultHostPort, targetPort: 8080))
+                    .WithBindMount("raygun-data", "/app/raygun")
                     .PublishAsContainer();
     }
   }

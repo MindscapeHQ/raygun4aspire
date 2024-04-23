@@ -1,0 +1,56 @@
+﻿@model ErrorListViewModel
+
+<script src="~/js/htmx.min.js"></script>
+
+<table id="errorTable" class="width--full">
+  <thead>
+    <tr class="border-bottom-width--1 border-color--color-border-elevation height--40">
+      <th class="padding-horizontal--12 color--color-text-low-emphasis font-opensans--14--24--600">Message</th>
+      <th class="padding-horizontal--12 color--color-text-low-emphasis font-opensans--14--24--600 width--160 max-width--160">Last seen</th>
+    </tr>
+  </thead>
+  <tbody>
+    @if (Model.Errors.Count > 0)
+    {
+      foreach (var file in Model.Errors)
+      {
+        <tr class="border-bottom-width--1 border-color--color-border-elevation height--40 error-table-row">
+          <td class="padding-horizontal--12 font-opensans--14--24--400"><a class="no-underline color--color-text-link width--full display--block" href="/errorinstance/details/@file.Id">@file.Name</a></td>
+          <td class="js-timestamp-cell padding-horizontal--12 font-opensans--14--24--400">@file.Timestamp</td>
+        </tr>
+      }
+    }
+  </tbody>
+</table>
+@if (Model.Errors.Count == 0)
+{
+  <div class="border-bottom-width--1 border-color--color-border-elevation border-bottom-style--solid padding--24">
+    <p class="font-opensans--14--24--600 color--color-text-link-default text-align--center margin--0">No errors, congratulations!</p>
+  </div>
+}
+<div class="padding--24">
+  @if(Model.Loaded != Model.Total)
+  {
+    <a class="load-more-button" hx-get="/Home/ErrorList" hx-target="#error-list-container" hx-trigger="click" hx-vals='{"loaded": @Model.Loaded}'>
+      Load more (@Model.Loaded/@Model.Total)
+    </a>
+  }
+</div>
+
+<script src="~/js/moment.min.js"></script>
+<script>
+  function formatDates() {
+    var dateCells = document.querySelectorAll('#errorTable .js-timestamp-cell');
+    dateCells.forEach(function (cell) {
+      var rawDate = cell.textContent;
+      var momentDateUtc = moment.utc(rawDate)
+      cell.textContent = momentDateUtc.fromNow();
+
+      var momentDateLocal = momentDateUtc.local();
+      var formattedDate = momentDateLocal.format("MMMM Do YYYY, HH:mm:ss");
+      cell.title = formattedDate;
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', formatDates);
+</script>

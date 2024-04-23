@@ -3,14 +3,42 @@
 <script src="~/js/htmx.min.js"></script>
 <script src="~/js/moment.min.js"></script>
 
+@{
+  string BuildHeading(string className, string message)
+  {
+    var heading = "";
+
+    if (!string.IsNullOrWhiteSpace(className))
+    {
+      heading = $"{className}: ";
+    }
+
+    if (!string.IsNullOrWhiteSpace(message))
+    {
+      heading += message;
+    }
+    else
+    {
+      heading += "Unknown error";
+    }
+
+    return heading;
+  }
+}
+
 <div class="margin--24">
-  <h2 class="font-opensans--18--28--600 color--color-text-default">@Model.RaygunMessage.Details.Error.ClassName: @Model.RaygunMessage.Details.Error.Message</h2>
+  <h2 class="font-opensans--18--28--600 color--color-text-default">
+    @BuildHeading(Model?.RaygunMessage?.Details?.Error?.ClassName, Model?.RaygunMessage?.Details?.Error?.Message)
+  </h2>
 
   <p id="occurredOnHeading" class="font-opensans--14--32--600 color--color-text-low-emphasis">@Model.RaygunMessage.OccurredOn</p>
 
   <ul class="tab-group clearfix font-opensans--14--32--600 color--color-text-default margin-top--24">
     <li class="js-tab-item tab-group--item tab-group--item--active" hx-get="/ErrorInstance/TabContent" hx-target="#tab-content" hx-trigger="click" hx-vals='{"tab": "summary"}'>Summary</li>
-    <li class="js-tab-item tab-group--item" hx-get="/ErrorInstance/TabContent" hx-target="#tab-content" hx-trigger="click" hx-vals='{"tab": "http"}'>Http</li>
+    @if (Model?.RaygunMessage?.Details?.Request != null || Model?.RaygunMessage?.Details?.Response != null)
+    {
+      <li class="js-tab-item tab-group--item" hx-get="/ErrorInstance/TabContent" hx-target="#tab-content" hx-trigger="click" hx-vals='{"tab": "http"}'>Http</li>
+    }
     <li class="js-tab-item tab-group--item tab-group--item-last" hx-get="/ErrorInstance/TabContent" hx-target="#tab-content" hx-trigger="click" hx-vals='{"tab": "rawdata"}'>Raw data</li>
   </ul>
   <div id="tab-content" class="background--color-bg-surface-01 box-shadow--tabs border-color--color-border-elevation border-width--1 border-style--solid">

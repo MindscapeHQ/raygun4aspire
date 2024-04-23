@@ -9,6 +9,9 @@ namespace RaygunAspireWebApp.Controllers
   {
     public const string ErrorsFolderPath = "/app/raygun/errors";
 
+    // If changing this limit, also update it in the README and public-site documentation:
+    private const int RetentionCount = 1000;
+
     private RaygunClient _raygunClient;
 
     public IngestionController(RaygunClient raygunClient)
@@ -29,10 +32,17 @@ namespace RaygunAspireWebApp.Controllers
         {
           var info = Directory.CreateDirectory(ErrorsFolderPath);
 
-          var message = raygunMessage.Details.Error.Message;
+          var message = raygunMessage.Details?.Error?.Message;
           var uniqueSlug = DateTime.UtcNow.Ticks;
 
+          if (string.IsNullOrWhiteSpace(message))
+          {
+            message = "Unknown error";
+          }
+
           System.IO.File.WriteAllText($"{ErrorsFolderPath}/{uniqueSlug}|{message}.json", requestBody);
+
+          EnforceRetentionAsync();
         }
       }
       catch (Exception ex)
@@ -42,6 +52,18 @@ namespace RaygunAspireWebApp.Controllers
       }
 
       return Accepted();
+    }
+
+    private void EnforceRetentionAsync()
+    {
+      var files = Directory.GetFiles(ErrorsFolderPath)
+            .Select(filePath => new FileInfo(filePath))
+            .OrderByDescending(filePath => filePath.CreationTime).Skip(RetentionCount).ToList();
+
+      foreach (var file in files)
+      {
+        System.IO.File.Delete(file.FullName);
+      }
     }
   }
 }
