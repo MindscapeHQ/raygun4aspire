@@ -54,7 +54,7 @@ namespace RaygunAspireWebApp.Controllers
       var fileName = fileInfo.Name;
       var id = "";
 
-      var index = fileName.IndexOf("|");
+      var index = fileName.IndexOf("-");
       if (index >= 0)
       {
         id = fileName.Substring(0, index);

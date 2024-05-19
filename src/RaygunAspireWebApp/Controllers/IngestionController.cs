@@ -40,7 +40,7 @@ namespace RaygunAspireWebApp.Controllers
             message = "Unknown error";
           }
 
-          System.IO.File.WriteAllText($"{ErrorsFolderPath}/{uniqueSlug}|{message}.json", requestBody);
+          System.IO.File.WriteAllText($"{ErrorsFolderPath}/{uniqueSlug}-{message}.json", requestBody);
 
           EnforceRetentionAsync();
         }
