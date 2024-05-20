@@ -31,7 +31,7 @@
     @BuildHeading(Model?.RaygunMessage?.Details?.Error?.ClassName, Model?.RaygunMessage?.Details?.Error?.Message)
   </h2>
 
-  <p id="occurredOnHeading" class="font-opensans--14--32--600 color--color-text-low-emphasis">@Model.RaygunMessage.OccurredOn</p>
+  <p id="occurredOnHeading" class="font-opensans--14--32--600 color--color-text-low-emphasis">@Model.RaygunMessage.OccurredOn.ToString("MM/dd/yyyy hh:mm:ss")</p>
 
   <ul class="tab-group clearfix font-opensans--14--32--600 color--color-text-default margin-top--24">
     <li class="js-tab-item tab-group--item tab-group--item--active" hx-get="/ErrorInstance/TabContent" hx-target="#tab-content" hx-trigger="click" hx-vals='{"tab": "summary"}'>Summary</li>
