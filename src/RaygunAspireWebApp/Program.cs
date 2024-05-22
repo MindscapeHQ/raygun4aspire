@@ -12,6 +12,10 @@ namespace RaygunAspireWebApp
       builder.Services.AddSession();
       builder.Services.AddControllersWithViews();
 
+      var connectionString = builder.Configuration.GetConnectionString("Raygun-AIER");
+      Console.WriteLine("============ CONNECTION STRING ======================");
+      Console.WriteLine(connectionString);
+
       builder.Services.AddRaygun((settings) =>
       {
         settings.ApiKey = "LdX7TdiUow6S4UDRS0iPg";

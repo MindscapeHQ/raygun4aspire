@@ -2,6 +2,7 @@
 using Mindscape.Raygun4Net;
 using Mindscape.Raygun4Net.AspNetCore;
 using RaygunAspireWebApp.Models;
+using System.Runtime;
 using System.Text;
 using System.Text.Json;
 
@@ -73,16 +74,18 @@ namespace RaygunAspireWebApp.Controllers
 
     public async Task<IActionResult> AIER()
     {
-      string apiUrl = "http://localhost:24606";
+      //string apiUrl = "http://localhost:24606";
       string modelName = "llama3";
-      string question = "What is the capital of France? Do not explain.";
+      string question = "How many seats does a Boeing 747 have?";
 
       var model = new ErrorResolutionModel();
 
       using (HttpClient client = new HttpClient())
       {
-        client.DefaultRequestHeaders.Add("Accept", "*/*");
-        client.DefaultRequestHeaders.Add("User-Agent", "RaygunAIER");
+        var requestMessage = new HttpRequestMessage(HttpMethod.Post, new Uri("http://host.docker.internal:24606/api/generate"));
+
+        //client.DefaultRequestHeaders.Add("Accept", "*/*");
+        //client.DefaultRequestHeaders.Add("User-Agent", "RaygunAIER");
 
         var requestBody = new
         {
@@ -93,16 +96,33 @@ namespace RaygunAspireWebApp.Controllers
         var json = JsonSerializer.Serialize(requestBody);
         var content = new StringContent(json, Encoding.UTF8, "application/json");
 
+        requestMessage.Content = content;
+
         try
         {
-          HttpResponseMessage response = await client.GetAsync(apiUrl);
+          HttpResponseMessage response = await client.SendAsync(requestMessage, HttpCompletionOption.ResponseHeadersRead);
 
           if (response.IsSuccessStatusCode)
           {
-            string responseBody = await response.Content.ReadAsStringAsync();
+            //string responseBody = await response.Content.ReadAsStringAsync();
             Console.WriteLine("Response from Ollama:");
-            Console.WriteLine(responseBody);
-            model.Response = responseBody;
+            //Console.WriteLine(responseBody);
+            //model.Response = responseBody;
+
+            using (Stream responseStream = await response.Content.ReadAsStreamAsync())
+            {
+              using (StreamReader reader = new StreamReader(responseStream))
+              {
+                while (!reader.EndOfStream)
+                {
+                  string line = await reader.ReadLineAsync();
+                  if (line != null)
+                  {
+                    Console.WriteLine(line);
+                  }
+                }
+              }
+            }
           }
           else
           {
