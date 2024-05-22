@@ -92,10 +92,8 @@
     
     setChatWindowDimensions();
 
-    //document.addEventListener('htmx:afterSettle', setChatWindowDimensions);
-    
+    document.addEventListener('htmx:afterSettle', setChatWindowDimensions);
     window.addEventListener('resize', setChatWindowDimensions);
-    
     window.addEventListener('scroll', setChatWindowDimensions);
     
     document.getElementById("ai-chat-container").classList.remove("display--none");
@@ -105,9 +103,9 @@
     
     let aierChatStarted = sessionStorage.getItem('aierChatStarted');
     if (!aierChatStarted) {
-      htmx.ajax('GET', '/ErrorInstance/AIER', {
-        target: 'none'
-      });
+      var xhr = new XMLHttpRequest();
+      xhr.open('GET', '/ErrorInstance/AIER', true);
+      xhr.send();
 
       sessionStorage.setItem('aierChatStarted', 'true');
     }
