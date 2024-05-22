@@ -33,7 +33,7 @@
       @BuildHeading(Model?.RaygunMessage?.Details?.Error?.ClassName, Model?.RaygunMessage?.Details?.Error?.Message)
     </h2>
 
-    <button id="ai-error-res-btn" class="rg" hx-get="/ErrorInstance/AIChatWindow" hx-target="#ai-chat-container" hx-swap="innerHTML" onclick="handleAIChatOpened()">
+    <button id="ai-error-res-btn" class="rg" onclick="handleAIChatOpened()">
       <i id="ai-res-icon" class="ai-small"></i>
       AI Error Resolution
     </button>
@@ -53,11 +53,9 @@
       <partial name="Tabs/_summary" model="@Model"/>
     </div>
     <div id="ai-chat-container" class="ai-chat-elem background-color--color-bg-surface-01 box-shadow--tabs border-color--color-border-elevation border-width--1 border-style--solid display--none">
-      <partial name="AIChatWindow" model="@Model"/>
+      <partial name="AIChatWindow"/>
     </div>
   </div>
-
-  <div id="aier" hx-get="/ErrorInstance/AIER" hx-trigger="load" hx-target="#aier"></div>
 </div>
 
 <script>
@@ -92,10 +90,9 @@
   function handleAIChatOpened() {
     document.getElementById("tab-content").classList.add("width--half");
     
-    //document.getElementById("ai-chat").style.height = giveChatWindowHeight();
     setChatWindowDimensions();
 
-    document.addEventListener('htmx:afterSettle', setChatWindowDimensions);
+    //document.addEventListener('htmx:afterSettle', setChatWindowDimensions);
     
     window.addEventListener('resize', setChatWindowDimensions);
     
@@ -103,13 +100,17 @@
     
     document.getElementById("ai-chat-container").classList.remove("display--none");
 
-    @*var btn = document.getElementById("ai-error-res-btn");
-    btn.style.background = "var(--color-bg-interactive-disabled)";
-    btn.style.color = "var(--color-text-button-disabled)";*@
-    
     document.getElementById("ai-error-res-btn").disabled = true;
     document.getElementById("ai-res-icon").style.backgroundColor = "var(--color-text-button-disabled)";
     
+    let aierChatStarted = sessionStorage.getItem('aierChatStarted');
+    if (!aierChatStarted) {
+      htmx.ajax('GET', '/ErrorInstance/AIER', {
+        target: 'none'
+      });
+
+      sessionStorage.setItem('aierChatStarted', 'true');
+    }
   }
   
   function setChatWindowDimensions() {
@@ -119,11 +120,19 @@
   }
   
   function setChatWindowHeight() {
-    document.getElementById("ai-chat-container").style.height = getChatWindowHeight();
+    var container = document.getElementById("ai-chat-container");
+    
+    if (container) { 
+      container.style.height = getChatWindowHeight();
+    }
   }
   
   function giveChatWindowBottomMargin() {
-    document.getElementById("ai-chat-container").style.marginBottom = visibleMargin().toString() + "px";
+    var container = document.getElementById("ai-chat-container");
+    
+    if (container) { 
+      container.style.marginBottom = visibleMargin().toString() + "px";
+    }
   }
   
   function visibleMargin() {
@@ -169,9 +178,15 @@
 <script> 
   const connection = new signalR.HubConnectionBuilder().withUrl("/aierHub").build(); 
   connection.on("ReceiveText", function (text) {
-    document.getElementById("messagesList").textContent += text; 
-  }); 
-  connection.start().catch(function (err) { 
+    document.getElementById("messagesList").textContent += text;
+  });
+  connection.start().then(function () {
+    console.log("Connection established.");
+  }).catch(function (err) {
     return console.error(err.toString()); 
-  }); 
+  });
+
+  connection.onclose(function (err) {
+    console.error("Connection closed: ", err ? err.toString() : "No error");
+  });
 </script>

@@ -24,6 +24,7 @@ namespace RaygunAspireWebApp
       });
 
       builder.Services.AddSignalR();
+      builder.Services.AddMemoryCache();
 
       var app = builder.Build();
 

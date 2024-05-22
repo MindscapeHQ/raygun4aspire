@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.Extensions.Caching.Memory;
 using Mindscape.Raygun4Net;
 using Mindscape.Raygun4Net.AspNetCore;
 using RaygunAspireWebApp.Hubs;
@@ -13,11 +14,13 @@ namespace RaygunAspireWebApp.Controllers
   {
     private RaygunClient _raygunClient;
     private IHubContext<AierHub> _aierHubContext;
+    private IMemoryCache _cache;
 
-    public ErrorInstanceController(RaygunClient raygunClient, IHubContext<AierHub> aierHubContext)
+    public ErrorInstanceController(RaygunClient raygunClient, IHubContext<AierHub> aierHubContext, IMemoryCache cache)
     {
       _raygunClient = raygunClient;
       _aierHubContext = aierHubContext;
+      _cache = cache;
     }
 
     public IActionResult Details(string id)
@@ -70,16 +73,11 @@ namespace RaygunAspireWebApp.Controllers
       return null;
     }
 
-    public IActionResult AIChatWindow()
-    {
-      return PartialView("AIChatWindow");
-    }
-
     public async Task<IActionResult> AIER()
     {
       //string apiUrl = "http://localhost:24606";
       string modelName = "llama3";
-      string question = "How many seats does a Boeing 747 have?";
+      string question = "What is the capital of France? Do not explain.";
 
       var model = new ErrorResolutionModel();
 
@@ -147,7 +145,7 @@ namespace RaygunAspireWebApp.Controllers
         }
       }
 
-      return PartialView("_AIER", model);
+      return Ok();
     }
   }
 }
