@@ -11,5 +11,8 @@
     function closeAIChatWindow() {
         document.getElementById("ai-chat-container").classList.add("display--none");
         document.getElementById("tab-content").classList.remove("width--half");
+
+        document.getElementById("ai-error-res-btn").disabled = false;
+        document.getElementById("ai-res-icon").style.backgroundColor = "";
     }
 </script>

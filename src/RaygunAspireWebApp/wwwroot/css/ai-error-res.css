@@ -2,6 +2,12 @@
     background: linear-gradient(271deg, var(--color-bg-drawer-header-ai-01) 41.23%, var(--color-bg-drawer-header-ai-02) 103.43%);
     color: var(--color-text-button-inverted);
     height: 40px;
+    
+    &:disabled {
+        background: var(--color-bg-interactive-disabled);
+        color: var(--color-text-button-disabled);
+        pointer-events: none;
+    }    
 }
 
 .ai-chat-elem {
@@ -37,5 +43,9 @@
 }
 
 #ai-chat-close {
+    background-color: var(--color-icon-inverted);
+}
+
+#ai-res-icon {
     background-color: var(--color-icon-inverted);
 }

@@ -32,7 +32,10 @@
       @BuildHeading(Model?.RaygunMessage?.Details?.Error?.ClassName, Model?.RaygunMessage?.Details?.Error?.Message)
     </h2>
 
-    <button id="ai-error-res-btn" class="rg" hx-get="/ErrorInstance/AIChatWindow" hx-target="#ai-chat-container" hx-swap="innerHTML" onclick="handleAIChatOpened()">AI Error Resolution</button>
+    <button id="ai-error-res-btn" class="rg" hx-get="/ErrorInstance/AIChatWindow" hx-target="#ai-chat-container" hx-swap="innerHTML" onclick="handleAIChatOpened()">
+      <i id="ai-res-icon" class="ai-small"></i>
+      AI Error Resolution
+    </button>
   </div>
   <p id="occurredOnHeading" class="font-opensans--14--32--600 color--color-text-low-emphasis">@Model.RaygunMessage.OccurredOn.ToString("MM/dd/yyyy hh:mm:ss")</p>
 
@@ -98,6 +101,14 @@
     window.addEventListener('scroll', setChatWindowDimensions);
     
     document.getElementById("ai-chat-container").classList.remove("display--none");
+
+    @*var btn = document.getElementById("ai-error-res-btn");
+    btn.style.background = "var(--color-bg-interactive-disabled)";
+    btn.style.color = "var(--color-text-button-disabled)";*@
+    
+    document.getElementById("ai-error-res-btn").disabled = true;
+    document.getElementById("ai-res-icon").style.backgroundColor = "var(--color-text-button-disabled)";
+    
   }
   
   function setChatWindowDimensions() {
