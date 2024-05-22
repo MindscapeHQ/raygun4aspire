@@ -1,0 +1,15 @@
+<div id="ai-chat" class="ai-chat-elem">
+    <div class="background--color-bg-drawer-header-ai padding-horizontal--24 padding-vertical--4 display--flex justify-content--space-between align-items--center color--color-text-inverted font-opensans--14--24--600 ai-chat-header-adj">
+        <span>AI Error Resolution</span>
+        <button class="rg utility" onclick="closeAIChatWindow()">
+            <i id="ai-chat-close" class="cross-large"></i>
+        </button>
+    </div>
+</div>
+
+<script>
+    function closeAIChatWindow() {
+        document.getElementById("ai-chat-container").classList.add("display--none");
+        document.getElementById("tab-content").classList.remove("width--half");
+    }
+</script>

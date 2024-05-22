@@ -18,7 +18,7 @@ namespace RaygunAspireWebApp
 
       builder.Services.AddRaygun((settings) =>
       {
-        settings.ApiKey = "";
+        settings.ApiKey = "LdX7TdiUow6S4UDRS0iPg";
         settings.IsRawDataIgnored = true;
       });
 

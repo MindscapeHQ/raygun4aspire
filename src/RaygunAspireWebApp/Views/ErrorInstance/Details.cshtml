@@ -27,13 +27,16 @@
 }
 
 <div class="margin--24">
-  <h2 class="font-opensans--18--28--600 color--color-text-default">
-    @BuildHeading(Model?.RaygunMessage?.Details?.Error?.ClassName, Model?.RaygunMessage?.Details?.Error?.Message)
-  </h2>
+  <div class="error-header">
+    <h2 class="font-opensans--18--28--600 color--color-text-default">
+      @BuildHeading(Model?.RaygunMessage?.Details?.Error?.ClassName, Model?.RaygunMessage?.Details?.Error?.Message)
+    </h2>
 
+    <button id="ai-error-res-btn" class="rg" hx-get="/ErrorInstance/AIChatWindow" hx-target="#ai-chat-container" hx-swap="innerHTML" onclick="handleAIChatOpened()">AI Error Resolution</button>
+  </div>
   <p id="occurredOnHeading" class="font-opensans--14--32--600 color--color-text-low-emphasis">@Model.RaygunMessage.OccurredOn.ToString("MM/dd/yyyy hh:mm:ss")</p>
 
-  <ul class="tab-group clearfix font-opensans--14--32--600 color--color-text-default margin-top--24">
+  <ul id="js-lowest-prechat-elem" class="tab-group clearfix font-opensans--14--32--600 color--color-text-default margin-top--24">
     <li class="js-tab-item tab-group--item tab-group--item--active" hx-get="/ErrorInstance/TabContent" hx-target="#tab-content" hx-trigger="click" hx-vals='{"tab": "summary"}'>Summary</li>
     @if (Model?.RaygunMessage?.Details?.Request != null || Model?.RaygunMessage?.Details?.Response != null)
     {
@@ -41,8 +44,13 @@
     }
     <li class="js-tab-item tab-group--item tab-group--item-last" hx-get="/ErrorInstance/TabContent" hx-target="#tab-content" hx-trigger="click" hx-vals='{"tab": "rawdata"}'>Raw data</li>
   </ul>
-  <div id="tab-content" class="background--color-bg-surface-01 box-shadow--tabs border-color--color-border-elevation border-width--1 border-style--solid">
-    <partial name="Tabs/_summary" model="@Model" />
+  <div id="tab-and-chat" class="display--flex">
+    <div id="tab-content" class="background--color-bg-surface-01 box-shadow--tabs border-color--color-border-elevation border-width--1 border-style--solid">
+      <partial name="Tabs/_summary" model="@Model"/>
+    </div>
+    <div id="ai-chat-container" class="ai-chat-elem background-color--color-bg-surface-01 box-shadow--tabs border-color--color-border-elevation border-width--1 border-style--solid display--none">
+      <partial name="AIChatWindow" model="@Model"/>
+    </div>
   </div>
 
   <div id="aier" hx-get="/ErrorInstance/AIER" hx-trigger="load" hx-target="#aier"></div>
@@ -74,4 +82,74 @@
       element.classList.add('tab-group--item--active');
     });
   });
+</script>
+
+<script>
+  function handleAIChatOpened() {
+    document.getElementById("tab-content").classList.add("width--half");
+    
+    //document.getElementById("ai-chat").style.height = giveChatWindowHeight();
+    setChatWindowDimensions();
+
+    document.addEventListener('htmx:afterSettle', setChatWindowDimensions);
+    
+    window.addEventListener('resize', setChatWindowDimensions);
+    
+    window.addEventListener('scroll', setChatWindowDimensions);
+    
+    document.getElementById("ai-chat-container").classList.remove("display--none");
+  }
+  
+  function setChatWindowDimensions() {
+    setChatWindowWidth();
+    setChatWindowHeight();
+    giveChatWindowBottomMargin();
+  }
+  
+  function setChatWindowHeight() {
+    document.getElementById("ai-chat-container").style.height = getChatWindowHeight();
+  }
+  
+  function giveChatWindowBottomMargin() {
+    document.getElementById("ai-chat-container").style.marginBottom = visibleMargin().toString() + "px";
+  }
+  
+  function visibleMargin() {
+    const content = document.getElementById("tab-content");
+    const contentRect = content.getBoundingClientRect();
+    const contentBottom = contentRect.top + contentRect.height;
+    
+    return Math.max(window.innerHeight - contentBottom, 0);
+  }
+  
+  function setChatWindowWidth() {
+    var width = $("#tab-content").width();
+
+    // Set the width of the second element
+    $("#ai-chat-container").width(width);
+  }
+  
+  function getChatWindowHeight() {
+    const bottom = getLowestElemBottom();
+
+    // Calculate correct window height based on where header ends
+    const fullHeight = window.innerHeight;
+    let windowHeight = (fullHeight - bottom) + 1;
+
+    return windowHeight.toString() + "px";
+  }
+
+  /*Get and return the bottom position of the lowest element closest to the AI chat*/
+  function getLowestElemBottom() {
+    const errorTabs = document.getElementById('js-lowest-prechat-elem');
+    const header = document.getElementById('js-header-elem');
+
+    const errorRect = errorTabs.getBoundingClientRect();
+    const headerRect = header.getBoundingClientRect();
+
+    const errorBottom = errorRect.top + errorRect.height;
+    const headerBottom = headerRect.top + headerRect.height;
+
+    return Math.max(errorBottom, headerBottom);
+  }
 </script>

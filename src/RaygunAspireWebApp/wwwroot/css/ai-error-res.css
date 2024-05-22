@@ -1,0 +1,41 @@
+#ai-error-res-btn {
+    background: linear-gradient(271deg, var(--color-bg-drawer-header-ai-01) 41.23%, var(--color-bg-drawer-header-ai-02) 103.43%);
+    color: var(--color-text-button-inverted);
+    height: 40px;
+}
+
+.ai-chat-elem {
+    position: fixed;
+    box-sizing: border-box;
+}
+
+#ai-chat {
+    display: block;
+    height: 100%;
+    width: inherit;
+}
+
+#ai-chat-container {
+    position: fixed;
+    bottom: 0px;
+    left: 50%;
+    gap: 0;
+}
+
+.error-header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.width--half {
+    width: 50%;
+}
+
+.ai-chat-header-adj {
+    width: calc(100% - 1px);
+    margin-left: -1px;
+}
+
+#ai-chat-close {
+    background-color: var(--color-icon-inverted);
+}

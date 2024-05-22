@@ -67,6 +67,11 @@ namespace RaygunAspireWebApp.Controllers
       return null;
     }
 
+    public IActionResult AIChatWindow()
+    {
+      return PartialView("AIChatWindow");
+    }
+
     public async Task<IActionResult> AIER()
     {
       //string apiUrl = "http://localhost:24606";
