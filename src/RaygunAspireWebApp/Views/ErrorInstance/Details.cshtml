@@ -167,11 +167,9 @@
 </script>
 
 <script> 
-  const connection = new signalR.HubConnectionBuilder().withUrl("/aeirHub").build(); 
-  connection.on("ReceiveText", function (text) { 
-    const textDiv = document.createElement("div"); 
-    textDiv.textContent = text; 
-    document.getElementById("messagesList").appendChild(textDiv); 
+  const connection = new signalR.HubConnectionBuilder().withUrl("/aierHub").build(); 
+  connection.on("ReceiveText", function (text) {
+    document.getElementById("messagesList").textContent += text; 
   }); 
   connection.start().catch(function (err) { 
     return console.error(err.toString()); 

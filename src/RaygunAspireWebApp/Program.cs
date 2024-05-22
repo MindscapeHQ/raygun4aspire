@@ -1,4 +1,5 @@
 using Mindscape.Raygun4Net.AspNetCore;
+using RaygunAspireWebApp.Hubs;
 
 namespace RaygunAspireWebApp
 {
@@ -21,6 +22,8 @@ namespace RaygunAspireWebApp
         settings.ApiKey = "LdX7TdiUow6S4UDRS0iPg";
         settings.IsRawDataIgnored = true;
       });
+
+      builder.Services.AddSignalR();
 
       var app = builder.Build();
 
@@ -61,6 +64,11 @@ namespace RaygunAspireWebApp
       app.MapControllerRoute(
           name: "default",
           pattern: "{controller=Home}/{action=Index}/{id?}");
+
+      app.UseEndpoints(endpoints =>
+      {
+        endpoints.MapHub<AierHub>("/aierHub");
+      });
 
       app.Run();
     }

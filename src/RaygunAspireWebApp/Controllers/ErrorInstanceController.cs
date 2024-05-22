@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Mindscape.Raygun4Net;
 using Mindscape.Raygun4Net.AspNetCore;
+using RaygunAspireWebApp.Hubs;
 using RaygunAspireWebApp.Models;
-using System.Runtime;
 using System.Text;
 using System.Text.Json;
 
@@ -11,10 +12,12 @@ namespace RaygunAspireWebApp.Controllers
   public class ErrorInstanceController : Controller
   {
     private RaygunClient _raygunClient;
+    private IHubContext<AierHub> _aierHubContext;
 
-    public ErrorInstanceController(RaygunClient raygunClient)
+    public ErrorInstanceController(RaygunClient raygunClient, IHubContext<AierHub> aierHubContext)
     {
       _raygunClient = raygunClient;
+      _aierHubContext = aierHubContext;
     }
 
     public IActionResult Details(string id)
@@ -119,6 +122,9 @@ namespace RaygunAspireWebApp.Controllers
                   if (line != null)
                   {
                     Console.WriteLine(line);
+                    var responseModel = JsonSerializer.Deserialize<LlamaResponseModel>(line);
+                    await _aierHubContext.Clients.All.SendAsync("ReceiveText", responseModel.response);
+                    Console.WriteLine(responseModel.response);
                   }
                 }
               }
