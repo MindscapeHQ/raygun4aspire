@@ -48,7 +48,7 @@
     <div id="tab-content" class="background--color-bg-surface-01 box-shadow--tabs border-color--color-border-elevation border-width--1 border-style--solid">
       <partial name="Tabs/_summary" model="@Model"/>
     </div>
-    <div id="ai-chat-container" class="ai-chat-elem">
+    <div id="ai-chat-container" class="ai-chat-elem background-color--color-bg-surface-01 box-shadow--tabs border-color--color-border-elevation border-width--1 border-style--solid display--none">
       <partial name="AIChatWindow" model="@Model"/>
     </div>
   </div>
@@ -84,7 +84,6 @@
 
 <script>
   function handleAIChatOpened() {
-    console.log("clicked");
     document.getElementById("tab-content").classList.add("width--half");
     
     //document.getElementById("ai-chat").style.height = giveChatWindowHeight();
@@ -95,6 +94,8 @@
     window.addEventListener('resize', setChatWindowDimensions);
     
     window.addEventListener('scroll', setChatWindowDimensions);
+    
+    document.getElementById("ai-chat-container").classList.remove("display--none");
   }
   
   function setChatWindowDimensions() {
@@ -108,20 +109,14 @@
   }
   
   function giveChatWindowBottomMargin() {
-    console.log("gonna give margin");
-    console.log(visibleMargin().toString() + "px");
     document.getElementById("ai-chat-container").style.marginBottom = visibleMargin().toString() + "px";
-    console.log("set margin");
   }
   
   function visibleMargin() {
-    console.log("gonna find margin");
     const content = document.getElementById("tab-content");
     const contentRect = content.getBoundingClientRect();
     const contentBottom = contentRect.top + contentRect.height;
     
-    
-    console.log(window.innerHeight - contentBottom);
     return Math.max(window.innerHeight - contentBottom, 0);
   }
   
@@ -137,9 +132,7 @@
 
     // Calculate correct window height based on where header ends
     const fullHeight = window.innerHeight;
-    let windowHeight = fullHeight - bottom;
-    
-    console.log(windowHeight);
+    let windowHeight = (fullHeight - bottom) + 1;
 
     return windowHeight.toString() + "px";
   }
