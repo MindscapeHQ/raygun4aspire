@@ -87,6 +87,14 @@
 </script>
 
 <script>
+  let aierInProgress = false;
+
+  window.addEventListener('beforeunload', function (event) {
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', '/ErrorInstance/CancelAIER', true);
+    xhr.send();
+  });
+
   function handleAIChatOpened() {
     document.getElementById("tab-content").classList.add("width--half");
     
@@ -102,12 +110,13 @@
     document.getElementById("ai-res-icon").style.backgroundColor = "var(--color-text-button-disabled)";
     
     let aierChatStarted = sessionStorage.getItem('aierChatStarted');
-    if (!aierChatStarted) {
+    if (!aierInProgress) {
       var xhr = new XMLHttpRequest();
       xhr.open('GET', '/ErrorInstance/AIER', true);
       xhr.send();
 
       sessionStorage.setItem('aierChatStarted', 'true');
+      aierInProgress = true;
     }
   }
   
@@ -173,18 +182,13 @@
   }
 </script>
 
-<script> 
-  const connection = new signalR.HubConnectionBuilder().withUrl("/aierHub").build(); 
+<script>
+  const connection = new signalR.HubConnectionBuilder().withUrl("/aierHub").build();
   connection.on("ReceiveText", function (text) {
     document.getElementById("messagesList").textContent += text;
   });
-  connection.start().then(function () {
-    console.log("Connection established.");
-  }).catch(function (err) {
-    return console.error(err.toString()); 
-  });
 
-  connection.onclose(function (err) {
-    console.error("Connection closed: ", err ? err.toString() : "No error");
+  connection.start().catch(function (err) {
+    return console.error(err.toString());
   });
 </script>

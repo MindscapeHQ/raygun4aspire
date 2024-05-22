@@ -16,6 +16,8 @@ namespace RaygunAspireWebApp.Controllers
     private IHubContext<AierHub> _aierHubContext;
     private IMemoryCache _cache;
 
+    private static CancellationTokenSource _cancellationTokenSource;// = new CancellationTokenSource();
+
     public ErrorInstanceController(RaygunClient raygunClient, IHubContext<AierHub> aierHubContext, IMemoryCache cache)
     {
       _raygunClient = raygunClient;
@@ -75,18 +77,15 @@ namespace RaygunAspireWebApp.Controllers
 
     public async Task<IActionResult> AIER()
     {
+      _cancellationTokenSource = new CancellationTokenSource();
+
       //string apiUrl = "http://localhost:24606";
       string modelName = "llama3";
-      string question = "What is the capital of France? Do not explain.";
-
-      var model = new ErrorResolutionModel();
+      string question = "How many seats does a Boeing 747 have?";
 
       using (HttpClient client = new HttpClient())
       {
         var requestMessage = new HttpRequestMessage(HttpMethod.Post, new Uri("http://host.docker.internal:24606/api/generate"));
-
-        //client.DefaultRequestHeaders.Add("Accept", "*/*");
-        //client.DefaultRequestHeaders.Add("User-Agent", "RaygunAIER");
 
         var requestBody = new
         {
@@ -101,7 +100,7 @@ namespace RaygunAspireWebApp.Controllers
 
         try
         {
-          HttpResponseMessage response = await client.SendAsync(requestMessage, HttpCompletionOption.ResponseHeadersRead);
+          HttpResponseMessage response = await client.SendAsync(requestMessage, HttpCompletionOption.ResponseHeadersRead, _cancellationTokenSource.Token);
 
           if (response.IsSuccessStatusCode)
           {
@@ -116,6 +115,11 @@ namespace RaygunAspireWebApp.Controllers
               {
                 while (!reader.EndOfStream)
                 {
+                  if (_cancellationTokenSource.Token.IsCancellationRequested)
+                  {
+                    break;
+                  }
+
                   string line = await reader.ReadLineAsync();
                   if (line != null)
                   {
@@ -130,19 +134,29 @@ namespace RaygunAspireWebApp.Controllers
           }
           else
           {
+            // TODO: Raygun crash reporting
             Console.WriteLine($"Request failed with status code: {response.StatusCode}");
             string errorResponse = await response.Content.ReadAsStringAsync();
             Console.WriteLine("Error response:");
             Console.WriteLine(errorResponse);
-            model.Response = errorResponse;
           }
         }
         catch (Exception ex)
         {
+          // TODO: Raygun crash reporting
           Console.WriteLine("An error occurred:");
           Console.WriteLine(ex.Message);
-          model.Response = ex.Message;
         }
+      }
+
+      return Ok();
+    }
+
+    public IActionResult CancelAIER()
+    {
+      if (_cancellationTokenSource != null)
+      {
+        _cancellationTokenSource.Cancel();
       }
 
       return Ok();
