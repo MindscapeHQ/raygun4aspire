@@ -64,5 +64,10 @@ namespace RaygunAspireWebApp.Controllers
 
       return null;
     }
+
+    public IActionResult AIChatWindow()
+    {
+      return PartialView("AIChatWindow");
+    }
   }
 }

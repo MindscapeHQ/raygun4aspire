@@ -1,0 +1,30 @@
+#ai-error-res-btn {
+    background: linear-gradient(271deg, var(--color-bg-drawer-header-ai-01) 41.23%, var(--color-bg-drawer-header-ai-02) 103.43%);
+    color: var(--color-text-button-inverted);
+    height: 40px;
+}
+
+.ai-chat-elem {
+    position: fixed;
+}
+
+#ai-chat {
+    display: block;
+    height: 100%;
+}
+
+#ai-chat-container {
+    position: fixed;
+    bottom: 0px;
+    left: 50%;
+    background: teal;
+}
+
+.error-header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.width--half {
+    width: 50%;
+}
