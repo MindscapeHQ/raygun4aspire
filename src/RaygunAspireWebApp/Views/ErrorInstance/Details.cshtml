@@ -2,6 +2,7 @@
 
 <script src="~/js/htmx.min.js"></script>
 <script src="~/js/moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/5.0.9/signalr.min.js"></script>
 
 @{
   string BuildHeading(string className, string message)
@@ -163,4 +164,16 @@
 
     return Math.max(errorBottom, headerBottom);
   }
+</script>
+
+<script> 
+  const connection = new signalR.HubConnectionBuilder().withUrl("/aeirHub").build(); 
+  connection.on("ReceiveText", function (text) { 
+    const textDiv = document.createElement("div"); 
+    textDiv.textContent = text; 
+    document.getElementById("messagesList").appendChild(textDiv); 
+  }); 
+  connection.start().catch(function (err) { 
+    return console.error(err.toString()); 
+  }); 
 </script>
