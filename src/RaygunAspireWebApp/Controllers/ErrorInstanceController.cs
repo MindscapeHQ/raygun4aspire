@@ -2,6 +2,7 @@
 using Mindscape.Raygun4Net;
 using Mindscape.Raygun4Net.AspNetCore;
 using RaygunAspireWebApp.Models;
+using System.Text;
 using System.Text.Json;
 
 namespace RaygunAspireWebApp.Controllers
@@ -68,6 +69,59 @@ namespace RaygunAspireWebApp.Controllers
     public IActionResult AIChatWindow()
     {
       return PartialView("AIChatWindow");
+    }
+
+    public async Task<IActionResult> AIER()
+    {
+      string apiUrl = "http://localhost:24606";
+      string modelName = "llama3";
+      string question = "What is the capital of France? Do not explain.";
+
+      var model = new ErrorResolutionModel();
+
+      using (HttpClient client = new HttpClient())
+      {
+        client.DefaultRequestHeaders.Add("Accept", "*/*");
+        client.DefaultRequestHeaders.Add("User-Agent", "RaygunAIER");
+
+        var requestBody = new
+        {
+          model = modelName,
+          prompt = question
+        };
+
+        var json = JsonSerializer.Serialize(requestBody);
+        var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+        try
+        {
+          HttpResponseMessage response = await client.GetAsync(apiUrl);
+
+          if (response.IsSuccessStatusCode)
+          {
+            string responseBody = await response.Content.ReadAsStringAsync();
+            Console.WriteLine("Response from Ollama:");
+            Console.WriteLine(responseBody);
+            model.Response = responseBody;
+          }
+          else
+          {
+            Console.WriteLine($"Request failed with status code: {response.StatusCode}");
+            string errorResponse = await response.Content.ReadAsStringAsync();
+            Console.WriteLine("Error response:");
+            Console.WriteLine(errorResponse);
+            model.Response = errorResponse;
+          }
+        }
+        catch (Exception ex)
+        {
+          Console.WriteLine("An error occurred:");
+          Console.WriteLine(ex.Message);
+          model.Response = ex.Message;
+        }
+      }
+
+      return PartialView("_AIER", model);
     }
   }
 }
