@@ -2,6 +2,7 @@
 using Mindscape.Raygun4Net;
 using Mindscape.Raygun4Net.AspNetCore;
 using RaygunAspireWebApp.Models;
+using System.Runtime;
 using System.Text;
 using System.Text.Json;
 
@@ -76,8 +77,10 @@ namespace RaygunAspireWebApp.Controllers
 
       using (HttpClient client = new HttpClient())
       {
-        client.DefaultRequestHeaders.Add("Accept", "*/*");
-        client.DefaultRequestHeaders.Add("User-Agent", "RaygunAIER");
+        var requestMessage = new HttpRequestMessage(HttpMethod.Post, new Uri("http://host.docker.internal:24606/api/generate"));
+
+        //client.DefaultRequestHeaders.Add("Accept", "*/*");
+        //client.DefaultRequestHeaders.Add("User-Agent", "RaygunAIER");
 
         var requestBody = new
         {
@@ -88,9 +91,11 @@ namespace RaygunAspireWebApp.Controllers
         var json = JsonSerializer.Serialize(requestBody);
         var content = new StringContent(json, Encoding.UTF8, "application/json");
 
+        requestMessage.Content = content;
+
         try
         {
-          HttpResponseMessage response = await client.GetAsync(apiUrl);
+          HttpResponseMessage response = await client.SendAsync(requestMessage);
 
           if (response.IsSuccessStatusCode)
           {
