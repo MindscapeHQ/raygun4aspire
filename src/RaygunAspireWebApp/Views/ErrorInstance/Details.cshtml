@@ -143,11 +143,10 @@
   }
   
   function visibleMargin() {
-    const content = document.getElementById("tab-content");
-    const contentRect = content.getBoundingClientRect();
-    const contentBottom = contentRect.top + contentRect.height;
-    
-    return Math.max(window.innerHeight - contentBottom, 0);
+    const footer = document.getElementById('js-footer-elem');
+    const footerRect = footer.getBoundingClientRect();
+
+    return Math.max(window.innerHeight - (footerRect.top - 52), 0);
   }
   
   function setChatWindowWidth() {
@@ -158,27 +157,23 @@
   }
   
   function getChatWindowHeight() {
-    const bottom = getLowestElemBottom();
-
-    // Calculate correct window height based on where header ends
-    const fullHeight = window.innerHeight;
-    let windowHeight = (fullHeight - bottom) + 1;
-
-    return windowHeight.toString() + "px";
-  }
-
-  /*Get and return the bottom position of the lowest element closest to the AI chat*/
-  function getLowestElemBottom() {
     const errorTabs = document.getElementById('js-lowest-prechat-elem');
     const header = document.getElementById('js-header-elem');
+    const footer = document.getElementById('js-footer-elem');
 
     const errorRect = errorTabs.getBoundingClientRect();
     const headerRect = header.getBoundingClientRect();
+    const footerRect = footer.getBoundingClientRect();
 
     const errorBottom = errorRect.top + errorRect.height;
     const headerBottom = headerRect.top + headerRect.height;
 
-    return Math.max(errorBottom, headerBottom);
+    const top = Math.max(errorBottom, headerBottom);
+    const bottom = Math.min(footerRect.top - 52, window.innerHeight);
+
+    let height = bottom - top + 1;
+
+    return height.toString() + "px";
   }
 </script>
 
