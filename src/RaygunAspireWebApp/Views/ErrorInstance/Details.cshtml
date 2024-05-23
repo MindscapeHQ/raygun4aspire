@@ -3,6 +3,9 @@
 <script src="~/js/htmx.min.js"></script>
 <script src="~/js/moment.min.js"></script>
 <script src="~/js/signalr.min.js"></script>
+<script src="~/js/marked.min.js"></script>
+<script src="~/js/prism.js"></script>
+<script src="~/js/prism-json.min.js"></script>
 
 @{
   string BuildHeading(string className, string message)
@@ -88,6 +91,7 @@
 
 <script>
   let aierInProgress = false;
+  let aierContent = '';
 
   window.addEventListener('beforeunload', function (event) {
     var xhr = new XMLHttpRequest();
@@ -108,15 +112,14 @@
 
     document.getElementById("ai-error-res-btn").disabled = true;
     document.getElementById("ai-res-icon").style.backgroundColor = "var(--color-text-button-disabled)";
-    
-    let aierChatStarted = sessionStorage.getItem('aierChatStarted');
+
     if (!aierInProgress) {
+      aierInProgress = true;
+      aierContent = '';
+
       var xhr = new XMLHttpRequest();
       xhr.open('GET', '/ErrorInstance/AIER', true);
       xhr.send();
-
-      sessionStorage.setItem('aierChatStarted', 'true');
-      aierInProgress = true;
     }
   }
   
@@ -180,7 +183,11 @@
 <script>
   const connection = new signalR.HubConnectionBuilder().withUrl("/aierHub").build();
   connection.on("ReceiveText", function (text) {
-    document.getElementById("messagesList").textContent += text;
+    aierContent += text;
+    const htmlContent = marked.parse(aierContent);
+    var messageList = document.getElementById('messagesList');
+    messageList.innerHTML = htmlContent;
+    Prism.highlightAllUnder(messageList);
   });
 
   connection.start().catch(function (err) {
