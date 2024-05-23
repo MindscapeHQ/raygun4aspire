@@ -79,9 +79,17 @@ namespace RaygunAspireWebApp.Controllers
     {
       _cancellationTokenSource = new CancellationTokenSource();
 
-      //string apiUrl = "http://localhost:24606";
+      var modelString = HttpContext.Session.GetString("Model");
+      var model = JsonSerializer.Deserialize<ErrorInstanceViewModel>(modelString, new JsonSerializerOptions { PropertyNameCaseInsensitive = true, Converters = { new RaygunIdentifierMessageConverter() } });
+
       string modelName = "llama3";
-      string question = "How many seats does a Boeing 747 have?";
+
+      var errorModel = model?.RaygunMessage?.Details?.Error;
+
+      var exceptionString = !string.IsNullOrWhiteSpace(errorModel.ClassName) ? $"{errorModel.ClassName}: " : "";
+      exceptionString += errorModel.Message;
+
+      string question = "My .NET Aspire application has encountered the following exception. Briefly explain how I should look into fixing it.\r\nThe exception is: " + exceptionString;
 
       using (HttpClient client = new HttpClient())
       {
