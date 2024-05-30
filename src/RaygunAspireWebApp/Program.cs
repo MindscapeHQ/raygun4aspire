@@ -1,5 +1,6 @@
 using Mindscape.Raygun4Net.AspNetCore;
 using RaygunAspireWebApp.Hubs;
+using RaygunAspireWebApp.Ollama;
 
 namespace RaygunAspireWebApp
 {
@@ -25,6 +26,7 @@ namespace RaygunAspireWebApp
 
       builder.Services.AddSignalR();
       builder.Services.AddMemoryCache();
+      builder.Services.Add(new ServiceDescriptor(typeof(OllamaClient), new OllamaClient()));
 
       var app = builder.Build();
 

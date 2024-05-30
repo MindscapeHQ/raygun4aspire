@@ -1,8 +1,13 @@
 ﻿namespace Aspire.Hosting.ApplicationModel
 {
-  public class RaygunAierResource(string name) : ContainerResource(name), IResourceWithConnectionString
+  public class RaygunAierResource : ContainerResource, IResourceWithConnectionString
   {
     private EndpointReference? _endpointReference;
+
+    public RaygunAierResource(string name)
+      : base(name)
+    {
+    }
 
     public EndpointReference Endpoint =>
         _endpointReference ??= new(this, "http");
