@@ -1,4 +1,5 @@
-﻿using System.Text.Json;
+﻿using System.Text;
+using System.Text.Json;
 using Raygun4Aspire.Ollama.Models;
 
 namespace Raygun4Aspire.Ollama
@@ -9,7 +10,7 @@ namespace Raygun4Aspire.Ollama
     {
       using (HttpClient client = new HttpClient())
       {
-        var requestMessage = new HttpRequestMessage(HttpMethod.Get, new Uri("http://host.docker.internal:24606/api/tags"));
+        var requestMessage = new HttpRequestMessage(HttpMethod.Get, new Uri("http://localhost:24606/api/tags"));
 
         var response = await client.SendAsync(requestMessage);
 
@@ -23,6 +24,48 @@ namespace Raygun4Aspire.Ollama
         }
 
         return false;
+      }
+    }
+
+    // TODO: add cancellation token
+    public async IAsyncEnumerable<string> PullModelAsync(string modelName)
+    {
+      using (HttpClient client = new HttpClient())
+      {
+        var requestMessage = new HttpRequestMessage(HttpMethod.Post, new Uri("http://localhost:24606/api/pull"));
+
+        var json = JsonSerializer.Serialize(new { name = modelName, stream = true });
+        var content = new StringContent(json, Encoding.UTF8, "application/json");
+        requestMessage.Content = content;
+
+        var response = await client.SendAsync(requestMessage, HttpCompletionOption.ResponseHeadersRead);
+
+        double percentage = 0;
+
+        using (Stream responseStream = await response.Content.ReadAsStreamAsync())
+        {
+          using (StreamReader reader = new StreamReader(responseStream))
+          {
+            while (!reader.EndOfStream)
+            {
+              string? line = await reader.ReadLineAsync();
+              if (line != null)
+              {
+                Console.WriteLine(line);
+                var responseModel = JsonSerializer.Deserialize<PullResponseModel>(line);
+                if (responseModel != null)
+                {
+                  if (responseModel.total != 0)
+                  {
+                    percentage = responseModel.completed / (double)responseModel.total * 100;
+                  }
+
+                  yield return $"Downloading LLM: {percentage:N1}%";
+                }
+              }
+            }
+          }
+        }
       }
     }
   }

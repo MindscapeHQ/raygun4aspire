@@ -1,6 +1,6 @@
 ﻿namespace Raygun4Aspire.Ollama.Models
 {
-  public class ModelModel
+  internal class ModelModel
   {
     public string name { get; set; }
   }

@@ -29,20 +29,30 @@ namespace Raygun4Aspire
     {
       _ = Task.Run(async () =>
       {
-        Thread.Sleep(5000);
+        //Thread.Sleep(5000);
         bool hasModel = false;
         try
         {
           var ollamaClient = new OllamaClient();
           hasModel = await ollamaClient.HasModelAsync("llama3");
+
+          if (!hasModel)
+          {
+            await foreach (var str in ollamaClient.PullModelAsync("llama3"))
+            {
+              await _notificationService.PublishUpdateAsync(resource, state => state with { State = new ResourceStateSnapshot(str, KnownResourceStateStyles.Info) });
+            }
+
+            await _notificationService.PublishUpdateAsync(resource, state => state with { State = new ResourceStateSnapshot("Running", KnownResourceStateStyles.Success) });
+          }
         }
         catch (Exception ex)
         {
-          await _notificationService.PublishUpdateAsync(resource, state => state with { State = ex.Message, });
+          await _notificationService.PublishUpdateAsync(resource, state => state with { State = ex.Message });
           return;
         }
 
-        await _notificationService.PublishUpdateAsync(resource, state => state with { State = hasModel ? "MODEL" : "NOPE",  });
+        //await _notificationService.PublishUpdateAsync(resource, state => state with { State = hasModel ? "MODEL" : "NOPE",  });
       }, cancellationToken);
     }
 
