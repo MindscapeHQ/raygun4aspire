@@ -28,7 +28,7 @@ namespace Raygun4Aspire.Ollama
     }
 
     // TODO: add cancellation token
-    public async IAsyncEnumerable<string> PullModelAsync(string modelName)
+    public async IAsyncEnumerable<double> PullModelAsync(string modelName)
     {
       using (HttpClient client = new HttpClient())
       {
@@ -60,7 +60,7 @@ namespace Raygun4Aspire.Ollama
                     percentage = responseModel.completed / (double)responseModel.total * 100;
                   }
 
-                  yield return $"Downloading LLM: {percentage:N1}%";
+                  yield return percentage;
                 }
               }
             }
