@@ -2,6 +2,7 @@
     background: linear-gradient(271deg, var(--color-bg-drawer-header-ai-01) 41.23%, var(--color-bg-drawer-header-ai-02) 103.43%);
     color: var(--color-text-button-inverted);
     height: 40px;
+    min-width: min-content;
     
     &:disabled {
         background: var(--color-bg-interactive-disabled);
@@ -11,7 +12,6 @@
 }
 
 .ai-chat-elem {
-    position: absolute;
     box-sizing: border-box;
 }
 
@@ -22,14 +22,22 @@
 }
 
 #ai-chat-container {
-    position: fixed;
+    position: relative;
     bottom: 0px;
-    left: 50%;
+    height: inherit;
 }
 
 .error-header {
     display: flex;
+    gap: 24px;
     justify-content: space-between;
+    flex-direction: row;
+}
+
+.error-heading {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
 }
 
 .width--half {

@@ -32,7 +32,7 @@
 
 <div class="margin--24">
   <div class="error-header">
-    <h2 class="font-opensans--18--28--600 color--color-text-default">
+    <h2 class="error-heading font-opensans--18--28--600 color--color-text-default">
       @BuildHeading(Model?.RaygunMessage?.Details?.Error?.ClassName, Model?.RaygunMessage?.Details?.Error?.Message)
     </h2>
 
@@ -128,30 +128,44 @@
   
   function setChatWindowDimensions() {
     setChatWindowWidth();
-    setChatWindowHeight();
-    giveChatWindowBottomMargin();
+    //setChatWindowHeight();
+    //giveChatWindowBottomMargin();
   }
   
   function setChatWindowHeight() {
-    var container = document.getElementById("ai-chat-container");
+    var container1 = document.getElementById("ai-chat-container");
+    var container2 = document.getElementById("tab-and-chat");
     
-    if (container) { 
-      container.style.height = getChatWindowHeight();
+    if (container1) { 
+      container1.style.height = getChatWindowHeight();
+    } 
+    if (container1) {
+      container2.style.height = getChatWindowHeight();
     }
   }
   
   function giveChatWindowBottomMargin() {
-    var container = document.getElementById("ai-chat-container");
+    var container1 = document.getElementById("ai-chat-container");
+    var container2 = document.getElementById("tab-and-chat");
     
-    if (container) { 
-      container.style.marginBottom = visibleMargin().toString() + "px";
+    if (container1) { 
+      container1.style.marginBottom = visibleMargin().toString() + "px";
+    }
+    if (container2) {
+      container2.style.marginBottom = visibleMargin().toString() + "px";
     }
   }
   
   function visibleMargin() {
     const footer = document.getElementById('js-footer-elem');
     const footerRect = footer.getBoundingClientRect();
-
+    
+    console.log("Top footer rect: " + footerRect.top);
+    console.log("Top footer rect minus 52: " + (footerRect.top - 52));
+    console.log("Window innerheight: " + window.innerHeight);
+    console.log("Final calc: " + Math.max(window.innerHeight - (footerRect.top - 52), 0));
+    
+    
     return Math.max(window.innerHeight - (footerRect.top - 52), 0);
   }
   
