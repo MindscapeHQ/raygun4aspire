@@ -122,8 +122,28 @@
 
       var xhr = new XMLHttpRequest();
       xhr.open('GET', '/ErrorInstance/AIER', true);
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4) { // Request is complete
+          var status = xhr.status;
+
+          if (status === 500) {
+            displayErrorSection();
+          }
+        }
+      };
+      xhr.onerror = function () {
+        displayErrorSection();
+      };
       xhr.send();
     }
+  }
+  
+  function displayErrorSection()
+  {
+    document.getElementById("loading-section").classList.add("display--none");
+    document.getElementById("loading-section").classList.add("display--none");
+    document.getElementById("download-progress-section").classList.add("display--none");
+    document.getElementById("error-section").classList.remove("display--none");
   }
   
   function setChatWindowDimensions() {
@@ -209,7 +229,7 @@
 
     aierContent += text;
     const htmlContent = marked.parse(aierContent);
-    var messageList = document.getElementById('messagesList');
+    var messageList = document.getElementById('messages-list-section');
     messageList.classList.remove("display--none");
     messageList.innerHTML = htmlContent;
     Prism.highlightAllUnder(messageList);
