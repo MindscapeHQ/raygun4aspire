@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using RaygunAspireWebApp.Models;
 using System.Diagnostics;
-using RaygunAspireWebApp.Ollama;
 
 namespace RaygunAspireWebApp.Controllers
 {
@@ -10,19 +9,14 @@ namespace RaygunAspireWebApp.Controllers
     private const int PageSize = 50;
 
     private readonly ILogger<HomeController> _logger;
-    private readonly OllamaClient _ollamaClient;
 
-    public HomeController(ILogger<HomeController> logger, OllamaClient ollamaClient)
+    public HomeController(ILogger<HomeController> logger)
     {
       _logger = logger;
-      _ollamaClient = ollamaClient;
     }
 
     public IActionResult Index()
     {
-      var hasModel = _ollamaClient.HasModelAsync("llama3");
-      Console.WriteLine(hasModel ? "YES llama be here" : "There is no such thing as llama");
-
       var model = CreateErrorListViewModel(PageSize);
 
       return View(model);

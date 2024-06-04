@@ -5,7 +5,14 @@
             <i id="ai-chat-close" class="cross-large"></i>
         </button>
     </div>
-  <div id="messagesList" class="padding--24"></div>
+  <div id="messagesList" class="padding--24 display--none"></div>
+  
+  <div id="download-progress-section" class="padding--24 display--none">
+    <div class="font-opensans--14--24--400 text-align--center">AI error resolution will be available when the model finishes downloading. Warning: terminating the Aspire orchestration app (AppHost) will cancel the download.</div>
+    <div class="ai-progress-bar--track margin-top--12">
+      <div id="download-progress-bar" class="ai-progress-bar--fill"></div>
+    </div>
+  </div>
 </div>
 
 <script>

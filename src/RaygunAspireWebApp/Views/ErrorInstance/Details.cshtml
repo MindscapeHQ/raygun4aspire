@@ -182,12 +182,25 @@
 
 <script>
   const connection = new signalR.HubConnectionBuilder().withUrl("/aierHub").build();
+
   connection.on("ReceiveText", function (text) {
+    var progressSection = document.getElementById('download-progress-section');
+    progressSection.classList.add("display--none");
+
     aierContent += text;
     const htmlContent = marked.parse(aierContent);
     var messageList = document.getElementById('messagesList');
+    messageList.classList.remove("display--none");
     messageList.innerHTML = htmlContent;
     Prism.highlightAllUnder(messageList);
+  });
+  
+  connection.on("DownloadModelProgress", function (percentage) {
+    var progressBar = document.getElementById('download-progress-bar');
+    progressBar.style.width = percentage + '%';
+
+    var progressSection = document.getElementById('download-progress-section');
+    progressSection.classList.remove("display--none");
   });
 
   connection.start().catch(function (err) {

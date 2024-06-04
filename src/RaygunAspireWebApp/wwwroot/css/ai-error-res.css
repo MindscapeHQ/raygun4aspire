@@ -48,3 +48,13 @@
 #ai-res-icon {
     background-color: var(--color-icon-inverted);
 }
+
+.ai-progress-bar--track {
+  height: 6px;
+  background-color: var(--color-border-disabled);
+}
+
+.ai-progress-bar--fill {
+  height: 6px;
+  background-color: var(--color-bg-surface-header-strip);
+}

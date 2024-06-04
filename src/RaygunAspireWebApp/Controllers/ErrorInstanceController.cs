@@ -7,6 +7,7 @@ using RaygunAspireWebApp.Hubs;
 using RaygunAspireWebApp.Models;
 using System.Text;
 using System.Text.Json;
+using OllamaSharp;
 
 namespace RaygunAspireWebApp.Controllers
 {
@@ -78,6 +79,18 @@ namespace RaygunAspireWebApp.Controllers
     public async Task<IActionResult> AIER()
     {
       _cancellationTokenSource = new CancellationTokenSource();
+
+      try
+      {
+        await EnsureModel();
+      }
+      catch (Exception ex)
+      {
+        // TODO: Raygun crash reporting
+        Console.WriteLine("An error occurred:");
+        Console.WriteLine(ex.Message);
+        return StatusCode(StatusCodes.Status500InternalServerError);
+      }
 
       var modelString = HttpContext.Session.GetString("Model");
       var model = JsonSerializer.Deserialize<ErrorInstanceViewModel>(modelString, new JsonSerializerOptions { PropertyNameCaseInsensitive = true, Converters = { new RaygunIdentifierMessageConverter() } });
@@ -158,6 +171,28 @@ namespace RaygunAspireWebApp.Controllers
       }
 
       return Ok();
+    }
+
+    private async Task EnsureModel()
+    {
+      var ollamaClient = new OllamaApiClient(new Uri("http://host.docker.internal:24606"));
+
+      var models = await ollamaClient.ListLocalModels();
+      if (models.Any(m => m.Name.StartsWith("llama3")))
+      {
+        return;
+      }
+
+      await ollamaClient.PullModel("llama3", async status =>
+      {
+        var percentage = status.Total == 0 ? 0 : status.Completed * 100 / (double)status.Total;
+        // There are some initial messages in the stream that state the download has started, but do not mention the progress yet.
+        // We do not want to send a message to the frontend for such cases to avoid the UI flickering once the actual percentage becomes known.
+        if (percentage != 0)
+        {
+          await _aierHubContext.Clients.All.SendAsync("DownloadModelProgress", percentage);
+        }
+      });
     }
 
     public IActionResult CancelAIER()
