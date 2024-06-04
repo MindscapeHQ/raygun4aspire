@@ -6,6 +6,7 @@
 <script src="~/js/marked.min.js"></script>
 <script src="~/js/prism.js"></script>
 <script src="~/js/prism-json.min.js"></script>
+<script src="~/js/tooltips.js"></script>
 
 @{
   string BuildHeading(string className, string message)
@@ -32,7 +33,7 @@
 
 <div class="margin--24">
   <div class="error-header">
-    <h2 class="error-heading font-opensans--18--28--600 color--color-text-default">
+    <h2 title="@Model?.RaygunMessage?.Details?.Error?.Message" class="error-heading font-opensans--18--28--600 color--color-text-default">
       @BuildHeading(Model?.RaygunMessage?.Details?.Error?.ClassName, Model?.RaygunMessage?.Details?.Error?.Message)
     </h2>
 
