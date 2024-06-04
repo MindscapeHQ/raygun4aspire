@@ -1,18 +1,35 @@
 <div id="ai-chat" class="ai-chat-elem">
-    <div class="background--color-bg-drawer-header-ai padding-horizontal--24 padding-vertical--4 display--flex justify-content--space-between align-items--center color--color-text-inverted font-opensans--14--24--600 ai-chat-header-adj">
-        <span>AI Error Resolution</span>
-        <button class="rg utility" onclick="closeAIChatWindow()">
-            <i id="ai-chat-close" class="cross-large"></i>
-        </button>
+  <div class="background--color-bg-drawer-header-ai padding-horizontal--24 padding-vertical--4 display--flex justify-content--space-between align-items--center color--color-text-inverted font-opensans--14--24--600 ai-chat-header-adj">
+    <span>AI Error Resolution</span>
+    <button class="rg utility" onclick="closeAIChatWindow()">
+      <i id="ai-chat-close" class="cross-large"></i>
+    </button>
+  </div>
+  
+  <div id="loading-section" class="display--flex justify-content--center align-items--center flex-direction--column height--full display--none">
+    <div class="ai-loading-animation">
+      <svg class="ai-loading-svg" width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <g class="loading-circle">
+          <path opacity="0.25" d="M20,2A18,18,0,1,0,38,20,18,18,0,0,0,20,2Zm0,32a14,14,0,1,1,14-14A14,14,0,0,1,20,34Z" fill="#327dd0"></path>
+          <path d="M16.56,2.26a18,18,0,0,0-14.7,14.57A2.61,2.61,0,0,0,4.08,20,2.48,2.48,0,0,0,6.79,17.67a14,14,0,0,1,10.88-10.8A2.32,2.32,0,0,0,20,4.55h0A2.57,2.57,0,0,0,16.56,2.26Z" fill="#327dd0">
+            <animateTransform values="0 20 20;360 20 20" type="rotate" repeatCount="indefinite" dur="1s" attributeName="transform"></animateTransform>
+          </path>
+        </g>
+        <path class="loading-bolt" fill-rule="evenodd" clip-rule="evenodd" d="M25 18.9196L20.7282 18.1339L22.5728 9L15 20.5893L19.466 21.375L17.3301 31L25 18.9196Z" fill="#0478D2"></path>
+      </svg>
     </div>
+    <div class="padding-top--24">Robbie's crunching the binary code. Please stand by...</div>
+  </div>
+
   <div id="messagesList" class="padding--24 display--none"></div>
   
-  <div id="download-progress-section" class="padding--24 display--none">
+  <div id="download-progress-section" class="padding--24 display--flex justify-content--center align-items--center flex-direction--column height--full display--none">
     <div class="font-opensans--14--24--400 text-align--center">AI error resolution will be available when the model finishes downloading. Warning: terminating the Aspire orchestration app (AppHost) will cancel the download.</div>
     <div class="ai-progress-bar--track margin-top--12">
       <div id="download-progress-bar" class="ai-progress-bar--fill"></div>
     </div>
   </div>
+
 </div>
 
 <script>

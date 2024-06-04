@@ -11,7 +11,7 @@
 }
 
 .ai-chat-elem {
-    position: fixed;
+    position: absolute;
     box-sizing: border-box;
 }
 
@@ -52,9 +52,23 @@
 .ai-progress-bar--track {
   height: 6px;
   background-color: var(--color-border-disabled);
+  width: 100%;
 }
 
 .ai-progress-bar--fill {
   height: 6px;
   background-color: var(--color-bg-surface-header-strip);
+}
+
+.ai-loading-animation {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.ai-loading-svg {
+  width: 40px;
+  height: 40px;
+  fill: none;
 }

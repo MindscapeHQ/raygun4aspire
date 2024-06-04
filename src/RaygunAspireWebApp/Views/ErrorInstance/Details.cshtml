@@ -116,6 +116,9 @@
     if (!aierInProgress) {
       aierInProgress = true;
       aierContent = '';
+      
+      var progressSection = document.getElementById('loading-section');
+      progressSection.classList.remove("display--none");
 
       var xhr = new XMLHttpRequest();
       xhr.open('GET', '/ErrorInstance/AIER', true);
@@ -184,6 +187,9 @@
   const connection = new signalR.HubConnectionBuilder().withUrl("/aierHub").build();
 
   connection.on("ReceiveText", function (text) {
+    var progressSection = document.getElementById('loading-section');
+    progressSection.classList.add("display--none");
+
     var progressSection = document.getElementById('download-progress-section');
     progressSection.classList.add("display--none");
 
@@ -198,6 +204,9 @@
   connection.on("DownloadModelProgress", function (percentage) {
     var progressBar = document.getElementById('download-progress-bar');
     progressBar.style.width = percentage + '%';
+    
+    var progressSection = document.getElementById('loading-section');
+    progressSection.classList.add("display--none");
 
     var progressSection = document.getElementById('download-progress-section');
     progressSection.classList.remove("display--none");
