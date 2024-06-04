@@ -34,13 +34,13 @@ namespace Raygun4Aspire
           var ollamaClient = new OllamaClient();
 
           await _notificationService.PublishUpdateAsync(resource, state => state with { State = new ResourceStateSnapshot("Checking model", KnownResourceStateStyles.Info) });
-          var hasModel = await ollamaClient.HasModelAsync("llama3");
+          var hasModel = await ollamaClient.HasModelAsync("llama3", cancellationToken);
 
           if (!hasModel)
           {
             await _notificationService.PublishUpdateAsync(resource, state => state with { State = new ResourceStateSnapshot("Downloading model", KnownResourceStateStyles.Info) });
 
-            await foreach (var percentage in ollamaClient.PullModelAsync("llama3"))
+            await foreach (var percentage in ollamaClient.PullModelAsync("llama3", cancellationToken))
             {
               var percentageState = $"Downloading model {percentage:N0} percent";
               await _notificationService.PublishUpdateAsync(resource, state => state with { State = new ResourceStateSnapshot(percentageState, KnownResourceStateStyles.Info) });
