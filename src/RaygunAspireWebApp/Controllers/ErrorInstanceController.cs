@@ -160,6 +160,7 @@ namespace RaygunAspireWebApp.Controllers
             string errorResponse = await response.Content.ReadAsStringAsync();
             Console.WriteLine("Error response:");
             Console.WriteLine(errorResponse);
+            return StatusCode(StatusCodes.Status500InternalServerError);
           }
         }
         catch (Exception ex)
@@ -167,6 +168,7 @@ namespace RaygunAspireWebApp.Controllers
           // TODO: Raygun crash reporting
           Console.WriteLine("An error occurred:");
           Console.WriteLine(ex.Message);
+          return StatusCode(StatusCodes.Status500InternalServerError);
         }
       }
 
