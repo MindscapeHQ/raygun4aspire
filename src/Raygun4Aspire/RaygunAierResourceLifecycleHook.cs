@@ -42,7 +42,7 @@ namespace Raygun4Aspire
 
             await foreach (var percentage in ollamaClient.PullModelAsync("llama3", cancellationToken))
             {
-              var percentageState = $"Downloading model {percentage:N0} percent";
+              var percentageState = percentage == 0 ? "Downloading model" : $"Downloading model {percentage:N0} percent";
               await _notificationService.PublishUpdateAsync(resource, state => state with { State = new ResourceStateSnapshot(percentageState, KnownResourceStateStyles.Info) });
             }
           }

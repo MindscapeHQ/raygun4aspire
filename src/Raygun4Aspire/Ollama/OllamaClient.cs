@@ -27,7 +27,7 @@ namespace Raygun4Aspire.Ollama
       }
     }
 
-    public async IAsyncEnumerable<double> PullModelAsync(string modelName, CancellationToken cancellationToken)
+    public async IAsyncEnumerable<long> PullModelAsync(string modelName, CancellationToken cancellationToken)
     {
       using (HttpClient client = new HttpClient())
       {
@@ -39,7 +39,7 @@ namespace Raygun4Aspire.Ollama
 
         var response = await client.SendAsync(requestMessage, HttpCompletionOption.ResponseHeadersRead, cancellationToken);
 
-        double percentage = 0;
+        long percentage = 0;
 
         using (Stream responseStream = await response.Content.ReadAsStreamAsync(cancellationToken))
         {
@@ -56,10 +56,13 @@ namespace Raygun4Aspire.Ollama
                 {
                   if (responseModel.total != 0)
                   {
-                    percentage = responseModel.completed / (double)responseModel.total * 100;
+                    var newPercentage = (long)(responseModel.completed / (double)responseModel.total * 100);
+                    if (newPercentage != percentage)
+                    {
+                      percentage = newPercentage;
+                      yield return percentage;
+                    }
                   }
-
-                  yield return percentage;
                 }
               }
             }
