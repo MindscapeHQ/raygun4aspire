@@ -595,6 +595,10 @@
   width: 100%;
 }
 
+.width--fill-available {
+  max-width: -webkit-fill-available;
+}
+
 .width--40 {
   width: 40px;
 }

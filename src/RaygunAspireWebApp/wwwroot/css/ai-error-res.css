@@ -44,6 +44,15 @@
     width: 50%;
 }
 
+.scroll-url {
+    overflow-x: auto;
+    white-space: nowrap;
+}
+
+.separate-scrollbar {
+    height: 8px;
+}
+
 .ai-chat-header-adj {
     width: calc(100% - 1px);
     margin-left: -1px;
