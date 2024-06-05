@@ -2,7 +2,10 @@
 
 namespace Raygun4Aspire
 {
-  public class RaygunAspireWebAppResource(string name) : ContainerResource(name)
+  public class RaygunAspireWebAppResource : ContainerResource
   {
+    public RaygunAspireWebAppResource(string name) : base(name)
+    {
+    }
   }
 }

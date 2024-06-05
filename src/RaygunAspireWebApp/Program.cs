@@ -14,18 +14,11 @@ namespace RaygunAspireWebApp
       builder.Services.AddSession();
       builder.Services.AddControllersWithViews();
 
-      var connectionString = builder.Configuration.GetConnectionString("Raygun-AIER");
-      Console.WriteLine("============ CONNECTION STRING ======================");
-      Console.WriteLine(connectionString);
-      var section = builder.Configuration.GetSection("ConnectionStrings");
-      foreach (var conn in section.GetChildren())
-      {
-        Console.WriteLine($"{conn.Key}:{conn.Value}");
-      }
+      var connectionString = builder.Configuration.GetConnectionString("Ollama");
 
       builder.Services.AddRaygun((settings) =>
       {
-        settings.ApiKey = "LdX7TdiUow6S4UDRS0iPg";
+        settings.ApiKey = "";
         settings.IsRawDataIgnored = true;
       });
 
