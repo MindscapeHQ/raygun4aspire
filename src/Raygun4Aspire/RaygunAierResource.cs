@@ -10,12 +10,11 @@
     }
 
     public EndpointReference Endpoint =>
-        _endpointReference ??= new(this, "http");
+      _endpointReference ??= new EndpointReference(this, "raygunaier");
 
     public ReferenceExpression ConnectionStringExpression =>
       ReferenceExpression.Create(
-            //$"http://{Endpoint.Property(EndpointProperty.Host)}:{Endpoint.Property(EndpointProperty.Port)}"
-            $"http://localhost:24606"
-        );
+        $"http://{Endpoint.Property(EndpointProperty.Host)}:{Endpoint.Property(EndpointProperty.Port)}"
+      );
   }
 }

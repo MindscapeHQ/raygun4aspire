@@ -8,7 +8,7 @@ namespace Raygun4Aspire
 {
   public static class RaygunAierBuilderExtensions
   {
-    public static int DefaultHostPort = 24606;
+    //public static int DefaultHostPort = 24606;
 
     public static IResourceBuilder<RaygunAierResource> AddRaygunAIER(this IDistributedApplicationBuilder builder,
       string name = "Raygun-AIER", int? port = null)
@@ -20,7 +20,7 @@ namespace Raygun4Aspire
         //.WithContainerRuntimeArgs("--device", "/dev/kfd")
         //.WithArgs("pull", "llama3")
         //.WithAnnotation(new EndpointAnnotation(ProtocolType.Tcp, uriScheme: "http", port: port ?? DefaultHostPort, targetPort: 11434))
-        .WithHttpEndpoint(port ?? DefaultHostPort, 11434, "raygunaier")
+        .WithHttpEndpoint(port, 11434, "raygunaier")
         .WithVolume("raygun-aier", "/root/.ollama")
         /*.WithInitialState(new CustomResourceSnapshot
         {

@@ -17,6 +17,11 @@ namespace RaygunAspireWebApp
       var connectionString = builder.Configuration.GetConnectionString("Raygun-AIER");
       Console.WriteLine("============ CONNECTION STRING ======================");
       Console.WriteLine(connectionString);
+      var section = builder.Configuration.GetSection("ConnectionStrings");
+      foreach (var conn in section.GetChildren())
+      {
+        Console.WriteLine($"{conn.Key}:{conn.Value}");
+      }
 
       builder.Services.AddRaygun((settings) =>
       {
