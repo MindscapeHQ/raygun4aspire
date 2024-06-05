@@ -172,10 +172,9 @@
     var messageList = document.getElementById('messages-list-section');
     messageList.classList.remove("display--none");
     messageList.innerHTML = htmlContent;
+    
     Prism.highlightAllUnder(messageList);
   });
-
-  Prism.highlightAll();
   
   connection.on("DownloadModelProgress", function (percentage) {
     var progressBar = document.getElementById('download-progress-bar');
