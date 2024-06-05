@@ -18,13 +18,16 @@
 #ai-chat {
     display: block;
     height: 100%;
-    width: inherit;
 }
 
 #ai-chat-container {
     position: relative;
     bottom: 0px;
     height: inherit;
+    @media only screen and (max-width: 1012px) {
+        margin-top: 16px;
+        max-width: -webkit-fill-available;
+    }
 }
 
 .error-header {
@@ -32,6 +35,10 @@
     gap: 24px;
     justify-content: space-between;
     flex-direction: row;
+    @media only screen and (max-width: 624px) {
+        display: inline-block;
+        max-width: -webkit-fill-available;
+    }
 }
 
 .error-heading {
@@ -40,13 +47,31 @@
     white-space: nowrap;
 }
 
-.width--half {
+.responsive-width--half {
     width: 50%;
+    @media only screen and (max-width: 1012px) {
+        width: -webkit-fill-available;
+    }
 }
 
-.ai-chat-header-adj {
-    width: calc(100% - 1px);
-    margin-left: -1px;
+.scroll-url {
+    overflow-x: auto;
+    white-space: nowrap;
+}
+
+.separate-scrollbar {
+    height: 8px;
+}
+
+.responsive-flex {
+    display: flex;
+    gap: 24px;
+    @media only screen and (max-width: 1248px) {
+        gap: 12px;
+    }
+    @media only screen and (max-width: 1012px) {
+        display: inline-block;
+    }
 }
 
 #ai-chat-close {

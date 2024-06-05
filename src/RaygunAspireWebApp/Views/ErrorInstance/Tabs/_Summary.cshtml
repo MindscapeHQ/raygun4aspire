@@ -146,7 +146,7 @@
 
     @if (error.StackTrace != null && error.StackTrace.Count() > 0)
     {
-      <div class="margin-left--24 font-size--0 color--color-text-default">
+      <div class="font-size--0 color--color-text-default scroll-url">
         @foreach (var frame in error.StackTrace)
         {
           <div>
@@ -183,6 +183,7 @@
             }
           </div>
         }
+        <div class="separate-scrollbar"></div>
       </div>
     }
     else
@@ -211,7 +212,7 @@
 <script>
   var occurredOnCell = document.getElementById('occurredOnCell');
   var rawDate = occurredOnCell.textContent;
-  var momentDateUtc = moment.utc(rawDate);
+  var momentDateUtc = moment.utc(rawDate, "MM/DD/YYYY HH:mm:ss");
 
   var formattedDateUtc = momentDateUtc.format("MMMM Do YYYY, HH:mm:ss") + " UTC";
   occurredOnCell.title = formattedDateUtc
