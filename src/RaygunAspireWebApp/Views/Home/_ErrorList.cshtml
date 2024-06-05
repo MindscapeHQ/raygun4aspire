@@ -43,7 +43,7 @@
     var dateCells = document.querySelectorAll('#errorTable .js-timestamp-cell');
     dateCells.forEach(function (cell) {
       var rawDate = cell.textContent;
-      var momentDateUtc = moment.utc(rawDate)
+      var momentDateUtc = moment.utc(rawDate, "MM/DD/YYYY HH:mm:ss");
       cell.textContent = momentDateUtc.fromNow();
 
       var momentDateLocal = momentDateUtc.local();

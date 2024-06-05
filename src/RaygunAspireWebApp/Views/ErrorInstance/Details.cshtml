@@ -6,7 +6,7 @@
 <script src="~/js/marked.min.js"></script>
 <script src="~/js/prism.js"></script>
 <script src="~/js/prism-json.min.js"></script>
-<script src="~/js/tooltips.js"></script>
+<script src="~/js/prism-csharp.min.js"></script>
 
 @{
   string BuildHeading(string className, string message)
@@ -68,8 +68,8 @@
   // Format the occurred on date in the header
   var occurredOnHeading = document.getElementById('occurredOnHeading');
   var rawDate = occurredOnHeading.textContent;
-  var momentDateUtc = moment.utc(rawDate);
-
+  var momentDateUtc = moment.utc(rawDate, "MM/DD/YYYY HH:mm:ss");
+  
   var formattedDateUtc = momentDateUtc.format("MMMM Do YYYY, HH:mm:ss") + " UTC";
   occurredOnHeading.title = formattedDateUtc
 
@@ -104,12 +104,10 @@
 
   function handleAIChatOpened() {
     document.getElementById("tab-content").classList.add("responsive-width--half");
-    
-    setChatWindowDimensions();
 
-    document.addEventListener('htmx:afterSettle', setChatWindowDimensions);
-    window.addEventListener('resize', setChatWindowDimensions);
-    window.addEventListener('scroll', setChatWindowDimensions);
+    document.addEventListener('htmx:afterSettle', setChatWindowWidth);
+    window.addEventListener('resize', setChatWindowWidth);
+    window.addEventListener('scroll', setChatWindowWidth);
     
     document.getElementById("ai-chat-container").classList.remove("display--none");
 
@@ -149,74 +147,11 @@
     document.getElementById("error-section").classList.remove("display--none");
   }
   
-  function setChatWindowDimensions() {
-    setChatWindowWidth();
-    //setChatWindowHeight();
-    //giveChatWindowBottomMargin();
-  }
-  
-  function setChatWindowHeight() {
-    var container1 = document.getElementById("ai-chat-container");
-    var container2 = document.getElementById("tab-and-chat");
-    
-    if (container1) { 
-      container1.style.height = getChatWindowHeight();
-    } 
-    if (container1) {
-      container2.style.height = getChatWindowHeight();
-    }
-  }
-  
-  function giveChatWindowBottomMargin() {
-    var container1 = document.getElementById("ai-chat-container");
-    var container2 = document.getElementById("tab-and-chat");
-    
-    if (container1) { 
-      container1.style.marginBottom = visibleMargin().toString() + "px";
-    }
-    if (container2) {
-      container2.style.marginBottom = visibleMargin().toString() + "px";
-    }
-  }
-  
-  function visibleMargin() {
-    const footer = document.getElementById('js-footer-elem');
-    const footerRect = footer.getBoundingClientRect();
-    
-    console.log("Top footer rect: " + footerRect.top);
-    console.log("Top footer rect minus 52: " + (footerRect.top - 52));
-    console.log("Window innerheight: " + window.innerHeight);
-    console.log("Final calc: " + Math.max(window.innerHeight - (footerRect.top - 52), 0));
-    
-    
-    return Math.max(window.innerHeight - (footerRect.top - 52), 0);
-  }
-  
   function setChatWindowWidth() {
     var width = $("#tab-content").width();
 
     // Set the width of the second element
     $("#ai-chat-container").width(width);
-  }
-  
-  function getChatWindowHeight() {
-    const errorTabs = document.getElementById('js-lowest-prechat-elem');
-    const header = document.getElementById('js-header-elem');
-    const footer = document.getElementById('js-footer-elem');
-
-    const errorRect = errorTabs.getBoundingClientRect();
-    const headerRect = header.getBoundingClientRect();
-    const footerRect = footer.getBoundingClientRect();
-
-    const errorBottom = errorRect.top + errorRect.height;
-    const headerBottom = headerRect.top + headerRect.height;
-
-    const top = Math.max(errorBottom, headerBottom);
-    const bottom = Math.min(footerRect.top - 52, window.innerHeight);
-
-    let height = bottom - top + 1;
-
-    return height.toString() + "px";
   }
 </script>
 
@@ -231,12 +166,16 @@
     progressSection.classList.add("display--none");
 
     aierContent += text;
+    
     const htmlContent = marked.parse(aierContent);
+    
     var messageList = document.getElementById('messages-list-section');
     messageList.classList.remove("display--none");
     messageList.innerHTML = htmlContent;
     Prism.highlightAllUnder(messageList);
   });
+
+  Prism.highlightAll();
   
   connection.on("DownloadModelProgress", function (percentage) {
     var progressBar = document.getElementById('download-progress-bar');
