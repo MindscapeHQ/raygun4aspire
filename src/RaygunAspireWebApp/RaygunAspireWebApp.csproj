@@ -9,11 +9,41 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="scripts\third-party\prism-csharp.min.js" />
+    <None Remove="scripts\third-party\prism-json.min.js" />
+    <None Remove="scripts\third-party\prism.js" />
+    <None Remove="scripts\third-party\prism.js.LICENSE.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="scripts\third-party\prism-csharp.min.js">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\third-party\prism-json.min.js">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\third-party\prism.js">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="scripts\third-party\prism.js.LICENSE.txt">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNet.SignalR.SystemWeb" Version="2.4.3" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.20.0-Preview.2" />
     <PackageReference Include="Mindscape.Raygun4Net.AspNetCore" Version="10.1.1" />
     <PackageReference Include="Mindscape.Raygun4Net.NetCore.Common" Version="10.1.1" />
     <PackageReference Include="OllamaSharp" Version="1.1.11" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\js\" />
   </ItemGroup>
 
 </Project>

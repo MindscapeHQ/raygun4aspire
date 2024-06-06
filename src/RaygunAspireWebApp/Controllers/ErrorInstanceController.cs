@@ -15,15 +15,15 @@ namespace RaygunAspireWebApp.Controllers
   {
     private RaygunClient _raygunClient;
     private IHubContext<AierHub> _aierHubContext;
-    private IMemoryCache _cache;
+    private IOllamaApiClient _ollamaClient;
 
     private static CancellationTokenSource _cancellationTokenSource;// = new CancellationTokenSource();
 
-    public ErrorInstanceController(RaygunClient raygunClient, IHubContext<AierHub> aierHubContext, IMemoryCache cache)
+    public ErrorInstanceController(RaygunClient raygunClient, IHubContext<AierHub> aierHubContext, IOllamaApiClient ollamaClient)
     {
       _raygunClient = raygunClient;
       _aierHubContext = aierHubContext;
-      _cache = cache;
+      _ollamaClient = ollamaClient;
     }
 
     public IActionResult Details(string id)
@@ -121,7 +121,18 @@ namespace RaygunAspireWebApp.Controllers
 
         try
         {
-          HttpResponseMessage response = await client.SendAsync(requestMessage, HttpCompletionOption.ResponseHeadersRead, _cancellationTokenSource.Token);
+          await _ollamaClient.StreamCompletion(question, null, async response =>
+          {
+            if (response.Response != null)
+            {
+              Console.WriteLine(response.Response);
+              //var responseModel = JsonSerializer.Deserialize<LlamaResponseModel>(response.Response);
+              await _aierHubContext.Clients.All.SendAsync("ReceiveText", response.Response);
+              //Console.WriteLine(responseModel.response);
+            }
+          }, _cancellationTokenSource.Token);
+
+          /*HttpResponseMessage response = await client.SendAsync(requestMessage, HttpCompletionOption.ResponseHeadersRead, _cancellationTokenSource.Token);
 
           if (response.IsSuccessStatusCode)
           {
@@ -161,7 +172,7 @@ namespace RaygunAspireWebApp.Controllers
             Console.WriteLine("Error response:");
             Console.WriteLine(errorResponse);
             return StatusCode(StatusCodes.Status500InternalServerError);
-          }
+          }*/
         }
         catch (Exception ex)
         {
@@ -177,15 +188,13 @@ namespace RaygunAspireWebApp.Controllers
 
     private async Task EnsureModel()
     {
-      var ollamaClient = new OllamaApiClient(new Uri("http://host.docker.internal:24606"));
-
-      var models = await ollamaClient.ListLocalModels();
-      if (models.Any(m => m.Name.StartsWith("llama3")))
+      var models = await _ollamaClient.ListLocalModels();
+      if (models.Any(m => m.Name.StartsWith(Constants.AiModel)))
       {
         return;
       }
 
-      await ollamaClient.PullModel("llama3", async status =>
+      await _ollamaClient.PullModel(Constants.AiModel, async status =>
       {
         var percentage = status.Total == 0 ? 0 : status.Completed * 100 / (double)status.Total;
         // There are some initial messages in the stream that state the download has started, but do not mention the progress yet.
