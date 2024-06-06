@@ -89,9 +89,8 @@ namespace RaygunAspireWebApp.Controllers
       }
       catch (Exception ex)
       {
-        // TODO: Raygun crash reporting
-        Console.WriteLine("An error occurred:");
-        Console.WriteLine(ex.Message);
+        Console.WriteLine(ex.ToString());
+        await _raygunClient.SendInBackground(ex);
         return StatusCode(StatusCodes.Status500InternalServerError);
       }
 
@@ -117,9 +116,8 @@ namespace RaygunAspireWebApp.Controllers
       }
       catch (Exception ex)
       {
-        // TODO: Raygun crash reporting
-        Console.WriteLine("An error occurred:");
-        Console.WriteLine(ex.Message);
+        Console.WriteLine(ex.ToString());
+        await _raygunClient.SendInBackground(ex);
         return StatusCode(StatusCodes.Status500InternalServerError);
       }
 
