@@ -1,11 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
-using Microsoft.Extensions.Caching.Memory;
 using Mindscape.Raygun4Net;
 using Mindscape.Raygun4Net.AspNetCore;
 using RaygunAspireWebApp.Hubs;
 using RaygunAspireWebApp.Models;
-using System.Text;
 using System.Text.Json;
 using OllamaSharp;
 
@@ -15,11 +13,11 @@ namespace RaygunAspireWebApp.Controllers
   {
     private RaygunClient _raygunClient;
     private IHubContext<AierHub> _aierHubContext;
-    private IOllamaApiClient _ollamaClient;
+    private IOllamaApiClient? _ollamaClient;
 
-    private static CancellationTokenSource _cancellationTokenSource;// = new CancellationTokenSource();
+    private static CancellationTokenSource? _cancellationTokenSource;
 
-    public ErrorInstanceController(RaygunClient raygunClient, IHubContext<AierHub> aierHubContext, IOllamaApiClient ollamaClient)
+    public ErrorInstanceController(RaygunClient raygunClient, IHubContext<AierHub> aierHubContext, IOllamaApiClient? ollamaClient = null)
     {
       _raygunClient = raygunClient;
       _aierHubContext = aierHubContext;
@@ -78,6 +76,11 @@ namespace RaygunAspireWebApp.Controllers
 
     public async Task<IActionResult> AIER()
     {
+      if (_ollamaClient == null)
+      {
+        return StatusCode(StatusCodes.Status500InternalServerError);
+      }
+
       _cancellationTokenSource = new CancellationTokenSource();
 
       try
@@ -95,8 +98,6 @@ namespace RaygunAspireWebApp.Controllers
       var modelString = HttpContext.Session.GetString("Model");
       var model = JsonSerializer.Deserialize<ErrorInstanceViewModel>(modelString, new JsonSerializerOptions { PropertyNameCaseInsensitive = true, Converters = { new RaygunIdentifierMessageConverter() } });
 
-      string modelName = "llama3";
-
       var errorModel = model?.RaygunMessage?.Details?.Error;
 
       var exceptionString = !string.IsNullOrWhiteSpace(errorModel.ClassName) ? $"{errorModel.ClassName}: " : "";
@@ -104,83 +105,22 @@ namespace RaygunAspireWebApp.Controllers
 
       string question = "My .NET Aspire application has encountered the following exception. Briefly explain how I should look into fixing it.\r\nThe exception is: " + exceptionString;
 
-      using (HttpClient client = new HttpClient())
+      try
       {
-        var requestMessage = new HttpRequestMessage(HttpMethod.Post, new Uri("http://host.docker.internal:24606/api/generate"));
-
-        var requestBody = new
+        await _ollamaClient.StreamCompletion(question, null, async response =>
         {
-          model = modelName,
-          prompt = question
-        };
-
-        var json = JsonSerializer.Serialize(requestBody);
-        var content = new StringContent(json, Encoding.UTF8, "application/json");
-
-        requestMessage.Content = content;
-
-        try
-        {
-          await _ollamaClient.StreamCompletion(question, null, async response =>
+          if (response.Response != null)
           {
-            if (response.Response != null)
-            {
-              Console.WriteLine(response.Response);
-              //var responseModel = JsonSerializer.Deserialize<LlamaResponseModel>(response.Response);
-              await _aierHubContext.Clients.All.SendAsync("ReceiveText", response.Response);
-              //Console.WriteLine(responseModel.response);
-            }
-          }, _cancellationTokenSource.Token);
-
-          /*HttpResponseMessage response = await client.SendAsync(requestMessage, HttpCompletionOption.ResponseHeadersRead, _cancellationTokenSource.Token);
-
-          if (response.IsSuccessStatusCode)
-          {
-            //string responseBody = await response.Content.ReadAsStringAsync();
-            Console.WriteLine("Response from Ollama:");
-            //Console.WriteLine(responseBody);
-            //model.Response = responseBody;
-
-            using (Stream responseStream = await response.Content.ReadAsStreamAsync())
-            {
-              using (StreamReader reader = new StreamReader(responseStream))
-              {
-                while (!reader.EndOfStream)
-                {
-                  if (_cancellationTokenSource.Token.IsCancellationRequested)
-                  {
-                    break;
-                  }
-
-                  string line = await reader.ReadLineAsync();
-                  if (line != null)
-                  {
-                    Console.WriteLine(line);
-                    var responseModel = JsonSerializer.Deserialize<LlamaResponseModel>(line);
-                    await _aierHubContext.Clients.All.SendAsync("ReceiveText", responseModel.response);
-                    Console.WriteLine(responseModel.response);
-                  }
-                }
-              }
-            }
+            await _aierHubContext.Clients.All.SendAsync("ReceiveText", response.Response);
           }
-          else
-          {
-            // TODO: Raygun crash reporting
-            Console.WriteLine($"Request failed with status code: {response.StatusCode}");
-            string errorResponse = await response.Content.ReadAsStringAsync();
-            Console.WriteLine("Error response:");
-            Console.WriteLine(errorResponse);
-            return StatusCode(StatusCodes.Status500InternalServerError);
-          }*/
-        }
-        catch (Exception ex)
-        {
-          // TODO: Raygun crash reporting
-          Console.WriteLine("An error occurred:");
-          Console.WriteLine(ex.Message);
-          return StatusCode(StatusCodes.Status500InternalServerError);
-        }
+        }, _cancellationTokenSource.Token);
+      }
+      catch (Exception ex)
+      {
+        // TODO: Raygun crash reporting
+        Console.WriteLine("An error occurred:");
+        Console.WriteLine(ex.Message);
+        return StatusCode(StatusCodes.Status500InternalServerError);
       }
 
       return Ok();
