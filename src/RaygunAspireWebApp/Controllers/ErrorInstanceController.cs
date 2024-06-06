@@ -34,7 +34,7 @@ namespace RaygunAspireWebApp.Controllers
 
         var raygunMessage = JsonSerializer.Deserialize<RaygunMessage>(fileContents, new JsonSerializerOptions { PropertyNameCaseInsensitive = true, Converters = { new RaygunIdentifierMessageConverter() } });
 
-        var model = new ErrorInstanceViewModel { RaygunMessage = raygunMessage };
+        var model = new ErrorInstanceViewModel { RaygunMessage = raygunMessage, AierEnabled = _ollamaClient != null};
 
         HttpContext.Session.SetString("Model", JsonSerializer.Serialize(model));
 
@@ -74,7 +74,7 @@ namespace RaygunAspireWebApp.Controllers
       return null;
     }
 
-    public async Task<IActionResult> AIER()
+    public async Task<IActionResult> StartAier()
     {
       if (_ollamaClient == null)
       {
@@ -89,9 +89,8 @@ namespace RaygunAspireWebApp.Controllers
       }
       catch (Exception ex)
       {
-        // TODO: Raygun crash reporting
-        Console.WriteLine("An error occurred:");
-        Console.WriteLine(ex.Message);
+        Console.WriteLine(ex.ToString());
+        await _raygunClient.SendInBackground(ex);
         return StatusCode(StatusCodes.Status500InternalServerError);
       }
 
@@ -117,9 +116,8 @@ namespace RaygunAspireWebApp.Controllers
       }
       catch (Exception ex)
       {
-        // TODO: Raygun crash reporting
-        Console.WriteLine("An error occurred:");
-        Console.WriteLine(ex.Message);
+        Console.WriteLine(ex.ToString());
+        await _raygunClient.SendInBackground(ex);
         return StatusCode(StatusCodes.Status500InternalServerError);
       }
 
@@ -146,7 +144,7 @@ namespace RaygunAspireWebApp.Controllers
       });
     }
 
-    public IActionResult CancelAIER()
+    public IActionResult CancelAier()
     {
       if (_cancellationTokenSource != null)
       {
