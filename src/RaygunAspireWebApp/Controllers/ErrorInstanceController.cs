@@ -34,7 +34,7 @@ namespace RaygunAspireWebApp.Controllers
 
         var raygunMessage = JsonSerializer.Deserialize<RaygunMessage>(fileContents, new JsonSerializerOptions { PropertyNameCaseInsensitive = true, Converters = { new RaygunIdentifierMessageConverter() } });
 
-        var model = new ErrorInstanceViewModel { RaygunMessage = raygunMessage };
+        var model = new ErrorInstanceViewModel { RaygunMessage = raygunMessage, AierEnabled = _ollamaClient != null};
 
         HttpContext.Session.SetString("Model", JsonSerializer.Serialize(model));
 
