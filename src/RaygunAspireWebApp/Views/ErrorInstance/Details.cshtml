@@ -105,6 +105,8 @@
   function handleAIChatOpened() {
     document.getElementById("tab-content").classList.add("responsive-width--half");
 
+    setChatWindowWidth();
+    
     document.addEventListener('htmx:afterSettle', setChatWindowWidth);
     window.addEventListener('resize', setChatWindowWidth);
     window.addEventListener('scroll', setChatWindowWidth);

@@ -15,6 +15,13 @@
     box-sizing: border-box;
 }
 
+.ai-chat-contents {
+    margin: 0px 24px 24px;
+    @media only screen and (min-width: 1012px) {
+        margin: 0px 8% 8%;
+    }    
+}
+
 #ai-chat {
     display: block;
     height: 100%;
@@ -45,6 +52,7 @@
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
+    line-height: 40px;
 }
 
 .responsive-width--half {
@@ -71,6 +79,20 @@
     }
     @media only screen and (max-width: 1012px) {
         display: inline-block;
+    }
+}
+
+.margin-top--goldenR-responsive {
+    margin-top: 38.2%;
+    @media only screen and (max-width: 1012px) {
+        margin-top: 24px;
+    }    
+}
+
+.margin-top--16pc-responsive {
+    margin-top: 16%;
+    @media only screen and (max-width: 1012px) {
+        margin-top: 0px;
     }
 }
 
