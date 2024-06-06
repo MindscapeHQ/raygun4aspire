@@ -101,7 +101,7 @@
 
   window.addEventListener('beforeunload', function (event) {
     var xhr = new XMLHttpRequest();
-    xhr.open('POST', '/ErrorInstance/CancelAIER', true);
+    xhr.open('POST', '/ErrorInstance/CancelAier', true);
     xhr.send();
   });
 
@@ -127,7 +127,7 @@
       progressSection.classList.remove("display--none");
 
       var xhr = new XMLHttpRequest();
-      xhr.open('GET', '/ErrorInstance/AIER', true);
+      xhr.open('GET', '/ErrorInstance/StartAier', true);
       xhr.onreadystatechange = function () {
         if (xhr.readyState === 4) { // Request is complete
           var status = xhr.status;

@@ -74,7 +74,7 @@ namespace RaygunAspireWebApp.Controllers
       return null;
     }
 
-    public async Task<IActionResult> AIER()
+    public async Task<IActionResult> StartAier()
     {
       if (_ollamaClient == null)
       {
@@ -146,7 +146,7 @@ namespace RaygunAspireWebApp.Controllers
       });
     }
 
-    public IActionResult CancelAIER()
+    public IActionResult CancelAier()
     {
       if (_cancellationTokenSource != null)
       {
