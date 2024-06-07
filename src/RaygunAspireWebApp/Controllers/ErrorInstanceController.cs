@@ -6,6 +6,7 @@ using RaygunAspireWebApp.Hubs;
 using RaygunAspireWebApp.Models;
 using System.Text.Json;
 using OllamaSharp;
+using OllamaSharp.Models;
 
 namespace RaygunAspireWebApp.Controllers
 {
@@ -127,21 +128,33 @@ namespace RaygunAspireWebApp.Controllers
     private async Task EnsureModel()
     {
       var models = await _ollamaClient.ListLocalModels();
-      if (models.Any(m => m.Name.StartsWith(Constants.AiModel)))
+      if (!models.Any(m => m.Name.StartsWith(Constants.AiModel)))
       {
-        return;
-      }
-
-      await _ollamaClient.PullModel(Constants.AiModel, async status =>
-      {
-        var percentage = status.Total == 0 ? 0 : status.Completed * 100 / (double)status.Total;
-        // There are some initial messages in the stream that state the download has started, but do not mention the progress yet.
-        // We do not want to send a message to the frontend for such cases to avoid the UI flickering once the actual percentage becomes known.
-        if (percentage != 0)
+        // If the model has not been downloaded yet, then kick off that process.
+        // If the model is already downloading, then this will pick up the progress of the existing download job:
+        await _ollamaClient.PullModel(Constants.AiModel, async status =>
         {
-          await _aierHubContext.Clients.All.SendAsync("DownloadModelProgress", percentage);
+          var percentage = status.Total == 0 ? 0 : status.Completed * 100 / (double)status.Total;
+          // There are some initial messages in the stream that state the download has started, but do not mention the progress yet.
+          // We do not want to send a message to the frontend for such cases to avoid the UI flickering once the actual percentage becomes known.
+          if (percentage != 0)
+          {
+            await _aierHubContext.Clients.All.SendAsync("DownloadModelProgress", percentage);
+          }
+        });
+
+        // Straight after the download completes, wait until the model becomes available:
+        while (true)
+        {
+          models = await _ollamaClient.ListLocalModels();
+          if (models.Any(m => m.Name.StartsWith(Constants.AiModel)))
+          {
+            return;
+          }
+
+          await Task.Delay(TimeSpan.FromSeconds(1));
         }
-      });
+      }
     }
 
     public IActionResult CancelAier()

@@ -164,11 +164,8 @@
   const connection = new signalR.HubConnectionBuilder().withUrl("/aierHub").build();
 
   connection.on("ReceiveText", function (text) {
-    var progressSection = document.getElementById('loading-section');
-    progressSection.classList.add("display--none");
-
-    var progressSection = document.getElementById('download-progress-section');
-    progressSection.classList.add("display--none");
+    document.getElementById('loading-section').classList.add("display--none");
+    document.getElementById('download-progress-section').classList.add("display--none");
 
     aierContent += text;
     
@@ -182,14 +179,17 @@
   });
   
   connection.on("DownloadModelProgress", function (percentage) {
-    var progressBar = document.getElementById('download-progress-bar');
-    progressBar.style.width = percentage + '%';
-    
-    var progressSection = document.getElementById('loading-section');
-    progressSection.classList.add("display--none");
+    if (percentage === 100) {
+      document.getElementById('loading-section').classList.remove("display--none");
+      document.getElementById('download-progress-section').classList.add("display--none");
+    }
+    else {
+      var progressBar = document.getElementById('download-progress-bar');
+      progressBar.style.width = percentage + '%';
 
-    var progressSection = document.getElementById('download-progress-section');
-    progressSection.classList.remove("display--none");
+      document.getElementById('loading-section').classList.add("display--none");
+      document.getElementById('download-progress-section').classList.remove("display--none");
+    }
   });
 
   connection.start().catch(function (err) {
