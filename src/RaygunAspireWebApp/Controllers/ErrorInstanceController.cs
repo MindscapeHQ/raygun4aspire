@@ -6,7 +6,6 @@ using RaygunAspireWebApp.Hubs;
 using RaygunAspireWebApp.Models;
 using System.Text.Json;
 using OllamaSharp;
-using OllamaSharp.Models;
 
 namespace RaygunAspireWebApp.Controllers
 {
@@ -95,19 +94,11 @@ namespace RaygunAspireWebApp.Controllers
         return StatusCode(StatusCodes.Status500InternalServerError);
       }
 
-      var modelString = HttpContext.Session.GetString("Model");
-      var model = JsonSerializer.Deserialize<ErrorInstanceViewModel>(modelString, new JsonSerializerOptions { PropertyNameCaseInsensitive = true, Converters = { new RaygunIdentifierMessageConverter() } });
-
-      var errorModel = model?.RaygunMessage?.Details?.Error;
-
-      var exceptionString = !string.IsNullOrWhiteSpace(errorModel.ClassName) ? $"{errorModel.ClassName}: " : "";
-      exceptionString += errorModel.Message;
-
-      string question = "My .NET Aspire application has encountered the following exception. Briefly explain how I should look into fixing it.\r\nThe exception is: " + exceptionString;
+      var prompt = BuildPrompt();
 
       try
       {
-        await _ollamaClient.StreamCompletion(question, null, async response =>
+        await _ollamaClient.StreamCompletion(prompt, null, async response =>
         {
           if (response.Response != null)
           {
@@ -155,6 +146,74 @@ namespace RaygunAspireWebApp.Controllers
           await Task.Delay(TimeSpan.FromSeconds(1));
         }
       }
+    }
+
+    private string BuildPrompt()
+    {
+      var prompt = "My .NET Aspire application has encountered the following exception. Briefly explain how I should look into fixing it. Get straight to the point.";
+
+      var modelString = HttpContext.Session.GetString("Model");
+      var model = JsonSerializer.Deserialize<ErrorInstanceViewModel>(modelString, new JsonSerializerOptions { PropertyNameCaseInsensitive = true, Converters = { new RaygunIdentifierMessageConverter() } });
+
+      var detailsModel = model?.RaygunMessage?.Details;
+      var errorModel = GetInnerMostError(detailsModel?.Error);
+
+      var exceptionString = !string.IsNullOrWhiteSpace(errorModel?.ClassName) ? $"{errorModel.ClassName}: " : "";
+      exceptionString += errorModel?.Message ?? "";
+
+      if (string.IsNullOrWhiteSpace(exceptionString))
+      {
+        exceptionString = "Unknown Exception";
+      }
+
+      prompt += $"\r\nThe exception is: {exceptionString}";
+
+      // If present, provide the first line of the stack trace:
+      if (errorModel?.StackTrace?.Length > 0)
+      {
+        var errorSite = errorModel.StackTrace[0];
+        string? errorSiteString = null;
+        if (!string.IsNullOrWhiteSpace(errorSite.ClassName) && !string.IsNullOrWhiteSpace(errorSite.MethodName))
+        {
+          errorSiteString = $"{errorSite.ClassName}.{errorSite.MethodName}";
+        }
+        else if (errorSite.FileName != null)
+        {
+          errorSiteString = errorSite.FileName;
+        }
+
+        if (errorSiteString != null)
+        {
+          prompt += $"\r\nThe exception occurred here: {errorSiteString}";
+        }
+      }
+
+      // If present, provide the request details:
+      var requestModel = detailsModel?.Request;
+      if (!string.IsNullOrWhiteSpace(requestModel?.Url))
+      {
+        var requestString = string.IsNullOrWhiteSpace(requestModel.HttpMethod) ? "" : $"{requestModel.HttpMethod} ";
+        requestString += requestModel.Url;
+
+        prompt += $"\r\nThe exception occurred during this request: {requestString}";
+      }
+
+      return prompt;
+    }
+
+    private static RaygunErrorMessage? GetInnerMostError(RaygunErrorMessage? errorModel)
+    {
+      if (errorModel?.InnerError != null)
+      {
+        return GetInnerMostError(errorModel.InnerError);
+      }
+
+      if (errorModel?.InnerErrors?.Length > 0 && errorModel.InnerErrors[0] != null)
+      {
+        return GetInnerMostError(errorModel.InnerErrors[0]);
+      }
+
+      return errorModel;
     }
 
     public IActionResult CancelAier()
