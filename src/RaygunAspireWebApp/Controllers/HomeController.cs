@@ -49,7 +49,7 @@ namespace RaygunAspireWebApp.Controllers
 
       return new ErrorListViewModel() { Errors = new List<ErrorInstanceRow>() };
     }
-    
+
     private ErrorInstanceRow ConvertFileInfoToErrorInstance(FileInfo fileInfo)
     {
       var fileName = fileInfo.Name;

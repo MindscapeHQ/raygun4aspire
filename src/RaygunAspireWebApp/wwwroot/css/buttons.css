@@ -1,5 +1,4 @@
-﻿
-.rg button,
+﻿.rg button,
 button.rg {
   background:var(--button-bg-color, var(--color-bg-interactive-color-bg-interactive-default, rgba(96, 125, 139, 0.12)));
   color: var(--button-color, var(--color-text-button-default));
@@ -25,7 +24,6 @@ button.rg {
   align-items: center;
   
   position: relative;
-  
 
   &:not(:disabled):hover {
     box-shadow: inset 0 0 0 9999px var(--color-bg-state-hover);
@@ -246,6 +244,7 @@ i.rg {
   0% {
     transform: rotate(0deg);
   }
+
   100% {
     transform: rotate(360deg);
   }

@@ -21,7 +21,6 @@ namespace RaygunAspireWebApp
       });
 
       builder.Services.AddSignalR();
-      builder.Services.AddMemoryCache();
 
       var connectionString = builder.Configuration.GetConnectionString("Ollama");
       if (!string.IsNullOrWhiteSpace(connectionString))
