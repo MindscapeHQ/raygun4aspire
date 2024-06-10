@@ -127,7 +127,7 @@
       <div class="ei-result">
         @if (Model.RaygunMessage.Details.Request.QueryString != null && Model.RaygunMessage.Details.Request.QueryString.Count > 0)
         {
-          <pre><code class="language-json">@SimplifyJson(JsonSerializer.Serialize(Model.RaygunMessage.Details.Request.QueryString, new JsonSerializerOptions { WriteIndented = true, }))</code></pre>
+          <pre class="no-whitespace"><code class="language-json">@SimplifyJson(JsonSerializer.Serialize(Model.RaygunMessage.Details.Request.QueryString, new JsonSerializerOptions { WriteIndented = true, }))</code></pre>
         }
         else
         {
@@ -163,7 +163,7 @@
       <div class="ei-result">
         @if (Model.RaygunMessage.Details.Request.Headers != null && Model.RaygunMessage.Details.Request.Headers.Count > 0)
         {
-          <pre><code class="language-json">@SimplifyJson(@JsonSerializer.Serialize(Model.RaygunMessage.Details.Request.Headers, new JsonSerializerOptions { WriteIndented = true }))</code></pre>
+          <pre class="no-whitespace"><code class="language-json">@SimplifyJson(@JsonSerializer.Serialize(Model.RaygunMessage.Details.Request.Headers, new JsonSerializerOptions { WriteIndented = true }))</code></pre>
         }
         else
         {
@@ -177,7 +177,7 @@
       <div class="ei-result">
         @if (Model.RaygunMessage.Details.Request.Form != null && Model.RaygunMessage.Details.Request.Form.Count > 0)
         {
-          <pre><code class="language-json">@SimplifyJson(JsonSerializer.Serialize(Model.RaygunMessage.Details.Request.Form, new JsonSerializerOptions { WriteIndented = true, }))</code></pre>
+          <pre class="no-whitespace"><code class="language-json">@SimplifyJson(JsonSerializer.Serialize(Model.RaygunMessage.Details.Request.Form, new JsonSerializerOptions { WriteIndented = true, }))</code></pre>
         }
         else
         {
