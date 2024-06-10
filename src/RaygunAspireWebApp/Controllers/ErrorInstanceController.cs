@@ -51,8 +51,6 @@ namespace RaygunAspireWebApp.Controllers
         var modelString = HttpContext.Session.GetString("Model");
         var model = JsonSerializer.Deserialize<ErrorInstanceViewModel>(modelString, new JsonSerializerOptions { PropertyNameCaseInsensitive = true, Converters = { new RaygunIdentifierMessageConverter() } });
 
-        Console.WriteLine($"Model: {model}");
-
         switch (tab)
         {
           case "summary":
