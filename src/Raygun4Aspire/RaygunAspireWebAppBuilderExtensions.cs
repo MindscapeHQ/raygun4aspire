@@ -8,7 +8,7 @@ namespace Raygun4Aspire
   {
     public static int DefaultHostPort = 24605;
 
-    public static IResourceBuilder<RaygunAspireWebAppResource> AddRaygun(this IDistributedApplicationBuilder builder, string name = "Raygun", int? port = null)
+    public static IResourceBuilder<RaygunAspireWebAppResource> AddRaygun(this IDistributedApplicationBuilder builder, string name = "Raygun", int? port = 24605)
     {
       var raygun = new RaygunAspireWebAppResource(name);
       return builder.AddResource(raygun)
