@@ -1,0 +1,133 @@
+#ai-error-res-btn {
+  background: linear-gradient(271deg, var(--color-bg-drawer-header-ai-01) 41.23%, var(--color-bg-drawer-header-ai-02) 103.43%);
+  color: var(--color-text-button-inverted);
+  height: 40px;
+  min-width: min-content;
+    
+  &:disabled {
+    background: var(--color-bg-interactive-disabled);
+    color: var(--color-text-button-disabled);
+    pointer-events: none;
+  }    
+}
+
+.ai-chat-elem {
+  box-sizing: border-box;
+}
+
+.ai-chat-contents {
+  margin: 0px 24px 24px;
+}
+
+#ai-chat {
+  display: block;
+  height: 100%;
+}
+
+#ai-chat-container {
+  position: relative;
+  bottom: 0px;
+  height: inherit;
+
+  @media only screen and (max-width: 1012px) {
+    margin-top: 16px;
+    max-width: -webkit-fill-available;
+  }
+}
+
+.error-header {
+  display: flex;
+  gap: 24px;
+  justify-content: space-between;
+  flex-direction: row;
+
+  @media only screen and (max-width: 624px) {
+    display: inline-block;
+    max-width: -webkit-fill-available;
+  }
+}
+
+.error-heading {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  line-height: 40px;
+}
+
+.responsive-width--half {
+  width: 50%;
+
+  @media only screen and (max-width: 1012px) {
+    width: -webkit-fill-available;
+  }
+}
+
+.scroll-url {
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+.separate-scrollbar {
+  height: 8px;
+}
+
+.responsive-flex {
+  display: flex;
+  gap: 24px;
+
+  @media only screen and (max-width: 1248px) {
+    gap: 12px;
+  }
+
+  @media only screen and (max-width: 1012px) {
+    display: inline-block;
+  }
+}
+
+.margin-top--goldenR-responsive {
+  margin-top: 38.2%;
+
+  @media only screen and (max-width: 1012px) {
+    margin-top: 24px;
+  }
+}
+
+.margin-top--16pc-responsive {
+  margin-top: 16%;
+
+  @media only screen and (max-width: 1012px) {
+    margin-top: 0px;
+  }
+}
+
+#ai-chat-close {
+  background-color: var(--color-icon-inverted);
+}
+
+#ai-res-icon {
+  background-color: var(--color-icon-inverted);
+}
+
+.ai-progress-bar--track {
+  height: 6px;
+  background-color: var(--color-border-disabled);
+  width: 100%;
+}
+
+.ai-progress-bar--fill {
+  height: 6px;
+  background-color: var(--color-bg-surface-header-strip);
+}
+
+.ai-loading-animation {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.ai-loading-svg {
+  width: 40px;
+  height: 40px;
+  fill: none;
+}

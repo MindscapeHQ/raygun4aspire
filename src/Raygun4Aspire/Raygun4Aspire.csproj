@@ -15,7 +15,7 @@
     <PackageIconUrl>https://app.raygun.com/Content/Images/nuget-icon.png</PackageIconUrl>
     <PackageIcon>128x128-transparent.png</PackageIcon>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <PackageReleaseNotes>https://github.com/MindscapeHQ/raygun4aspire/blob/master/CHANGE-LOG.md</PackageReleaseNotes>
+    <PackageReleaseNotes>https://github.com/MindscapeHQ/raygun4aspire/blob/main/CHANGE-LOG.md</PackageReleaseNotes>
     <PackageTags>crash;exception-handling;exception-reporting;exception-handler;unhandled-exceptions;debugging;debug;bug;bugs;exceptions;error;errors;crash-reporting;aspnet-core;raygun;aspire</PackageTags>
     <Copyright>Copyright © Raygun 2024</Copyright>
     <RepositoryUrl>https://github.com/MindscapeHQ/raygun4aspire</RepositoryUrl>
@@ -32,8 +32,8 @@
   </ItemGroup>
   
   <ItemGroup>
-    <PackageReference Include="Aspire.Hosting" Version="8.0.0-preview.5.24201.12" />
-    <PackageReference Include="Mindscape.Raygun4Net.NetCore.Common" Version="10.1.1" />
+    <PackageReference Include="Aspire.Hosting" Version="8.0.1" />
+    <PackageReference Include="Mindscape.Raygun4Net.NetCore.Common" Version="11.0.0" />
   </ItemGroup>
 
 </Project>

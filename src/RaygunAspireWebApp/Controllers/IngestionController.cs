@@ -2,6 +2,7 @@
 using Mindscape.Raygun4Net.AspNetCore;
 using System.Text;
 using System.Text.Json;
+using System.Web;
 
 namespace RaygunAspireWebApp.Controllers
 {
@@ -40,7 +41,9 @@ namespace RaygunAspireWebApp.Controllers
             message = "Unknown error";
           }
 
-          System.IO.File.WriteAllText($"{ErrorsFolderPath}/{uniqueSlug}-{message}.json", requestBody);
+          string noAsterisk = message.Replace("*", "");
+          string encodedMessage = HttpUtility.UrlEncode(noAsterisk);
+          System.IO.File.WriteAllText($"{ErrorsFolderPath}/{uniqueSlug}-{encodedMessage}.json", requestBody);
 
           EnforceRetentionAsync();
         }

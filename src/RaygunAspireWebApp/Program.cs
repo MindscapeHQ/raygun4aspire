@@ -1,4 +1,6 @@
 using Mindscape.Raygun4Net.AspNetCore;
+using OllamaSharp;
+using RaygunAspireWebApp.Hubs;
 
 namespace RaygunAspireWebApp
 {
@@ -18,13 +20,21 @@ namespace RaygunAspireWebApp
         settings.IsRawDataIgnored = true;
       });
 
+      builder.Services.AddSignalR();
+
+      var connectionString = builder.Configuration.GetConnectionString("Ollama");
+      if (!string.IsNullOrWhiteSpace(connectionString))
+      {
+        builder.Services.Add(new ServiceDescriptor(typeof(IOllamaApiClient), new OllamaApiClient(connectionString, Constants.AiModel)));
+      }
+
       var app = builder.Build();
 
       var raygunClient = app.Services.GetService<RaygunClient>();
 
       if (raygunClient != null)
       {
-        raygunClient.SendingMessage += (sender, eventArgs) =>
+        raygunClient.SendingMessage += (_, eventArgs) =>
         {
           if (eventArgs?.Message?.Details != null)
           {
@@ -57,6 +67,11 @@ namespace RaygunAspireWebApp
       app.MapControllerRoute(
           name: "default",
           pattern: "{controller=Home}/{action=Index}/{id?}");
+
+      app.UseEndpoints(endpoints =>
+      {
+        endpoints.MapHub<AierHub>("/aierHub");
+      });
 
       app.Run();
     }

@@ -2,6 +2,11 @@
 
 <script src="~/js/htmx.min.js"></script>
 <script src="~/js/moment.min.js"></script>
+<script src="~/js/signalr.min.js"></script>
+<script src="~/js/marked.min.js"></script>
+<script src="~/js/prism.js"></script>
+<script src="~/js/prism-json.min.js"></script>
+<script src="~/js/prism-csharp.min.js"></script>
 
 @{
   string BuildHeading(string className, string message)
@@ -26,12 +31,23 @@
   }
 }
 
-<div class="margin--24">
-  <h2 class="font-opensans--18--28--600 color--color-text-default">
-    @BuildHeading(Model?.RaygunMessage?.Details?.Error?.ClassName, Model?.RaygunMessage?.Details?.Error?.Message)
-  </h2>
+<div class="margin-top--24 margin-bottom--24">
+  <div class="error-header">
+    <div class="overflow-x--auto">
+      <h2 title="@Model?.RaygunMessage?.Details?.Error?.Message" class="error-heading font-opensans--18--28--600 color--color-text-default margin-bottom--12">
+        @BuildHeading(Model?.RaygunMessage?.Details?.Error?.ClassName, Model?.RaygunMessage?.Details?.Error?.Message)
+      </h2>
+      <p id="occurredOnHeading" class="font-opensans--14--32--600 color--color-text-low-emphasis margin-bottom--12">@Model.RaygunMessage.OccurredOn.ToString("MM/dd/yyyy hh:mm:ss")</p>
+    </div>
 
-  <p id="occurredOnHeading" class="font-opensans--14--32--600 color--color-text-low-emphasis">@Model.RaygunMessage.OccurredOn.ToString("MM/dd/yyyy hh:mm:ss")</p>
+    @if (Model?.AierEnabled == true)
+    {
+      <button id="ai-error-res-btn" class="rg margin-bottom--12" onclick="handleAIChatOpened()">
+        <i id="ai-res-icon" class="ai-small"></i>
+        AI Error Resolution
+      </button>
+    }
+  </div>
 
   <ul class="tab-group clearfix font-opensans--14--32--600 color--color-text-default margin-top--24">
     <li class="js-tab-item tab-group--item tab-group--item--active" hx-get="/ErrorInstance/TabContent" hx-target="#tab-content" hx-trigger="click" hx-vals='{"tab": "summary"}'>Summary</li>
@@ -41,8 +57,13 @@
     }
     <li class="js-tab-item tab-group--item tab-group--item-last" hx-get="/ErrorInstance/TabContent" hx-target="#tab-content" hx-trigger="click" hx-vals='{"tab": "rawdata"}'>Raw data</li>
   </ul>
-  <div id="tab-content" class="background--color-bg-surface-01 box-shadow--tabs border-color--color-border-elevation border-width--1 border-style--solid">
-    <partial name="Tabs/_summary" model="@Model" />
+  <div id="tab-and-chat" class="display--flex responsive-flex width--fill-available">
+    <div id="tab-content" class="background--color-bg-surface-01 box-shadow--tabs border-color--color-border-elevation border-width--1 border-style--solid width--fill-available">
+      <partial name="Tabs/_summary" model="@Model"/>
+    </div>
+    <div id="ai-chat-container" class="ai-chat-elem background--color-bg-surface-01 box-shadow--tabs border-color--color-border-elevation border-width--1 border-style--solid display--none">
+      <partial name="_AIChatWindow"/>
+    </div>
   </div>
 </div>
 
@@ -50,7 +71,7 @@
   // Format the occurred on date in the header
   var occurredOnHeading = document.getElementById('occurredOnHeading');
   var rawDate = occurredOnHeading.textContent;
-  var momentDateUtc = moment.utc(rawDate);
+  var momentDateUtc = moment.utc(rawDate, "MM/DD/YYYY HH:mm:ss");
 
   var formattedDateUtc = momentDateUtc.format("MMMM Do YYYY, HH:mm:ss") + " UTC";
   occurredOnHeading.title = formattedDateUtc
@@ -71,5 +92,107 @@
       // Add the 'active' class to the clicked element
       element.classList.add('tab-group--item--active');
     });
+  });
+</script>
+
+<script>
+  let aierInProgress = false;
+  let aierContent = '';
+
+  window.addEventListener('beforeunload', function (event) {
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', '/ErrorInstance/CancelAier', true);
+    xhr.send();
+  });
+
+  function handleAIChatOpened() {
+    document.getElementById("tab-content").classList.add("responsive-width--half");
+
+    setChatWindowWidth();
+    
+    document.addEventListener('htmx:afterSettle', setChatWindowWidth);
+    window.addEventListener('resize', setChatWindowWidth);
+    window.addEventListener('scroll', setChatWindowWidth);
+    
+    document.getElementById("ai-chat-container").classList.remove("display--none");
+
+    document.getElementById("ai-error-res-btn").disabled = true;
+    document.getElementById("ai-res-icon").style.backgroundColor = "var(--color-text-button-disabled)";
+
+    if (!aierInProgress) {
+      aierInProgress = true;
+      aierContent = '';
+      
+      var progressSection = document.getElementById('loading-section');
+      progressSection.classList.remove("display--none");
+
+      var xhr = new XMLHttpRequest();
+      xhr.open('GET', '/ErrorInstance/StartAier', true);
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4) { // Request is complete
+          var status = xhr.status;
+
+          if (status === 500) {
+            displayErrorSection();
+          }
+        }
+      };
+      xhr.onerror = function () {
+        displayErrorSection();
+      };
+      xhr.send();
+    }
+  }
+  
+  function displayErrorSection()
+  {
+    document.getElementById("loading-section").classList.add("display--none");
+    document.getElementById("loading-section").classList.add("display--none");
+    document.getElementById("download-progress-section").classList.add("display--none");
+    document.getElementById("error-section").classList.remove("display--none");
+  }
+  
+  function setChatWindowWidth() {
+    var width = $("#tab-content").width();
+
+    // Set the width of the second element
+    $("#ai-chat-container").width(width);
+  }
+</script>
+
+<script>
+  const connection = new signalR.HubConnectionBuilder().withUrl("/aierHub").build();
+
+  connection.on("ReceiveText", function (text) {
+    document.getElementById('loading-section').classList.add("display--none");
+    document.getElementById('download-progress-section').classList.add("display--none");
+
+    aierContent += text;
+    
+    const htmlContent = marked.parse(aierContent);
+
+    var messageList = document.getElementById('messages-list-section');
+    messageList.classList.remove("display--none");
+    messageList.innerHTML = htmlContent;
+    
+    Prism.highlightAllUnder(messageList);
+  });
+  
+  connection.on("DownloadModelProgress", function (percentage) {
+    if (percentage === 100) {
+      document.getElementById('loading-section').classList.remove("display--none");
+      document.getElementById('download-progress-section').classList.add("display--none");
+    }
+    else {
+      var progressBar = document.getElementById('download-progress-bar');
+      progressBar.style.width = percentage + '%';
+
+      document.getElementById('loading-section').classList.add("display--none");
+      document.getElementById('download-progress-section').classList.remove("display--none");
+    }
+  });
+
+  connection.start().catch(function (err) {
+    return console.error(err.toString());
   });
 </script>

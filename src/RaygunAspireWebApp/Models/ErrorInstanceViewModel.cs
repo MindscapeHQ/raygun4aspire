@@ -5,5 +5,6 @@ namespace RaygunAspireWebApp.Models
   public class ErrorInstanceViewModel
   {
     public RaygunMessage RaygunMessage { get; set; }
+    public bool AierEnabled { get; set; }
   }
 }

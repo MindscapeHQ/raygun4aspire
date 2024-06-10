@@ -427,6 +427,10 @@
   padding-left: 16px;
 }
 
+.padding-left--24 {
+  padding-left: 24px;
+}
+
 .padding-top--8 {
   padding-top: 8px;
 }
@@ -589,6 +593,10 @@
 /* Width */
 .width--full {
   width: 100%;
+}
+
+.width--fill-available {
+  max-width: -webkit-fill-available;
 }
 
 .width--40 {

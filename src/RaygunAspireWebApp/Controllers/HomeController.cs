@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using RaygunAspireWebApp.Models;
 using System.Diagnostics;
+using System.Web;
 
 namespace RaygunAspireWebApp.Controllers
 {
@@ -61,15 +62,17 @@ namespace RaygunAspireWebApp.Controllers
         fileName = fileName.Substring(index + 1);
       }
 
-      if (fileName.EndsWith(".json"))
+      string decodedFilename = HttpUtility.UrlDecode(fileName);
+
+      if (decodedFilename.EndsWith(".json"))
       {
-        fileName = fileName.Substring(0, fileName.Length - 5);
+        decodedFilename = decodedFilename.Substring(0, decodedFilename.Length - 5);
       }
 
       return new ErrorInstanceRow
       {
         Timestamp = fileInfo.LastWriteTime,
-        Name = fileName,
+        Name = decodedFilename,
         Id = id
       };
     }
