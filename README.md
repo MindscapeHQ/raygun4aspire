@@ -60,9 +60,11 @@ In production `appsettings` files of each of your .NET projects, add the below `
 
 # Enable AI Error Resolution (optional)
 
-## Step 1 - Install the Ollama NuGet package
+Get AI suggestions to resolve exceptions from a locally running LLM!
 
-Install the Raygun.Aspire.Hosting.Ollama NuGet package into the Aspire orchestration project (AppHost). Either use the NuGet package management GUI in the IDE you use, OR the below dotnet command.
+## Step 1 - Install the Aspire Hosting Ollama NuGet package
+
+Install the [Raygun.Aspire.Hosting.Ollama](https://www.nuget.org/packages/Raygun.Aspire.Hosting.Ollama#readme-body-tab) NuGet package into the Aspire orchestration project (AppHost). Either use the NuGet package management GUI in the IDE you use, OR the below dotnet command.
 
 ```bash
 dotnet add package Raygun.Aspire.Hosting.Ollama
@@ -70,13 +72,11 @@ dotnet add package Raygun.Aspire.Hosting.Ollama
 
 ## Step 2 - Add Ollama to the orchestration builder
 
-In `Program.cs` of the AppHost project, right above where you added the `builder.AddRaygun();` line in Step 2 of the standard installation, you'll need to add the following line to invoke Ollama.
+In `Program.cs` of the AppHost project, right above where you added the `builder.AddRaygun();` line in Step 2 of the standard installation, you'll need to add the following line to add the Ollama container.
 
 ```csharp
 var ollama = builder.AddOllama();
 ```
-
----
 
 ## Step 3 - Reference Ollama in the Raygun component
 
