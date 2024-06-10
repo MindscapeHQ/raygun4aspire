@@ -396,3 +396,4 @@ FodyWeavers.xsd
 *.sln.iml
 src/RaygunAspireWebApp/yarn.lock
 /src/RaygunAspireWebApp/wwwroot/js
+.idea/
