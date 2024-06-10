@@ -33,7 +33,7 @@
   
   <ItemGroup>
     <PackageReference Include="Aspire.Hosting" Version="8.0.1" />
-    <PackageReference Include="Mindscape.Raygun4Net.NetCore.Common" Version="10.1.1" />
+    <PackageReference Include="Mindscape.Raygun4Net.NetCore.Common" Version="11.0.0" />
   </ItemGroup>
 
 </Project>

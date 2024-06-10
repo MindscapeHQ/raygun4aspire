@@ -98,11 +98,11 @@ namespace RaygunAspireWebApp.Controllers
 
       try
       {
-        await _ollamaClient.StreamCompletion(prompt, null, async response =>
+        await _ollamaClient.StreamCompletion(prompt, null, response =>
         {
-          if (response.Response != null)
+          if (response?.Response != null)
           {
-            await _aierHubContext.Clients.All.SendAsync("ReceiveText", response.Response);
+            _aierHubContext.Clients.All.SendAsync("ReceiveText", response.Response);
           }
         }, _cancellationTokenSource.Token);
       }
@@ -123,14 +123,14 @@ namespace RaygunAspireWebApp.Controllers
       {
         // If the model has not been downloaded yet, then kick off that process.
         // If the model is already downloading, then this will pick up the progress of the existing download job:
-        await _ollamaClient.PullModel(Constants.AiModel, async status =>
+        await _ollamaClient.PullModel(Constants.AiModel, status =>
         {
           var percentage = status.Total == 0 ? 0 : status.Completed * 100 / (double)status.Total;
           // There are some initial messages in the stream that state the download has started, but do not mention the progress yet.
           // We do not want to send a message to the frontend for such cases to avoid the UI flickering once the actual percentage becomes known.
           if (percentage != 0)
           {
-            await _aierHubContext.Clients.All.SendAsync("DownloadModelProgress", percentage);
+            _aierHubContext.Clients.All.SendAsync("DownloadModelProgress", percentage);
           }
         });
 
@@ -150,7 +150,7 @@ namespace RaygunAspireWebApp.Controllers
 
     private string BuildPrompt()
     {
-      var prompt = "My .NET Aspire application has encountered the following exception. Briefly explain how I should look into fixing it. Get straight to the point.";
+      var prompt = "My .NET Aspire application has encountered the following exception. Briefly and professionally explain how I should look into fixing it.";
 
       var modelString = HttpContext.Session.GetString("Model");
       var model = JsonSerializer.Deserialize<ErrorInstanceViewModel>(modelString, new JsonSerializerOptions { PropertyNameCaseInsensitive = true, Converters = { new RaygunIdentifierMessageConverter() } });
@@ -195,7 +195,7 @@ namespace RaygunAspireWebApp.Controllers
         var requestString = string.IsNullOrWhiteSpace(requestModel.HttpMethod) ? "" : $"{requestModel.HttpMethod} ";
         requestString += requestModel.Url;
 
-        prompt += $"\r\nThe exception occurred during this request: {requestString}";
+        prompt += $"\r\nThe exception occurred during this web request: {requestString}";
       }
 
       return prompt;
