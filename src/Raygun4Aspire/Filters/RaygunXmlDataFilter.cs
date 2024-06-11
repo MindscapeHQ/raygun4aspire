@@ -4,13 +4,13 @@ namespace Raygun4Aspire.Filters
 {
   public class RaygunXmlDataFilter : IRaygunDataFilter
   {
-    private const string FILTERED_VALUE = "[FILTERED]";
+    private const string FilteredValue = "[FILTERED]";
 
     public bool CanParse(string data)
     {
       if (!string.IsNullOrEmpty(data))
       {
-        int index = data.TakeWhile(c => char.IsWhiteSpace(c)).Count();
+        var index = data.TakeWhile(char.IsWhiteSpace).Count();
 
         if (index < data.Length)
         {
@@ -44,7 +44,7 @@ namespace Raygun4Aspire.Filters
 
     private static void FilterElementsRecursive(IEnumerable<XElement> descendants, IList<string> ignoredKeys)
     {
-      foreach (XElement element in descendants)
+      foreach (var element in descendants)
       {
         if (element.HasElements)
         {
@@ -62,7 +62,7 @@ namespace Raygun4Aspire.Filters
       // Check if a value is set first and then if this element should be filtered.
       if (!string.IsNullOrEmpty(element.Value) && ignoredKeys.Any(f => f.Equals(element.Name.LocalName, StringComparison.OrdinalIgnoreCase)))
       {
-        element.Value = FILTERED_VALUE;
+        element.Value = FilteredValue;
       }
 
       if (element.HasAttributes)
@@ -72,7 +72,7 @@ namespace Raygun4Aspire.Filters
           // Check if a value is set first and then if this attribute should be filtered.
           if (!string.IsNullOrEmpty(attribute.Value) && ignoredKeys.Any(f => f.Equals(attribute.Name.LocalName, StringComparison.OrdinalIgnoreCase)))
           {
-            attribute.Value = FILTERED_VALUE;
+            attribute.Value = FilteredValue;
           }
         }
       }

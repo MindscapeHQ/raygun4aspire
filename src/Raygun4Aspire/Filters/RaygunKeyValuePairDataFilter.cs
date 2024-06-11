@@ -4,7 +4,7 @@ namespace Raygun4Aspire.Filters
 {
   public class RaygunKeyValuePairDataFilter : IRaygunDataFilter
   {
-    private const string FILTERED_VALUE = "[FILTERED]";
+    private const string FilteredValue = "[FILTERED]";
 
     public bool CanParse(string data)
     {
@@ -20,7 +20,7 @@ namespace Raygun4Aspire.Filters
         // "key1=value1&key2=value2" => ["key1=value1", "key2=value2"]
         var kvps = data.Split('&');
 
-        for (int i = 0; i < kvps.Length; ++i)
+        for (var i = 0; i < kvps.Length; ++i)
         {
           // "key1=value1" => ["key1", "value1"]
           var pair = kvps[i].Split('=');
@@ -39,7 +39,7 @@ namespace Raygun4Aspire.Filters
           {
             stringBuilder.Append(pair[0]);
             stringBuilder.Append("=");
-            stringBuilder.Append(ShouldIgnore(pair, ignoredKeys) ? FILTERED_VALUE : pair[1]);
+            stringBuilder.Append(ShouldIgnore(pair, ignoredKeys) ? FilteredValue : pair[1]);
           }
         }
 
