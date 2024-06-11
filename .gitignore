@@ -394,6 +394,4 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
-src/RaygunAspireWebApp/yarn.lock
-/src/RaygunAspireWebApp/wwwroot/js
 .idea/
