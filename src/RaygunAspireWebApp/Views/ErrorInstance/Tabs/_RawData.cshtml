@@ -1,9 +1,0 @@
-﻿@using System.Text.Json
-@model ErrorInstanceViewModel
-
-<section class="padding--24">
-  <pre><code class="language-json">@JsonSerializer.Serialize(Model.RaygunMessage.Details, new JsonSerializerOptions { WriteIndented = true })</code></pre>
-</section>
-
-<script src="~/js/prism.js"></script>
-<script src="~/js/prism-json.min.js"></script>
