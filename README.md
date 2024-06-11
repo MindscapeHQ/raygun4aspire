@@ -4,21 +4,19 @@
 
 # Installation
 
-## 1. Install the Raygun4Aspire NuGet package
+## Step 1 - Install the Aspire.Hosting.Raygun NuGet package
 
-You'll want to add the [Raygun4Aspire NuGet package](https://www.nuget.org/packages/Raygun4Aspire) to both the Aspire orchestration project (AppHost), and any .NET projects within your Aspire app where you want to collect crash reports from. Either use the NuGet package management GUI in the IDE you use, OR use the below dotnet command.
+Install the [Aspire.Hosting.Raygun NuGet package](https://www.nuget.org/packages/Aspire.Hosting.Raygun) into your **Aspire orchestration project (AppHost)**. Either use the NuGet package management GUI in the IDE you use, OR use the below dotnet command.
 
 ```bash
-dotnet add package Raygun4Aspire
+dotnet add package Aspire.Hosting.Raygun
 ```
 
-## 2. Add Raygun to the orchestration project (AppHost)
+## Step 2 - Add Raygun to the orchestration builder
 
-In `Program.cs` of the AppHost project, add a Raygun4Aspire `using` statement, then call `AddRaygun` on the builder (after the builder is initialized and before it is used to build and run).
+In `Program.cs` of the AppHost project, call `AddRaygun` on the builder (after the builder is initialized and before it is used to build and run).
 
 ```csharp
-using Raygun4Aspire;
-
 // The distributed application builder is created here
 
 builder.AddRaygun();
@@ -26,11 +24,13 @@ builder.AddRaygun();
 // The builder is used to build and run the app somewhere down here
 ```
 
-The steps so far will cause a Raygun resource to be listed in the orchestration app. Clicking on the URL of that resource will open a local Raygun portal in a new tab where you'll later be able to view up to 1,000 crash reports captured in your local development environment.
+The steps so far will cause a Raygun resource to be listed in the orchestration app. Clicking on the URL of that resource will open a local Raygun portal in a new tab where you'll later be able to view crash reports captured in your local development environment. Find out everything you need to know about using this local Raygun portal in the [documentation here](https://raygun.com/documentation/language-guides/dotnet/crash-reporting/aspire/#locally-running-raygun-portal).
 
-## 3. Instrument your .NET projects
+## Step 3 - Instrument your .NET projects
 
-In each of the .NET projects in your Aspire app, integrate Raygun4Aspire (installed in step 1) in `Program.cs`. Add a `using` statement, call `AddRaygun` on the WebApplicationBuilder, followed by calling `UseRaygun` on the created application.
+In each of the projects in your Aspire app where you'll be capturing exceptions from, install the [Raygun4Aspire NuGet package](https://www.nuget.org/packages/Raygun4Aspire/).
+
+Then, in `Program.cs`, add a `using Raygun4Aspire;` statement, call `AddRaygun` on the WebApplicationBuilder followed by calling `UseRaygun` on the created application.
 
 ```csharp
 using Raygun4Aspire;
@@ -46,9 +46,9 @@ app.UseRaygun();
 // Then at the end of the file, the app is commanded to run
 ```
 
-Those are the minimal steps to get Raygun4Aspire capturing unhandled exceptions that occur during web requests in your local development environment. See further down how to also log exceptions from try/catch blocks.
+Those are the minimal steps to get Raygun4Aspire capturing unhandled exceptions that occur during web requests in your local development environment. See [further down](#manually-sending-exceptions) how to also log exceptions from try/catch blocks and other features.
 
-## 4. Optionally send crash reports in production to the Raygun cloud service
+## Step 4 - Optionally send crash reports in production to the Raygun cloud service
 
 In production `appsettings` files of each of your .NET projects, add the below `RaygunSettings` section. Substitute in your application API key that Raygun provides when you create a new Application in Raygun.
 
@@ -83,23 +83,17 @@ var ollama = builder.AddOllama();
 Finally, you will need to modify the `builder.AddRaygun();` line to add a reference to Ollama. Your final code should look like this.
 
 ```csharp
-using Raygun4Aspire;
-
-// The WebApplicationBuilder is created somewhere here
+// The distributed application builder is created here
 
 var ollama = builder.AddOllama();
 builder.AddRaygun().WithReference(ollama);
 
-// The builder is used to create the application a little later on
-
-app.UseRaygun();
-
-// Then at the end of the file, the app is commanded to run
+// The builder is used to build and run the app somewhere down here
 ```
 
 Now, when you view an exception that's been captured in the locally running Raygun portal, click the "AI Error Respolution" button in the top right corner to get AI suggestions on what to do about it.
 The first time you use this feature, the LLM will need to be downloaded. Keep the Aspire orchestration app open until this has completed.
-AI responses are not stored, and so refresh everytime you view an exception and click the button.
+AI responses are not stored, and so they restart everytime you drill in to view an exception and click the button.
 [Find out more details about how to use this feature here.](https://raygun.com/documentation/language-guides/dotnet/crash-reporting/aspire#using-ai-error-resolution-within-aspire)
 
 # Manually sending exceptions
@@ -264,7 +258,7 @@ By default, crash reports in Raygun will include the entire raw request payload 
 }
 ```
 
-If you have any request payloads formatted as key-value pairs (e.g. `key1=value1&key2=value2`), then you can set `UseKeyValuePairRawDataFilter` to true and then any fields listed in the `IgnoreSensitiveFieldNames` option will not be sent to Raygun.
+Alternatively, If you have any request payloads formatted as key-value pairs (e.g. `key1=value1&key2=value2`), then you can set `UseKeyValuePairRawDataFilter` to true and then any fields listed in the `IgnoreSensitiveFieldNames` option will not be sent to Raygun.
 
 ```json
 "RaygunSettings": {
