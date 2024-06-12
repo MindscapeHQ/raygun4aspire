@@ -1,7 +1,7 @@
 # Change Log for Raygun4Aspire
 
 ### v2.0.0
-- Breaking change - The Raygun App component has been split out into a separate [Aspire.Hosting.Raygun NuGet package](https://www.nuget.org/packages/Aspire.Hosting.Raygun). If you were using a previous version, uninstall the `Raygun4Aspire` NuGet package **from just the AppHost project** and replace it with the new `Aspire.Hosting.Raygun` NuGet package. You'll also no longer need the `Raygun4Aspire` using statement in the AppHost `Program.cs`.
+- Breaking change - The Raygun App component has been split out into a separate [Raygun.Aspire.Hosting.Raygun NuGet package](https://www.nuget.org/packages/Raygun.Aspire.Hosting.Raygun). If you were using a previous version, uninstall the `Raygun4Aspire` NuGet package **from just the AppHost project** and replace it with the new `Raygun.Aspire.Hosting.Raygun` NuGet package. You'll also no longer need the `Raygun4Aspire` using statement in the AppHost `Program.cs`.
 - The Raygun App component (that was moved to a different package as mentioned above) now has AI Error Resolution! See the README for more details.
 
 ### v1.0.1
