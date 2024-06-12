@@ -10,7 +10,7 @@ namespace Raygun4Aspire.Builders
 {
   public class RaygunRequestMessageBuilder
   {
-    private const int MAX_RAW_DATA_LENGTH = 4096; // bytes
+    private const int MaxRawDataLength = 4096; // bytes
 
     public static async Task<RaygunRequestMessage> Build(HttpContext? context, RaygunSettings options)
     {
@@ -67,7 +67,7 @@ namespace Raygun4Aspire.Builders
       }
       catch (Exception e)
       {
-        queryString = new Dictionary<string, string>() { { "Failed to retrieve", e.Message } };
+        queryString = new Dictionary<string, string> { { "Failed to retrieve", e.Message } };
       }
 
       return queryString;
@@ -81,10 +81,9 @@ namespace Raygun4Aspire.Builders
         cookies = request.Cookies.Where(c => !IsIgnored(c.Key, options.IgnoreCookieNames) && !IsIgnored(c.Key, options.IgnoreSensitiveFieldNames))
           .Select(c => new RaygunRequestMessage.Cookie(c.Key, c.Value)).ToList();
       }
-      // ReSharper disable once EmptyGeneralCatchClause
       catch (Exception e)
       {
-        cookies = new List<string>() { "Failed to retrieve cookies: " + e.Message };
+        cookies = new List<string> { "Failed to retrieve cookies: " + e.Message };
       }
 
       return cookies;
@@ -122,7 +121,7 @@ namespace Raygun4Aspire.Builders
         request.Body.Seek(0, SeekOrigin.Begin);
 
         // If we are ignoring form fields, increase the max amount that we read from the stream to make sure we include the entirety of any value that may be stripped later on.
-        var length = MAX_RAW_DATA_LENGTH;
+        var length = MaxRawDataLength;
 
         if (ignoredMultiPartFormData != null && ignoredMultiPartFormData.Count > 0)
         {
@@ -136,7 +135,7 @@ namespace Raygun4Aspire.Builders
         var buffer = new byte[length];
         request.Body.Read(buffer, 0, length);
 
-        string? rawData = Encoding.UTF8.GetString(buffer);
+        var rawData = Encoding.UTF8.GetString(buffer);
 
         request.Body.Seek(0, SeekOrigin.Begin);
 
@@ -156,12 +155,12 @@ namespace Raygun4Aspire.Builders
         }
 
         // Ensure the raw data string is not too large (over 4096 bytes).
-        if (rawData?.Length <= MAX_RAW_DATA_LENGTH)
+        if (rawData?.Length <= MaxRawDataLength)
         {
           return rawData;
         }
 
-        return rawData?.Substring(0, MAX_RAW_DATA_LENGTH);
+        return rawData?.Substring(0, MaxRawDataLength);
       }
       catch (Exception e)
       {
@@ -172,9 +171,9 @@ namespace Raygun4Aspire.Builders
     // This is specific to multipart/form-data
     private static Dictionary<string, string> GetIgnoredFormValues(IFormCollection form, Func<string, bool> ignore)
     {
-      Dictionary<string, string> ignoredFormValues = new Dictionary<string, string>();
+      var ignoredFormValues = new Dictionary<string, string>();
 
-      foreach (string key in form.Keys)
+      foreach (var key in form.Keys)
       {
         if (ignore(key))
         {
@@ -188,9 +187,9 @@ namespace Raygun4Aspire.Builders
     // This is specific to multipart/form-data
     private static string StripIgnoredFormData(string rawData, Dictionary<string, string> ignored)
     {
-      foreach (string key in ignored.Keys)
+      foreach (var key in ignored.Keys)
       {
-        string toRemove = "name=\"" + key + "\"\r\n\r\n" + ignored[key];
+        var toRemove = "name=\"" + key + "\"\r\n\r\n" + ignored[key];
         rawData = rawData.Replace(toRemove, "");
       }
 
@@ -227,10 +226,8 @@ namespace Raygun4Aspire.Builders
       {
         return null;
       }
-      else
-      {
-        return rawData;
-      }
+
+      return rawData;
     }
 
     private static IList<IRaygunDataFilter> GetRawDataFilters(IRaygunHttpSettings options)
@@ -257,7 +254,7 @@ namespace Raygun4Aspire.Builders
 
     private static bool DataContains(string data, IReadOnlyList<string> values)
     {
-      bool exists = false;
+      var exists = false;
 
       foreach (var value in values)
       {
@@ -288,7 +285,7 @@ namespace Raygun4Aspire.Builders
       }
       catch (Exception e)
       {
-        headers = new Dictionary<string, string>() { { "Failed to retrieve", e.Message } };
+        headers = new Dictionary<string, string> { { "Failed to retrieve", e.Message } };
       }
 
       return headers;
@@ -307,7 +304,7 @@ namespace Raygun4Aspire.Builders
       }
       catch (Exception e)
       {
-        form = new Dictionary<string, string>() { { "Failed to retrieve", e.Message } };
+        form = new Dictionary<string, string> { { "Failed to retrieve", e.Message } };
       }
 
       return form;

@@ -50,7 +50,7 @@ namespace Raygun4Aspire
 
       if (builder.Environment.IsDevelopment())
       {
-        settings.ApiEndpoint = new Uri($"http://localhost:{RaygunAspireWebAppBuilderExtensions.DefaultHostPort}/ingestion/entries");
+        settings.ApiEndpoint = new Uri($"http://localhost:24605/ingestion/entries");
         settings.ApiKey = "Aspire"; // The Raygun client base code requires this to be set - even though we don't need it in the local Aspire environment
       }
 

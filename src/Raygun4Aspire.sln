@@ -5,8 +5,6 @@ VisualStudioVersion = 17.10.34707.107
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Raygun4Aspire", "Raygun4Aspire\Raygun4Aspire.csproj", "{3CD98AC6-F4CD-4EA7-871B-154C2AFBEB86}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RaygunAspireWebApp", "RaygunAspireWebApp\RaygunAspireWebApp.csproj", "{7382213A-15D4-473E-99C4-6F00683A0DCB}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,10 +15,6 @@ Global
 		{3CD98AC6-F4CD-4EA7-871B-154C2AFBEB86}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3CD98AC6-F4CD-4EA7-871B-154C2AFBEB86}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3CD98AC6-F4CD-4EA7-871B-154C2AFBEB86}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7382213A-15D4-473E-99C4-6F00683A0DCB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7382213A-15D4-473E-99C4-6F00683A0DCB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7382213A-15D4-473E-99C4-6F00683A0DCB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7382213A-15D4-473E-99C4-6F00683A0DCB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
